@@ -326,8 +326,8 @@ body{background:#07091A;}
                 <div class="sp-audio-track active" id="track-0" onclick="audioLoad(0)">
                   <span class="sp-audio-track-ico">▶</span>
                   <div class="sp-audio-track-info">
-                    <div class="sp-audio-track-name">Psalm of Strength</div>
-                    <div class="sp-audio-track-sub">Devotional Reading</div>
+                    <div class="sp-audio-track-name">Josh 1:8 · 1 John 3:1</div>
+                    <div class="sp-audio-track-sub">Faith · Identity</div>
                   </div>
                 </div>
                 <div class="sp-audio-track" id="track-1" onclick="audioLoad(1)">
@@ -335,6 +335,27 @@ body{background:#07091A;}
                   <div class="sp-audio-track-info">
                     <div class="sp-audio-track-name">Isaiah 41:10</div>
                     <div class="sp-audio-track-sub">Fear Not · Strength</div>
+                  </div>
+                </div>
+                <div class="sp-audio-track" id="track-2" onclick="audioLoad(2)">
+                  <span class="sp-audio-track-ico">▶</span>
+                  <div class="sp-audio-track-info">
+                    <div class="sp-audio-track-name">Jeremiah 31:3 · Lamentations 3:22-23</div>
+                    <div class="sp-audio-track-sub">Love · Compassion</div>
+                  </div>
+                </div>
+                <div class="sp-audio-track" id="track-3" onclick="audioLoad(3)">
+                  <span class="sp-audio-track-ico">▶</span>
+                  <div class="sp-audio-track-info">
+                    <div class="sp-audio-track-name">Psalm 91</div>
+                    <div class="sp-audio-track-sub">Protection · Trust</div>
+                  </div>
+                </div>
+                <div class="sp-audio-track" id="track-4" onclick="audioLoad(4)">
+                  <span class="sp-audio-track-ico">▶</span>
+                  <div class="sp-audio-track-info">
+                    <div class="sp-audio-track-name">Psalm 124</div>
+                    <div class="sp-audio-track-sub">Thanksgiving · Deliverance</div>
                   </div>
                 </div>
               </div>
@@ -389,6 +410,7 @@ body{background:#07091A;}
           <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>Favourite Verses<div class="sp-sec-lbl-line"></div></div>
           <div class="sp-sec-body">
             <div id="fav-list"></div>
+            <button class="sp-add-prayer-btn" onclick="openAddVerse()">+ Add Verse</button>
           </div>
         </div>
       </div>
@@ -458,11 +480,11 @@ body{background:#07091A;}
         </div>
 
         <!-- THERAPY TAB -->
-        <div class="tab-header" onclick="toggleTab(this)">
+        <div class="tab-header active" onclick="toggleTab(this)">
           <span class="tab-title">🎵 Therapy</span>
           <span class="tab-chev">▾</span>
         </div>
-        <div class="tab-content collapsed">
+        <div class="tab-content">
           <div class="th-music-hero">
             <div class="th-freq-title">432 Hz Healing Frequency</div>
             <div style="font-size:11px;color:rgba(200,190,255,0.6);display:flex;align-items:center;gap:4px;margin-bottom:12px;">🎼 Binaural beats for deep meditation</div>
@@ -497,11 +519,11 @@ body{background:#07091A;}
         </div>
 
         <!-- JOURNAL TAB -->
-        <div class="tab-header" onclick="toggleTab(this)">
+        <div class="tab-header active" onclick="toggleTab(this)">
           <span class="tab-title">📔 Journal</span>
           <span class="tab-chev">▾</span>
         </div>
-        <div class="tab-content collapsed">
+        <div class="tab-content">
           <div class="je-card">
             <div style="padding:10px 13px 0;font-size:12.5px;font-weight:700;color:var(--t1);">Wellness Note</div>
             <textarea class="je-ta" id="je-ta" placeholder="How are you feeling?…" oninput="jeCount()"></textarea>
@@ -514,11 +536,11 @@ body{background:#07091A;}
         </div>
 
         <!-- HEALTH PROTOCOL TAB -->
-        <div class="tab-header" onclick="toggleTab(this)">
+        <div class="tab-header active" onclick="toggleTab(this)">
           <span class="tab-title">⚡ Health</span>
           <span class="tab-chev">▾</span>
         </div>
-        <div class="tab-content collapsed">
+        <div class="tab-content">
           <div class="hp-hero">
             <div style="font-family:'DM Mono',monospace;font-size:9px;color:#00e676;letter-spacing:0.2em;margin-bottom:4px;">VITALS</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -592,6 +614,19 @@ body{background:#07091A;}
   </div>
 </div>
 
+<!-- ADD VERSE MODAL -->
+<div id="add-verse-modal" onclick="closeAddVerse(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">✝️ Add Favourite Verse</div>
+    <textarea class="ap-inp" id="av-text" placeholder="Enter the verse text…" style="resize:vertical;min-height:80px;"></textarea>
+    <input class="ap-inp" id="av-ref" placeholder="Reference (e.g., John 3:16)" onkeydown="if(event.key==='Enter')saveAddVerse()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddVerse()">Cancel</button>
+      <button class="ap-save" onclick="saveAddVerse()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
 <!-- EXPORT SHEET -->
 <div id="export-sheet" onclick="closeExportSheet(event)">
   <div class="es-body">
@@ -612,6 +647,9 @@ body{background:#07091A;}
 
 <!-- AUDIO ELEMENT -->
 <audio id="sp-audio" preload="auto" crossorigin="anonymous"></audio>
+
+<!-- WELLNESS AUDIO ELEMENT -->
+<audio id="wellness-audio" preload="auto" crossorigin="anonymous"></audio>
 
 <script>
 /* ═══ CORE ═══ */
@@ -690,6 +728,28 @@ function renderFavs(){
 }
 renderFavs();
 
+/* ═══ ADD VERSE ═══ */
+function openAddVerse(){
+  document.getElementById('av-text').value='';
+  document.getElementById('av-ref').value='';
+  document.getElementById('add-verse-modal').classList.add('open');
+  setTimeout(function(){document.getElementById('av-text').focus();},80);
+}
+function closeAddVerse(e){
+  if(!e||e.target===document.getElementById('add-verse-modal'))
+    document.getElementById('add-verse-modal').classList.remove('open');
+}
+function saveAddVerse(){
+  var txt=document.getElementById('av-text').value.trim();
+  var ref=document.getElementById('av-ref').value.trim();
+  if(!txt||!ref)return;
+  _favVerses.push({t:'"'+txt+'"',r:'— '+ref});
+  lsSet('sc_favVerses',_favVerses);
+  document.getElementById('add-verse-modal').classList.remove('open');
+  renderFavs();
+  showToast('Verse added ✦');
+}
+
 /* ═══ PRAYERS ═══ */
 var _prayers=lsGet('sc_prayers')||[];
 function renderPrayers(){
@@ -751,8 +811,11 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
 /* ═══ AUDIO ═══ */
 (function(){
   var TRACKS=[
-    {title:'Psalm of Strength',duration:120},
-    {title:'Isaiah 41:10 - Fear Not',duration:180,src:'Isaiah_41_10.mp3'}
+    {title:'Josh 1:8 · 1 John 3:1 · Romans 8:1',duration:260,src:'Josh_1_8_1John_3_1_Rom8_1.mp3'},
+    {title:'Isaiah 41:10 - Fear Not',duration:180,src:'Isaiah_41_10.mp3'},
+    {title:'Jeremiah 31:3 · Lamentations 3:22-23',duration:240,src:'Jeremiah_31_3_Lamentations_3_22_-_23__1_.mp3'},
+    {title:'Psalm 91 - Protection',duration:320,src:'Psalm_91.mp3'},
+    {title:'Psalm 124 - Thanksgiving',duration:280,src:'Psalm_124.mp3'}
   ];
   var _cur=0;
   var aud=document.getElementById('sp-audio');
@@ -883,8 +946,26 @@ function initHealthRoutines(){
   container.innerHTML=html;
 }
 
-/* ═══ THERAPY ═══ */
-function toggleTherapy(){showToast('🎵 Therapy session started...');}
+/* ═══ THERAPY AUDIO ═══ */
+var _therapyPlaying=false;
+function toggleTherapy(){
+  var aud=document.getElementById('wellness-audio');
+  if(!aud)return;
+  if(_therapyPlaying){
+    try{aud.pause();}catch(e){}
+    _therapyPlaying=false;
+    var btn=document.querySelector('.th-ctrl-btn.play');
+    if(btn)btn.textContent='▶';
+    showToast('🎵 Paused');
+  }else{
+    aud.src='Psalm_91.mp3';
+    try{aud.play();}catch(e){}
+    _therapyPlaying=true;
+    var btn=document.querySelector('.th-ctrl-btn.play');
+    if(btn)btn.textContent='⏸';
+    showToast('🎵 Playing 432 Hz Healing...');
+  }
+}
 
 /* ═══ EXPORT ═══ */
 function openExportSheet(){
