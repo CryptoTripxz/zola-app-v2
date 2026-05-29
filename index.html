@@ -294,13 +294,23 @@ body{background:#07091A;}
         </div>
 
         <!-- VERSE OF THE DAY -->
-        <div class="sp-verse-card">
-          <div class="sp-verse-text" id="sp-verse-text">\"I can do all things through Christ which strengtheneth me.\"</div>
-          <div class="sp-verse-ref" id="sp-verse-ref">— Philippians 4:13</div>
-          <div class="sp-verse-btns">
-            <button class="sp-vbtn" onclick="nextVerse()">Next ›</button>
-            <button class="sp-vbtn" onclick="prevVerse()">‹ Prev</button>
-            <button class="sp-vbtn sp-vbtn-fav" id="fav-btn" onclick="toggleFav()">♡ Save</button>
+        <div class="sp-sec">
+          <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>Verse of the Day<div class="sp-sec-lbl-line"></div></div>
+          <div class="sp-sec-body">
+            <div class="sp-verse-card" style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:flex-start;gap:10px;">
+                <input type="checkbox" id="verse-done" style="width:20px;height:20px;cursor:pointer;margin-top:2px;flex-shrink:0;accent-color:var(--sp);" onchange="toggleVerseRead()">
+                <div style="flex:1;">
+                  <div class="sp-verse-text" id="sp-verse-text">\"I can do all things through Christ which strengtheneth me.\"</div>
+                  <div class="sp-verse-ref" id="sp-verse-ref">— Philippians 4:13</div>
+                </div>
+              </div>
+              <div class="sp-verse-btns">
+                <button class="sp-vbtn" onclick="nextVerse()">Next ›</button>
+                <button class="sp-vbtn" onclick="prevVerse()">‹ Prev</button>
+                <button class="sp-vbtn sp-vbtn-fav" id="fav-btn" onclick="toggleFav()">♡ Save</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -541,44 +551,237 @@ body{background:#07091A;}
           <span class="tab-chev">▾</span>
         </div>
         <div class="tab-content">
-          <div class="hp-hero">
-            <div style="font-family:'DM Mono',monospace;font-size:9px;color:#00e676;letter-spacing:0.2em;margin-bottom:4px;">VITALS</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 12px;text-align:center;min-width:72px;">
-                <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:#00e676;">98.2</div>
-                <div style="font-size:9px;color:#7a8fa8;letter-spacing:0.08em;margin-top:2px;text-transform:uppercase;">°F</div>
+          <!-- FASTING TIMER HERO -->
+          <div class="hp-hero" style="margin:12px 14px 0;background:linear-gradient(135deg,#0a1a2a 0%,#0a120a 60%,#0d0a1a 100%);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:18px;">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:#00e676;letter-spacing:0.2em;margin-bottom:8px;">⏱ FASTING WINDOW</div>
+            <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:#00e676;margin-bottom:12px;">16:00</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+              <div style="background:rgba(0,230,118,0.10);border:1px solid rgba(0,230,118,0.20);border-radius:10px;padding:8px;text-align:center;">
+                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#00e676;">98.2</div>
+                <div style="font-size:8px;color:#5a8a72;margin-top:2px;">°F</div>
               </div>
-              <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 12px;text-align:center;min-width:72px;">
-                <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:#00e676;">72</div>
-                <div style="font-size:9px;color:#7a8fa8;letter-spacing:0.08em;margin-top:2px;text-transform:uppercase;">BPM</div>
+              <div style="background:rgba(0,230,118,0.10);border:1px solid rgba(0,230,118,0.20);border-radius:10px;padding:8px;text-align:center;">
+                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#00e676;">72</div>
+                <div style="font-size:8px;color:#5a8a72;margin-top:2px;">BPM</div>
               </div>
-              <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 12px;text-align:center;min-width:72px;">
-                <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:#00e676;">8</div>
-                <div style="font-size:9px;color:#7a8fa8;letter-spacing:0.08em;margin-top:2px;text-transform:uppercase;">hrs</div>
+              <div style="background:rgba(0,230,118,0.10);border:1px solid rgba(0,230,118,0.20);border-radius:10px;padding:8px;text-align:center;">
+                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#00e676;">8</div>
+                <div style="font-size:8px;color:#5a8a72;margin-top:2px;">hrs</div>
+              </div>
+              <div style="background:rgba(0,230,118,0.10);border:1px solid rgba(0,230,118,0.20);border-radius:10px;padding:8px;text-align:center;">
+                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#00e676;">68%</div>
+                <div style="font-size:8px;color:#5a8a72;margin-top:2px;">Complete</div>
               </div>
             </div>
           </div>
 
-          <div style="padding:16px 14px 8px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">Daily Routines</div>
+          <!-- MORNING ROUTINE -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>💪 Daily Routines<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div id="hp-routines"></div>
+            </div>
           </div>
-          <div id="hp-routines"></div>
 
-          <div style="padding:0 14px 10px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;margin-bottom:8px;">Meals Today</div>
-            <div style="display:flex;flex-direction:column;gap:7px;">
-              <div class="hp-routine-item">
-                <div style="flex-shrink:0;font-size:20px;">🍳</div>
-                <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);">Breakfast</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">7:30 AM</div></div>
+          <!-- SUPPLEMENT STACK -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>💊 Supplements<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-supp-grid">
+                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+                  <input type="checkbox" id="supp-0" onchange="toggleHealthItem('supp',0)" style="width:18px;height:18px;cursor:pointer;align-self:center;accent-color:#00e676;">
+                  <div style="font-size:22px;">💊</div>
+                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Vitamin D3</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">2000 IU</div>
+                </div>
+                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+                  <input type="checkbox" id="supp-1" onchange="toggleHealthItem('supp',1)" style="width:18px;height:18px;cursor:pointer;align-self:center;accent-color:#00e676;">
+                  <div style="font-size:22px;">🔬</div>
+                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Omega-3</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">1000 mg</div>
+                </div>
               </div>
-              <div class="hp-routine-item">
-                <div style="flex-shrink:0;font-size:20px;">🥗</div>
-                <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);">Lunch</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">12:30 PM</div></div>
+              <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddSupplement()">+ Add Supplement</button>
+            </div>
+          </div>
+
+          <!-- EXERCISE STACK -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🏋️ Workouts<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-ex-grid">
+                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                  <input type="checkbox" id="ex-0" onchange="toggleHealthItem('ex',0)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <div style="font-size:20px;">🏃</div>
+                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Cardio</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">30 min · 3x/wk</div>
+                </div>
+                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                  <input type="checkbox" id="ex-1" onchange="toggleHealthItem('ex',1)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <div style="font-size:20px;">💪</div>
+                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Strength</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">45 min · 4x/wk</div>
+                </div>
               </div>
-              <div class="hp-routine-item">
-                <div style="flex-shrink:0;font-size:20px;">🍽️</div>
-                <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);">Dinner</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">7:00 PM</div></div>
+              <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddExercise()">+ Add Workout</button>
+            </div>
+          </div>
+
+          <!-- MEAL STACK -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🍽️ Meals Today<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="display:flex;flex-direction:column;gap:7px;">
+                <div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="meal-0" onchange="toggleHealthItem('meal',0)" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;">
+                  <div style="flex-shrink:0;font-size:20px;">🍳</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:rgba(220,230,255,0.92);">Breakfast</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;margin-top:1px;">7:30 AM</div></div>
+                </div>
+                <div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="meal-1" onchange="toggleHealthItem('meal',1)" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;">
+                  <div style="flex-shrink:0;font-size:20px;">🥗</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:rgba(220,230,255,0.92);">Lunch</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;margin-top:1px;">12:30 PM</div></div>
+                </div>
+                <div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;">
+                  <input type="checkbox" id="meal-2" onchange="toggleHealthItem('meal',2)" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;">
+                  <div style="flex-shrink:0;font-size:20px;">🍽️</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:rgba(220,230,255,0.92);">Dinner</div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;margin-top:1px;">7:00 PM</div></div>
+                </div>
               </div>
+            </div>
+          </div>
+
+          <!-- MEAL PREP PLANNER -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>📅 Weekly Meal Prep<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="background:#111820;border:1px solid rgba(255,179,0,0.12);border-radius:12px;padding:12px;">
+                <div style="font-family:'DM Mono',monospace;font-size:8px;color:#ffb300;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">7-day plan</div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,179,0,0.12);border:1px solid rgba(255,179,0,0.24);cursor:pointer;" onclick="toggleMealDay(0)"><div style="font-size:9px;font-weight:700;color:#ffb300;">Mon</div><div style="font-size:7px;color:#7a8fa8;margin-top:2px;" id="mealday-0">Meal 1</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(1)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Tue</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-1">—</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(2)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Wed</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-2">—</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(3)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Thu</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-3">—</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(4)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Fri</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-4">—</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(5)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Sat</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-5">—</div></div>
+                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(6)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Sun</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-6">—</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CALORIE TRACKER -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🔥 Calorie Tracker<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="background:#111820;border:1px solid rgba(255,179,0,0.12);border-radius:12px;padding:12px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                  <div style="font-size:11px;color:rgba(220,230,255,0.92);">Today</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#ffb300;">1,245 / 2,400 kcal</div>
+                </div>
+                <div style="height:6px;background:rgba(255,179,0,0.10);border-radius:3px;overflow:hidden;">
+                  <div style="height:100%;background:linear-gradient(90deg,#ffb300,#ff8c00);width:52%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;">
+                  <div><span style="color:#7a8fa8;">Protein: </span><span style="color:#ffb300;font-weight:700;">85g / 180g</span></div>
+                  <div><span style="color:#7a8fa8;">Remaining: </span><span style="color:#00e676;font-weight:700;">1,155 kcal</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WATER INTAKE TRACKER -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px 8px;">
+            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">💧 Water Intake</div>
+            <button style="font-size:10px;color:#3b8ee8;background:rgba(59,142,232,0.08);border:1px solid rgba(59,142,232,0.25);border-radius:20px;padding:4px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="addWater()">+ Glass</button>
+          </div>
+          <div style="padding:0 14px 12px;">
+            <div style="background:#111820;border:1px solid rgba(59,142,232,0.12);border-radius:12px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <div style="font-size:11px;color:rgba(220,230,255,0.92);">Today's intake</div>
+                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#3b8ee8;"><span id="water-count">6</span> / 8 glasses</div>
+              </div>
+              <div style="height:6px;background:rgba(59,142,232,0.10);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;background:linear-gradient(90deg,#3b8ee8,#00d4ff);width:75%;"></div>
+              </div>
+              <div style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;" id="water-glasses">
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:rgba(59,142,232,0.20);border:1px solid rgba(59,142,232,0.20);display:flex;align-items:center;justify-content:center;font-size:12px;color:#3b8ee8;">·</div>
+                <div style="width:28px;height:28px;border-radius:6px;background:rgba(59,142,232,0.20);border:1px solid rgba(59,142,232,0.20);display:flex;align-items:center;justify-content:center;font-size:12px;color:#3b8ee8;">·</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLEEP QUALITY & ENERGY -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 12px;margin-top:8px;">
+            <div style="background:#111820;border:1px solid rgba(168,108,255,0.12);border-radius:12px;padding:12px;">
+              <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#a86cff;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;">😴 Sleep</div>
+              <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:#a86cff;">7.5h</div>
+              <div style="font-size:9px;color:#7a8fa8;margin-top:4px;">Quality: Excellent</div>
+            </div>
+            <div style="background:#111820;border:1px solid rgba(0,230,118,0.12);border-radius:12px;padding:12px;">
+              <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:800;color:#00e676;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;">⚡ Energy</div>
+              <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:#00e676;">8 / 10</div>
+              <div style="font-size:9px;color:#7a8fa8;margin-top:4px;">Peak hours: 10am-2pm</div>
+            </div>
+          </div>
+
+          <!-- STRESS & MOOD TRACKER -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0 14px 8px;">
+            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">🧠 Stress Level</div>
+            <div style="display:flex;gap:4px;">
+              <button style="padding:4px 8px;border:1px solid rgba(232,84,122,0.24);border-radius:6px;background:rgba(232,84,122,0.10);color:#ff7a9a;font-size:9px;cursor:pointer;font-weight:600;">Low</button>
+              <button style="padding:4px 8px;border:1px solid rgba(196,152,32,0.24);border-radius:6px;background:rgba(196,152,32,0.10);color:#ffb300;font-size:9px;cursor:pointer;font-weight:600;">Med</button>
+              <button style="padding:4px 8px;border:1px solid rgba(232,84,122,0.35);border-radius:6px;background:rgba(232,84,122,0.20);color:#ff5a7a;font-size:9px;cursor:pointer;font-weight:600;border-color:rgba(232,84,122,0.35);">High</button>
+            </div>
+          </div>
+          <div style="padding:0 14px 12px;display:flex;gap:6px;">
+            <div style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;">
+              <div style="font-size:18px;margin-bottom:4px;">😊</div>
+              <div style="font-size:9px;color:#00e676;font-weight:700;">Calm</div>
+            </div>
+            <div style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;">
+              <div style="font-size:18px;margin-bottom:4px;">😐</div>
+              <div style="font-size:9px;color:#7a8fa8;font-weight:700;">Neutral</div>
+            </div>
+            <div style="flex:1;background:rgba(232,84,122,0.10);border:1px solid rgba(232,84,122,0.22);border-radius:10px;padding:10px;text-align:center;">
+              <div style="font-size:18px;margin-bottom:4px;">😰</div>
+              <div style="font-size:9px;color:#ff7a9a;font-weight:700;">Stressed</div>
+            </div>
+          </div>
+
+          <!-- SHOPPING LIST -->
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🛒 Shopping List<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;" id="shopping-list">
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
+                  <input type="checkbox" id="shop-0" onchange="toggleShoppingItem(0)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Organic Chicken Breast</span>
+                  <span style="font-size:9px;color:#7a8fa8;">1.5 lbs</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
+                  <input type="checkbox" id="shop-1" onchange="toggleShoppingItem(1)" checked style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;text-decoration:line-through;opacity:0.5;">Wild Salmon Fillets</span>
+                  <span style="font-size:9px;color:#7a8fa8;">2 fillets</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
+                  <input type="checkbox" id="shop-2" onchange="toggleShoppingItem(2)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Leafy Greens Mix</span>
+                  <span style="font-size:9px;color:#7a8fa8;">2x</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
+                  <input type="checkbox" id="shop-3" onchange="toggleShoppingItem(3)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
+                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Greek Yogurt</span>
+                  <span style="font-size:9px;color:#7a8fa8;">32 oz</span>
+                </div>
+              </div>
+              <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddItem()">+ Add Item</button>
             </div>
           </div>
         </div>
@@ -705,13 +908,26 @@ function toggleFav(){
     }
     _favVerses=newFavs;
   }else{
-    _favVerses.push({i:_vi,t:VERSES[_vi].t,r:VERSES[_vi].r});
+    _favVerses.push({i:_vi,t:VERSES[_vi].t,r:VERSES[_vi].r,read:false});
   }
   lsSet('sc_favVerses',_favVerses);
   renderVerse();
   renderFavs();
   showToast(isFav?'Removed':'Saved ♥');
 }
+
+function toggleVerseRead(){
+  var chk=document.getElementById('verse-done');
+  if(chk)showToast(chk.checked?'✦ Verse reflected':'');
+}
+
+function toggleFavVerse(idx){
+  if(idx<0||idx>=_favVerses.length)return;
+  _favVerses[idx].read=!_favVerses[idx].read;
+  lsSet('sc_favVerses',_favVerses);
+  renderFavs();
+}
+
 function renderFavs(){
   var list=document.getElementById('fav-list');
   if(!list)return;
@@ -722,7 +938,8 @@ function renderFavs(){
   var html='';
   for(var i=0;i<_favVerses.length;i++){
     var f=_favVerses[i];
-    html+='<div style="background:rgba(123,79,212,0.08);border:1px solid rgba(123,79,212,0.18);border-radius:14px;padding:10px 13px;margin-bottom:6px;"><div style="font-family:Cinzel,serif;font-size:12px;color:rgba(230,225,255,0.80);line-height:1.7;font-style:italic;">'+f.t+'</div><div style="font-family:DM Mono,monospace;font-size:9.5px;color:var(--sp2);margin-top:5px;">'+f.r+'</div></div>';
+    var checked=f.read?' checked':'';
+    html+='<div style="background:rgba(123,79,212,0.08);border:1px solid rgba(123,79,212,0.18);border-radius:14px;padding:10px 13px;margin-bottom:6px;display:flex;gap:8px;align-items:flex-start;"><input type="checkbox" '+checked+' onchange="toggleFavVerse('+i+')" style="width:18px;height:18px;cursor:pointer;margin-top:2px;flex-shrink:0;accent-color:var(--sp);"><div style="flex:1;'+(f.read?'opacity:0.6;':'')+'"><div style="font-family:Cinzel,serif;font-size:12px;color:rgba(230,225,255,0.80);line-height:1.7;font-style:italic;'+(f.read?'text-decoration:line-through;':'')+'">'+f.t+'</div><div style="font-family:DM Mono,monospace;font-size:9.5px;color:var(--sp2);margin-top:5px;">'+f.r+'</div></div></div>';
   }
   list.innerHTML=html;
 }
@@ -788,7 +1005,14 @@ renderReadingPlan();
 /* ═══ GRATITUDE ═══ */
 var _gratEntries=lsGet('sc_grat')||[];
 function gratCount(){var ta=document.getElementById('sp-grat-ta');document.getElementById('grat-count').textContent=(ta?ta.value.length:0)+' / 500';}
-function spGratSave(){var ta=document.getElementById('sp-grat-ta');if(!ta||!ta.value.trim())return;_gratEntries.unshift({text:ta.value.trim(),date:new Date().toLocaleDateString()});ta.value='';gratCount();lsSet('sc_grat',_gratEntries);renderGratEntries();showToast('Saved ✦');}
+function spGratSave(){var ta=document.getElementById('sp-grat-ta');if(!ta||!ta.value.trim())return;_gratEntries.unshift({text:ta.value.trim(),date:new Date().toLocaleDateString(),done:false});ta.value='';gratCount();lsSet('sc_grat',_gratEntries);renderGratEntries();showToast('Saved ✦');}
+function toggleGratEntry(idx){
+  if(idx<0||idx>=_gratEntries.length)return;
+  _gratEntries[idx].done=!_gratEntries[idx].done;
+  lsSet('sc_grat',_gratEntries);
+  renderGratEntries();
+}
+
 function renderGratEntries(){
   var c=document.getElementById('sp-grat-entries');
   if(!c||!_gratEntries.length){
@@ -798,7 +1022,8 @@ function renderGratEntries(){
   var html='';
   for(var i=0;i<_gratEntries.length;i++){
     var e=_gratEntries[i];
-    html+='<div class="sp-grat-entry"><div style="font-family:DM Mono,monospace;font-size:8px;color:rgba(200,190,255,0.32);margin-bottom:5px;">'+e.date+'</div><div class="sp-grat-entry-text">'+e.text+'</div></div>';
+    var checked=e.done?' checked':'';
+    html+='<div class="sp-grat-entry" style="display:flex;gap:8px;align-items:flex-start;'+(e.done?'opacity:0.5;':'')+'"><input type="checkbox" '+checked+' onchange="toggleGratEntry('+i+')" style="width:16px;height:16px;cursor:pointer;margin-top:4px;flex-shrink:0;accent-color:var(--sp);"><div style="flex:1;"><div style="font-family:DM Mono,monospace;font-size:8px;color:rgba(200,190,255,0.32);margin-bottom:5px;">'+e.date+'</div><div class="sp-grat-entry-text" style="'+(e.done?'text-decoration:line-through;':'')+'">'+e.text+'</div></div></div>';
   }
   c.innerHTML=html;
 }
@@ -934,6 +1159,91 @@ function renderJEEntries(){
 renderJEEntries();
 
 /* ═══ HEALTH ROUTINES ═══ */
+/* ═══ HEALTH TRACKING ═══ */
+var _healthState={
+  routines:[{name:'Stretch',done:false},{name:'Meditate',done:false},{name:'Exercise',done:false},{name:'Sleep',done:false}],
+  supplements:[{name:'Vitamin D3',done:false},{name:'Omega-3',done:false}],
+  exercises:[{name:'Cardio',done:false},{name:'Strength',done:false}],
+  meals:[{name:'Breakfast',done:false},{name:'Lunch',done:false},{name:'Dinner',done:false}],
+  mealDays:[false,false,false,false,false,false,false],
+  shopping:[{name:'Organic Chicken Breast',done:false},{name:'Wild Salmon Fillets',done:true},{name:'Leafy Greens Mix',done:false},{name:'Greek Yogurt',done:false}]
+};
+
+function loadHealthState(){
+  var saved=lsGet('health_state');
+  if(saved)_healthState=saved;
+}
+
+function saveHealthState(){
+  lsSet('health_state',_healthState);
+}
+
+function toggleHealthItem(type,idx){
+  if(!_healthState[type]||idx<0||idx>=_healthState[type].length)return;
+  _healthState[type][idx].done=!_healthState[type][idx].done;
+  saveHealthState();
+  updateHealthUI();
+}
+
+function toggleMealDay(idx){
+  if(idx<0||idx>=_healthState.mealDays.length)return;
+  _healthState.mealDays[idx]=!_healthState.mealDays[idx];
+  saveHealthState();
+  var el=document.getElementById('mealday-'+idx);
+  if(el)el.textContent=_healthState.mealDays[idx]?'✓ Meal':'—';
+}
+
+function toggleShoppingItem(idx){
+  if(!_healthState.shopping||idx<0||idx>=_healthState.shopping.length)return;
+  _healthState.shopping[idx].done=!_healthState.shopping[idx].done;
+  saveHealthState();
+  updateHealthUI();
+}
+
+function updateHealthUI(){
+  updateRoutinesUI();
+  updateSupplementUI();
+  updateExerciseUI();
+  updateMealUI();
+  updateShoppingUI();
+}
+
+function updateRoutinesUI(){
+  var elems=document.querySelectorAll('#hp-routines .hp-routine-item');
+  for(var i=0;i<elems.length&&i<_healthState.routines.length;i++){
+    var chk=elems[i].querySelector('input[type="checkbox"]');
+    if(chk)chk.checked=_healthState.routines[i].done;
+  }
+}
+
+function updateSupplementUI(){
+  for(var i=0;i<_healthState.supplements.length;i++){
+    var chk=document.getElementById('supp-'+i);
+    if(chk)chk.checked=_healthState.supplements[i].done;
+  }
+}
+
+function updateExerciseUI(){
+  for(var i=0;i<_healthState.exercises.length;i++){
+    var chk=document.getElementById('ex-'+i);
+    if(chk)chk.checked=_healthState.exercises[i].done;
+  }
+}
+
+function updateMealUI(){
+  for(var i=0;i<_healthState.meals.length;i++){
+    var chk=document.getElementById('meal-'+i);
+    if(chk)chk.checked=_healthState.meals[i].done;
+  }
+}
+
+function updateShoppingUI(){
+  for(var i=0;i<_healthState.shopping.length;i++){
+    var chk=document.getElementById('shop-'+i);
+    if(chk)chk.checked=_healthState.shopping[i].done;
+  }
+}
+
 function initHealthRoutines(){
   var routines=[{emoji:'💪',name:'Stretch',time:'7:00 AM'},{emoji:'🧘',name:'Meditate',time:'8:00 AM'},{emoji:'🏃',name:'Exercise',time:'6:00 PM'},{emoji:'😴',name:'Sleep',time:'10:00 PM'}];
   var container=document.getElementById('hp-routines');
@@ -941,29 +1251,84 @@ function initHealthRoutines(){
   var html='';
   for(var i=0;i<routines.length;i++){
     var r=routines[i];
-    html+='<div class="hp-routine-item"><div style="flex-shrink:0;font-size:20px;">'+r.emoji+'</div><div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);">'+r.name+'</div><div style="font-family:DM Mono,monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">'+r.time+'</div></div></div>';
+    var done=_healthState.routines[i]&&_healthState.routines[i].done?'checked':'';
+    html+='<div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;'+(done?'opacity:0.5;':'')+'"><input type="checkbox" '+done+' onchange="toggleHealthItem(\'routines\','+i+')" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;"><div style="flex-shrink:0;font-size:20px;">'+r.emoji+'</div><div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);'+(done?'text-decoration:line-through;':'')+'">'+r.name+'</div><div style="font-family:DM Mono,monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">'+r.time+'</div></div></div>';
   }
   container.innerHTML=html;
 }
 
-/* ═══ THERAPY AUDIO ═══ */
+/* ═══ HEALTH TRACKING ═══ */
+var _waterCount=6;
+function addWater(){
+  if(_waterCount<8){
+    _waterCount++;
+    document.getElementById('water-count').textContent=_waterCount;
+    var glasses=document.getElementById('water-glasses');
+    if(_waterCount<=8){
+      var pct=(_waterCount/8)*100;
+      glasses.parentElement.style.background='#111820';
+      var fillEl=glasses.parentElement.parentElement.querySelector('.background');
+      if(fillEl)fillEl.style.width=pct+'%';
+    }
+    showToast('💧 Water logged! '+_waterCount+'/8 glasses');
+  }else{
+    showToast('💧 Daily goal reached! Great hydration!');
+  }
+}
 var _therapyPlaying=false;
+/* ═══ WELLNESS THERAPY AUDIO ═══ */
+var _therapyPlaying=false;
+var _therapyAudioEl=null;
+
+function getTherapyAudio(){
+  if(!_therapyAudioEl){
+    _therapyAudioEl=document.getElementById('wellness-audio');
+    if(!_therapyAudioEl){
+      _therapyAudioEl=document.createElement('audio');
+      _therapyAudioEl.id='wellness-audio';
+      _therapyAudioEl.preload='auto';
+      document.body.appendChild(_therapyAudioEl);
+    }
+  }
+  return _therapyAudioEl;
+}
+
 function toggleTherapy(){
-  var aud=document.getElementById('wellness-audio');
-  if(!aud)return;
+  var aud=getTherapyAudio();
+  var btn=document.querySelector('.th-ctrl-btn.play');
+  
   if(_therapyPlaying){
-    try{aud.pause();}catch(e){}
+    try{
+      aud.pause();
+      aud.currentTime=0;
+    }catch(e){}
     _therapyPlaying=false;
-    var btn=document.querySelector('.th-ctrl-btn.play');
     if(btn)btn.textContent='▶';
-    showToast('🎵 Paused');
+    showToast('⏸ Paused');
   }else{
     aud.src='Psalm_91.mp3';
-    try{aud.play();}catch(e){}
-    _therapyPlaying=true;
-    var btn=document.querySelector('.th-ctrl-btn.play');
-    if(btn)btn.textContent='⏸';
-    showToast('🎵 Playing 432 Hz Healing...');
+    aud.volume=0.75;
+    
+    var playAttempt=function(){
+      try{
+        var playPromise=aud.play();
+        if(playPromise!==undefined){
+          playPromise.then(function(){
+            _therapyPlaying=true;
+            if(btn)btn.textContent='⏸';
+            showToast('▶ 432 Hz Healing Frequency...');
+          }).catch(function(error){
+            console.error('Play error:',error.message);
+            showToast('Unable to play - check file');
+          });
+        }
+      }catch(err){
+        console.error('Audio error:',err);
+        showToast('Audio error');
+      }
+    };
+    
+    playAttempt();
   }
 }
 
@@ -1010,8 +1375,23 @@ function dismissToast(){
   clearTimeout(_tt);
 }
 
+/* ═══ ADD ITEM STUBS ═══ */
+function openAddItem(){
+  showToast('✓ Item added to list');
+}
+
+function openAddSupplement(){
+  showToast('✓ Supplement added');
+}
+
+function openAddExercise(){
+  showToast('✓ Workout added');
+}
+
 /* ═══ INIT ═══ */
+loadHealthState();
 initHealthRoutines();
+updateHealthUI();
 
 </script>
 </body>
