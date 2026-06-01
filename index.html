@@ -841,26 +841,68 @@ body{background:#07091A;}
   </div>
 
   <!-- PLANNER SCREEN -->
-  <div id="screen-planner" class="screen">
-    <div style="padding: 20px;">
-      <div style="background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%); border-radius: 24px; padding: 28px; min-height: calc(100vh - 300px);">
-        <h1 style="color: #E8E4FF; font-size: 24px; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.5px;">WEEKLY PLANNER</h1>
-        <p style="color: #8a8a9a; font-size: 11px; margin: 0 0 24px 0; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">// YOUR WEEKLY SCHEDULE</p>
-        
-        <div id="day-selector" style="display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding: 0 0 8px 0;">
-          <button data-day="0" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">MON</button>
-          <button data-day="1" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">TUE</button>
-          <button data-day="2" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">WED</button>
-          <button data-day="3" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">THU</button>
-          <button data-day="4" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">FRI</button>
-          <button data-day="5" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SAT</button>
-          <button data-day="6" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SUN</button>
+  <div id="screen-planner" class="screen" style="background:linear-gradient(180deg,#e8f0f8 0%,#f0f6fc 100%);overflow-y:auto;">
+    <div style="padding:20px;min-height:100vh;">
+      <!-- DATE/DAY SELECTOR -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-bottom:24px;">
+        <div onclick="selectPlannerDay(0)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">SUN</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">31</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
         </div>
-
-        <div id="slots-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        <div id="planner-day-1" onclick="selectPlannerDay(1)" style="text-align:center;cursor:pointer;transition:all 0.3s;background:#1e5ba8;border-radius:16px;padding:12px 8px;color:#fff;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.80);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">MON</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;">1</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.50);margin:8px auto 0;"></div>
         </div>
+        <div onclick="selectPlannerDay(2)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">TUE</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">2</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
+        </div>
+        <div onclick="selectPlannerDay(3)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">WED</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">3</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
+        </div>
+        <div onclick="selectPlannerDay(4)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">THU</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">4</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
+        </div>
+        <div onclick="selectPlannerDay(5)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">FRI</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">5</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
+        </div>
+        <div onclick="selectPlannerDay(6)" style="text-align:center;cursor:pointer;transition:all 0.3s;">
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,120,160,0.70);font-weight:600;margin-bottom:6px;letter-spacing:0.1em;">SAT</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#1a2a3a;">6</div>
+          <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:8px auto 0;"></div>
+        </div>
+      </div>
 
-        <button id="add-slot-btn" style="width: 100%; padding: 12px 20px; border-radius: 100px; border: 1.5px dashed rgba(167,139,250,0.40); background: transparent; color: rgba(167,139,250,0.70); font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.3s; font-family: 'DM Sans', sans-serif;">+ Add Time Slot</button>
+      <!-- ADD TASK CARD -->
+      <div style="background:#fff;border:2px solid rgba(30,91,168,0.15);border-radius:24px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div style="font-size:24px;">✏️</div>
+          <input id="task-input" type="text" placeholder="Add a task for today..." style="flex:1;border:none;background:transparent;font-size:16px;color:rgba(100,120,160,0.60);font-family:'DM Sans',sans-serif;outline:none;" onkeydown="if(event.key==='Enter')addPlannerTask()">
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(100,120,160,0.08);border-radius:12px;padding:8px 12px;border:1px solid rgba(100,120,160,0.15);">
+            <span style="font-size:18px;">🕐</span>
+            <input id="task-time" type="time" value="09:00" style="border:none;background:transparent;color:#1e5ba8;font-weight:600;font-size:14px;font-family:'DM Mono',monospace;outline:none;">
+          </div>
+          <button onclick="setTaskPriority('High')" style="padding:8px 14px;border-radius:12px;border:1.5px solid rgba(100,120,160,0.25);background:transparent;color:rgba(100,120,160,0.70);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;">High</button>
+          <button id="priority-med" onclick="setTaskPriority('Med')" style="padding:8px 14px;border-radius:12px;border:2px solid #1e5ba8;background:transparent;color:#1e5ba8;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;">Med</button>
+          <button onclick="setTaskPriority('Low')" style="padding:8px 14px;border-radius:12px;border:1.5px solid rgba(100,120,160,0.25);background:transparent;color:rgba(100,120,160,0.70);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;">Low</button>
+          <button onclick="addPlannerTask()" style="padding:10px 20px;border-radius:14px;border:none;background:#1e5ba8;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-left:auto;">Add +</button>
+        </div>
+      </div>
+
+      <!-- TASKS LIST -->
+      <div style="display:flex;flex-direction:column;gap:10px;" id="planner-tasks-container">
+        <!-- Tasks will be rendered here -->
       </div>
     </div>
   </div>
@@ -2427,26 +2469,134 @@ function saveAddWorkout(){
 
 /* ═══ 7-DAY PLANNER ═══ */
 var _plannerCurrentDay=1;
-var _plannerData=JSON.parse(localStorage.getItem('zolaPlannerData'))||{};
-
-function initPlanner(){
-  if(!_plannerData.days){
-    _plannerData.days={};
-    for(var d=0;d<7;d++){
-      _plannerData.days[d]=[
-        {time:'06:00',label:'Morning'},
-        {time:'12:00',label:'Afternoon'},
-        {time:'18:00',label:'Evening'},
-        {time:'21:00',label:'Night'}
-      ];
-    }
-    savePlannerData();
-  }
-  updatePlannerDisplay();
-}
+var _plannerTasks=JSON.parse(localStorage.getItem('zolaPlannerTasks'))||{
+  0:[],1:[{id:0,time:'07:00',emoji:'☀️',name:'Rise & Sunlight',priority:'Med',done:false}],2:[],3:[],4:[],5:[],6:[]
+};
+var _plannerTaskIdCounter=1;
+var _currentTaskPriority='Med';
 
 function savePlannerData(){
-  localStorage.setItem('zolaPlannerData',JSON.stringify(_plannerData));
+  localStorage.setItem('zolaPlannerTasks',JSON.stringify(_plannerTasks));
+}
+
+function selectPlannerDay(day){
+  _plannerCurrentDay=day;
+  updatePlannerDayHighlight();
+  renderPlannerTasks();
+}
+
+function updatePlannerDayHighlight(){
+  for(var i=0;i<7;i++){
+    var dayEl=document.getElementById('planner-day-'+i);
+    if(dayEl){
+      if(i===_plannerCurrentDay){
+        dayEl.style.background='#1e5ba8';
+        dayEl.style.color='#fff';
+      }else{
+        dayEl.style.background='transparent';
+        dayEl.style.color='#1a2a3a';
+      }
+    }
+  }
+}
+
+function setTaskPriority(priority){
+  _currentTaskPriority=priority;
+  var buttons=document.querySelectorAll('[onclick*="setTaskPriority"]');
+  buttons.forEach(function(btn){
+    btn.style.borderColor='rgba(100,120,160,0.25)';
+    btn.style.color='rgba(100,120,160,0.70)';
+    btn.style.borderWidth='1.5px';
+  });
+  var selectedBtn=document.querySelector('[onclick*="\''+priority+'\'"]');
+  if(selectedBtn){
+    selectedBtn.style.borderColor='#1e5ba8';
+    selectedBtn.style.color='#1e5ba8';
+    selectedBtn.style.borderWidth='2px';
+  }
+}
+
+function addPlannerTask(){
+  var input=document.getElementById('task-input');
+  var timeInput=document.getElementById('task-time');
+  var taskName=input.value.trim();
+  var taskTime=timeInput.value||'09:00';
+  
+  if(!taskName){
+    showToast('Please enter a task name');
+    return;
+  }
+  
+  if(!_plannerTasks[_plannerCurrentDay])_plannerTasks[_plannerCurrentDay]=[];
+  
+  _plannerTasks[_plannerCurrentDay].push({
+    id:_plannerTaskIdCounter++,
+    time:taskTime,
+    emoji:'',
+    name:taskName,
+    priority:_currentTaskPriority,
+    done:false
+  });
+  
+  savePlannerData();
+  input.value='';
+  timeInput.value='09:00';
+  _currentTaskPriority='Med';
+  renderPlannerTasks();
+  showToast('✓ Task added!');
+}
+
+function renderPlannerTasks(){
+  var container=document.getElementById('planner-tasks-container');
+  if(!container)return;
+  
+  var tasks=_plannerTasks[_plannerCurrentDay]||[];
+  var html='';
+  
+  for(var i=0;i<tasks.length;i++){
+    var task=tasks[i];
+    var priorityColor='#9ca3af';
+    var priorityBg='#f3f4f6';
+    
+    if(task.priority==='High'){
+      priorityColor='#ef4444';
+      priorityBg='rgba(239,68,68,0.10)';
+    }else if(task.priority==='Med'){
+      priorityColor='#d97706';
+      priorityBg='rgba(217,119,6,0.10)';
+    }else if(task.priority==='Low'){
+      priorityColor='#8b5cf6';
+      priorityBg='rgba(139,92,246,0.10)';
+    }
+    
+    var doneStyle=task.done?'opacity:0.5;text-decoration:line-through;':'';
+    var circleStyle=task.done?'background:#1e5ba8;border-color:#1e5ba8;':'border:2px solid #1e5ba8;background:transparent;';
+    
+    html+='<div style="background:#fff;border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);"><div style="width:24px;height:24px;border-radius:50%;'+circleStyle+'cursor:pointer;flex-shrink:0;" onclick="togglePlannerTaskDone('+task.id+')"></div><div style="font-size:18px;">'+task.emoji+'</div><div style="flex:1;"><div style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:700;color:#1a2a3a;'+doneStyle+'">'+task.name+'</div><div style="font-family:\'DM Mono\',monospace;font-size:11px;color:rgba(100,120,160,0.60);margin-top:2px;">'+task.time+'</div></div><button style="padding:6px 10px;border-radius:10px;border:none;background:'+priorityBg+';color:'+priorityColor+';font-family:\'DM Sans\',sans-serif;font-size:10px;font-weight:700;cursor:pointer;">'+task.priority+'</button><button onclick="deletePlannerTask('+task.id+')" style="padding:8px 10px;border-radius:12px;border:1.5px solid rgba(236,72,153,0.30);background:rgba(236,72,153,0.08);color:#f43f5e;font-size:16px;cursor:pointer;border:none;">×</button></div>';
+  }
+  
+  container.innerHTML=html||'<div style="text-align:center;padding:30px;color:rgba(100,120,160,0.60);font-size:14px;">No tasks yet. Add one above!</div>';
+}
+
+function togglePlannerTaskDone(id){
+  var task=_plannerTasks[_plannerCurrentDay].find(t=>t.id===id);
+  if(task){
+    task.done=!task.done;
+    savePlannerData();
+    renderPlannerTasks();
+  }
+}
+
+function deletePlannerTask(id){
+  if(_plannerTasks[_plannerCurrentDay]){
+    var idx=_plannerTasks[_plannerCurrentDay].findIndex(t=>t.id===id);
+    if(idx>=0){
+      _plannerTasks[_plannerCurrentDay].splice(idx,1);
+      savePlannerData();
+      renderPlannerTasks();
+      showToast('✓ Task deleted');
+    }
+  }
 }
 
 function renderPlannerSlots(){
