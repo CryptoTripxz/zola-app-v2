@@ -269,6 +269,7 @@ body{background:#07091A;}
   <!-- ACTION BAR -->
   <div id="action-bar">
     <span class="ab-lbl">ZOLA APP</span>
+    <button class="ab-btn" onclick="doScreenshot()">📸 Shot</button>
     <button class="ab-btn" onclick="openExportSheet()">↑ Share</button>
     <button class="ab-btn" onclick="doSave()">💾 Save</button>
   </div>
@@ -457,12 +458,12 @@ body{background:#07091A;}
             </div>
             <div class="res-bar"><div class="res-fill" id="joy-fill" style="width:45%"></div></div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div class="h-full">❤️</div>
-              <div class="h-full">❤️</div>
-              <div class="h-full">❤️</div>
-              <div class="h-empty">❤️</div>
-              <div class="h-empty">❤️</div>
-              <span class="fire-badge">🔥 3-day streak</span>
+              <div id="heart-1" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(1);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
+              <div id="heart-2" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(2);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
+              <div id="heart-3" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(3);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
+              <div id="heart-4" class="h-empty" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(4);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
+              <div id="heart-5" class="h-empty" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(5);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
+              <span class="fire-badge">🔥 <span id="streak-display">3</span>-day streak</span>
             </div>
           </div>
 
@@ -497,33 +498,30 @@ body{background:#07091A;}
         <div class="tab-content">
           <div class="th-music-hero">
             <div class="th-freq-title">432 Hz Healing Frequency</div>
-            <div style="font-size:11px;color:rgba(200,190,255,0.6);display:flex;align-items:center;gap:4px;margin-bottom:12px;">🎼 Binaural beats for deep meditation</div>
+            <div style="font-size:11px;color:rgba(200,190,255,0.6);display:flex;align-items:center;gap:4px;margin-bottom:12px;">🔊 Binaural beats & healing frequencies</div>
             <div style="height:6px;background:rgba(124,58,237,0.15);border-radius:3px;margin-bottom:12px;overflow:hidden;">
-              <div style="height:100%;background:linear-gradient(90deg,var(--vi),var(--vi2));width:35%;transition:width 0.3s;"></div>
+              <div id="th-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--vi),var(--vi2));width:0%;transition:width 0.1s linear;"></div>
             </div>
             <div class="th-controls">
-              <button class="th-ctrl-btn play" onclick="toggleTherapy()">▶</button>
+              <button class="th-ctrl-btn play" id="th-play-btn" style="pointer-events:auto;position:relative;z-index:5;cursor:pointer;">▶</button>
             </div>
           </div>
 
           <div style="padding:0 14px 12px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;margin-bottom:8px;">Available Frequencies</div>
+            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;margin-bottom:8px;">🎼 Healing Frequencies</div>
             <div class="th-sounds-grid">
-              <div class="th-sound-card">
-                <span class="th-sound-icon">🎶</span>
-                <div class="th-sound-name">432 Hz</div>
-                <div style="font-size:9.5px;color:var(--t3);">Love</div>
-              </div>
-              <div class="th-sound-card">
-                <span class="th-sound-icon">🧘</span>
-                <div class="th-sound-name">528 Hz</div>
-                <div style="font-size:9.5px;color:var(--t3);">Healing</div>
-              </div>
-              <div class="th-sound-card">
-                <span class="th-sound-icon">✨</span>
-                <div class="th-sound-name">741 Hz</div>
-                <div style="font-size:9.5px;color:var(--t3);">Expression</div>
-              </div>
+              <div class="track-btn active-track" onclick="selectTherapyTrack(0)" style="padding:8px 4px;border-radius:12px;border:2px solid rgba(139,92,246,0.35);background:rgba(139,92,246,0.12);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🎵</div><div style="font-size:9.5px;font-weight:700;color:#7c3aed;margin-top:2px;">432 Hz</div><div style="font-size:8px;color:#7a8fa8;">Deep calm</div></div>
+              <div class="track-btn" onclick="selectTherapyTrack(1)" style="padding:8px 4px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🌊</div><div style="font-size:9.5px;font-weight:700;color:#6B7280;margin-top:2px;">40 Hz</div><div style="font-size:8px;color:#7a8fa8;">Stress relief</div></div>
+              <div class="track-btn" onclick="selectTherapyTrack(2)" style="padding:8px 4px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🌧️</div><div style="font-size:9.5px;font-weight:700;color:#6B7280;margin-top:2px;">10 Hz</div><div style="font-size:8px;color:#7a8fa8;">Focus & sleep</div></div>
+              <div class="track-btn" onclick="selectTherapyTrack(3)" style="padding:8px 4px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🔔</div><div style="font-size:9.5px;font-weight:700;color:#6B7280;margin-top:2px;">8 Hz</div><div style="font-size:8px;color:#7a8fa8;">Deep meditation</div></div>
+              <div class="track-btn" onclick="selectTherapyTrack(4)" style="padding:8px 4px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🎻</div><div style="font-size:9.5px;font-weight:700;color:#6B7280;margin-top:2px;">528 Hz</div><div style="font-size:8px;color:#7a8fa8;">Mood elevation</div></div>
+              <div class="track-btn" onclick="selectTherapyTrack(5)" style="padding:8px 4px;border-radius:12px;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);text-align:center;cursor:pointer;transition:all 0.2s;pointer-events:auto;">
+                <div style="font-size:18px;">🥁</div><div style="font-size:9.5px;font-weight:700;color:#6B7280;margin-top:2px;">63 Hz</div><div style="font-size:8px;color:#7a8fa8;">Energy boost</div></div>
             </div>
           </div>
         </div>
@@ -580,6 +578,7 @@ body{background:#07091A;}
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>💪 Daily Routines<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
               <div id="hp-routines"></div>
+              <button style="width:100%;font-size:12px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:2px solid rgba(0,230,118,0.35);border-radius:12px;padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background='rgba(0,230,118,0.25)'" onmouseout="this.style.background='rgba(0,230,118,0.15)'" onclick="openAddRoutine()">+ Add</button>
             </div>
           </div>
 
@@ -587,20 +586,7 @@ body{background:#07091A;}
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>💊 Supplements<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-supp-grid">
-                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:6px;">
-                  <input type="checkbox" id="supp-0" onchange="toggleHealthItem('supp',0)" style="width:18px;height:18px;cursor:pointer;align-self:center;accent-color:#00e676;">
-                  <div style="font-size:22px;">💊</div>
-                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Vitamin D3</div>
-                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">2000 IU</div>
-                </div>
-                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:6px;">
-                  <input type="checkbox" id="supp-1" onchange="toggleHealthItem('supp',1)" style="width:18px;height:18px;cursor:pointer;align-self:center;accent-color:#00e676;">
-                  <div style="font-size:22px;">🔬</div>
-                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Omega-3</div>
-                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">1000 mg</div>
-                </div>
-              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-supp-grid"></div>
               <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddSupplement()">+ Add Supplement</button>
             </div>
           </div>
@@ -609,20 +595,7 @@ body{background:#07091A;}
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🏋️ Workouts<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-ex-grid">
-                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;">
-                  <input type="checkbox" id="ex-0" onchange="toggleHealthItem('ex',0)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <div style="font-size:20px;">🏃</div>
-                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Cardio</div>
-                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">30 min · 3x/wk</div>
-                </div>
-                <div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;">
-                  <input type="checkbox" id="ex-1" onchange="toggleHealthItem('ex',1)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <div style="font-size:20px;">💪</div>
-                  <div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">Strength</div>
-                  <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a8fa8;">45 min · 4x/wk</div>
-                </div>
-              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="hp-ex-grid"></div>
               <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddExercise()">+ Add Workout</button>
             </div>
           </div>
@@ -674,46 +647,38 @@ body{background:#07091A;}
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🔥 Calorie Tracker<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
-              <div style="background:#111820;border:1px solid rgba(255,179,0,0.12);border-radius:12px;padding:12px;">
+              <div style="background:#111820;border:1px solid rgba(255,179,0,0.12);border-radius:12px;padding:12px;margin-bottom:10px;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
                   <div style="font-size:11px;color:rgba(220,230,255,0.92);">Today</div>
-                  <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#ffb300;">1,245 / 2,400 kcal</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#ffb300;" id="hp-cal-today-val">1,245 / 2,400 kcal</div>
                 </div>
-                <div style="height:6px;background:rgba(255,179,0,0.10);border-radius:3px;overflow:hidden;">
-                  <div style="height:100%;background:linear-gradient(90deg,#ffb300,#ff8c00);width:52%;"></div>
+                <div style="height:6px;background:rgba(255,179,0,0.10);border-radius:3px;overflow:hidden;margin-bottom:8px;">
+                  <div id="hp-cal-fill" style="height:100%;background:linear-gradient(90deg,#ffb300,#ff8c00);width:52%;transition:width 0.3s;"></div>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;">
                   <div><span style="color:#7a8fa8;">Protein: </span><span style="color:#ffb300;font-weight:700;">85g / 180g</span></div>
-                  <div><span style="color:#7a8fa8;">Remaining: </span><span style="color:#00e676;font-weight:700;">1,155 kcal</span></div>
+                  <div><span style="color:#7a8fa8;">Remaining: </span><span style="color:#00e676;font-weight:700;" id="hp-cal-remain">1,155 kcal</span></div>
                 </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <button style="font-size:10px;color:#ffb300;background:rgba(255,179,0,0.08);border:1px solid rgba(255,179,0,0.25);border-radius:12px;padding:6px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="addCalories(350)">+350 kcal</button>
+                <button style="font-size:10px;color:#ffb300;background:rgba(255,179,0,0.08);border:1px solid rgba(255,179,0,0.25);border-radius:12px;padding:6px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="addCalories(500)">+500 kcal</button>
               </div>
             </div>
           </div>
 
           <!-- WATER INTAKE TRACKER -->
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px 8px;">
-            <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">💧 Water Intake</div>
-            <button style="font-size:10px;color:#3b8ee8;background:rgba(59,142,232,0.08);border:1px solid rgba(59,142,232,0.25);border-radius:20px;padding:4px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="addWater()">+ Glass</button>
-          </div>
-          <div style="padding:0 14px 12px;">
-            <div style="background:#111820;border:1px solid rgba(59,142,232,0.12);border-radius:12px;padding:12px;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-                <div style="font-size:11px;color:rgba(220,230,255,0.92);">Today's intake</div>
-                <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#3b8ee8;"><span id="water-count">6</span> / 8 glasses</div>
+          <div class="sp-sec" style="margin:0 14px 10px;">
+            <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>💧 Water Intake<div class="sp-sec-lbl-line"></div></div>
+            <div class="sp-sec-body">
+              <div style="background:#111820;border:1px solid rgba(59,142,232,0.12);border-radius:12px;padding:12px;margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                  <div style="font-size:11px;color:rgba(220,230,255,0.92);">Today's intake</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#3b8ee8;"><span id="water-count">6</span> / 8 glasses</div>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;align-items:center;" id="water-glasses"></div>
               </div>
-              <div style="height:6px;background:rgba(59,142,232,0.10);border-radius:3px;overflow:hidden;">
-                <div style="height:100%;background:linear-gradient(90deg,#3b8ee8,#00d4ff);width:75%;"></div>
-              </div>
-              <div style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;" id="water-glasses">
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:#3b8ee8;border:1px solid rgba(59,142,232,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">💧</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:rgba(59,142,232,0.20);border:1px solid rgba(59,142,232,0.20);display:flex;align-items:center;justify-content:center;font-size:12px;color:#3b8ee8;">·</div>
-                <div style="width:28px;height:28px;border-radius:6px;background:rgba(59,142,232,0.20);border:1px solid rgba(59,142,232,0.20);display:flex;align-items:center;justify-content:center;font-size:12px;color:#3b8ee8;">·</div>
-              </div>
+              <button id="add-glass-btn" style="width:100%;font-size:12px;font-weight:700;color:#3b8ee8;background:rgba(59,142,232,0.15);border:2px solid rgba(59,142,232,0.35);border-radius:16px;padding:10px;cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onclick="addWater()">+ Add Glass</button>
             </div>
           </div>
 
@@ -735,21 +700,21 @@ body{background:#07091A;}
           <div style="display:flex;align-items:center;justify-content:space-between;padding:0 14px 8px;">
             <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">🧠 Stress Level</div>
             <div style="display:flex;gap:4px;">
-              <button style="padding:4px 8px;border:1px solid rgba(232,84,122,0.24);border-radius:6px;background:rgba(232,84,122,0.10);color:#ff7a9a;font-size:9px;cursor:pointer;font-weight:600;">Low</button>
-              <button style="padding:4px 8px;border:1px solid rgba(196,152,32,0.24);border-radius:6px;background:rgba(196,152,32,0.10);color:#ffb300;font-size:9px;cursor:pointer;font-weight:600;">Med</button>
-              <button style="padding:4px 8px;border:1px solid rgba(232,84,122,0.35);border-radius:6px;background:rgba(232,84,122,0.20);color:#ff5a7a;font-size:9px;cursor:pointer;font-weight:600;border-color:rgba(232,84,122,0.35);">High</button>
+              <button id="stress-low" style="padding:4px 8px !important;border:1px solid rgba(232,84,122,0.24) !important;border-radius:6px !important;background:rgba(232,84,122,0.10) !important;color:#ff7a9a !important;font-size:9px !important;cursor:pointer !important;font-weight:600 !important;transition:all 0.2s !important;pointer-events:auto !important;position:relative !important;z-index:100 !important;margin:0 !important;padding:4px 8px !important;" onclick="setStressLevel('low')">Low</button>
+              <button id="stress-med" style="padding:4px 8px !important;border:1px solid rgba(196,152,32,0.24) !important;border-radius:6px !important;background:rgba(196,152,32,0.10) !important;color:#ffb300 !important;font-size:9px !important;cursor:pointer !important;font-weight:600 !important;transition:all 0.2s !important;pointer-events:auto !important;position:relative !important;z-index:100 !important;margin:0 !important;padding:4px 8px !important;" onclick="setStressLevel('med')">Med</button>
+              <button id="stress-high" style="padding:4px 8px !important;border:1px solid rgba(232,84,122,0.35) !important;border-radius:6px !important;background:rgba(232,84,122,0.20) !important;color:#ff5a7a !important;font-size:9px !important;cursor:pointer !important;font-weight:600 !important;border-color:rgba(232,84,122,0.35) !important;transition:all 0.2s !important;pointer-events:auto !important;position:relative !important;z-index:100 !important;margin:0 !important;padding:4px 8px !important;" onclick="setStressLevel('high')">High</button>
             </div>
           </div>
           <div style="padding:0 14px 12px;display:flex;gap:6px;">
-            <div style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;">
+            <div id="mood-calm" class="mood-btn" style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:all 0.2s;" onclick="setMood('calm')">
               <div style="font-size:18px;margin-bottom:4px;">😊</div>
               <div style="font-size:9px;color:#00e676;font-weight:700;">Calm</div>
             </div>
-            <div style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;">
+            <div id="mood-neutral" class="mood-btn" style="flex:1;background:rgba(21,168,84,0.10);border:1px solid rgba(21,168,84,0.22);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:all 0.2s;" onclick="setMood('neutral')">
               <div style="font-size:18px;margin-bottom:4px;">😐</div>
               <div style="font-size:9px;color:#7a8fa8;font-weight:700;">Neutral</div>
             </div>
-            <div style="flex:1;background:rgba(232,84,122,0.10);border:1px solid rgba(232,84,122,0.22);border-radius:10px;padding:10px;text-align:center;">
+            <div id="mood-stressed" class="mood-btn" style="flex:1;background:rgba(232,84,122,0.10);border:1px solid rgba(232,84,122,0.22);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:all 0.2s;" onclick="setMood('stressed')">
               <div style="font-size:18px;margin-bottom:4px;">😰</div>
               <div style="font-size:9px;color:#ff7a9a;font-weight:700;">Stressed</div>
             </div>
@@ -759,29 +724,8 @@ body{background:#07091A;}
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🛒 Shopping List<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
-              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;" id="shopping-list">
-                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
-                  <input type="checkbox" id="shop-0" onchange="toggleShoppingItem(0)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Organic Chicken Breast</span>
-                  <span style="font-size:9px;color:#7a8fa8;">1.5 lbs</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
-                  <input type="checkbox" id="shop-1" onchange="toggleShoppingItem(1)" checked style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;text-decoration:line-through;opacity:0.5;">Wild Salmon Fillets</span>
-                  <span style="font-size:9px;color:#7a8fa8;">2 fillets</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
-                  <input type="checkbox" id="shop-2" onchange="toggleShoppingItem(2)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Leafy Greens Mix</span>
-                  <span style="font-size:9px;color:#7a8fa8;">2x</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;cursor:pointer;">
-                  <input type="checkbox" id="shop-3" onchange="toggleShoppingItem(3)" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;">
-                  <span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;">Greek Yogurt</span>
-                  <span style="font-size:9px;color:#7a8fa8;">32 oz</span>
-                </div>
-              </div>
-              <button style="width:100%;font-size:10px;color:#00e676;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:8px 11px;cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;" onclick="openAddItem()">+ Add Item</button>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;" id="shopping-list"></div>
+              <button id="add-glass-btn" style="width:100%;font-size:12px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:2px solid rgba(0,230,118,0.35);border-radius:12px;padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background='rgba(0,230,118,0.25)'" onmouseout="this.style.background='rgba(0,230,118,0.15)'" onclick="openAddItem()">+ Add Item</button>
             </div>
           </div>
         </div>
@@ -1036,11 +980,11 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
 /* ═══ AUDIO ═══ */
 (function(){
   var TRACKS=[
-    {title:'Josh 1:8 · 1 John 3:1 · Romans 8:1',duration:260,src:'Josh_1_8_1John_3_1_Rom8_1.mp3'},
-    {title:'Isaiah 41:10 - Fear Not',duration:180,src:'Isaiah_41_10.mp3'},
-    {title:'Jeremiah 31:3 · Lamentations 3:22-23',duration:240,src:'Jeremiah_31_3_Lamentations_3_22_-_23__1_.mp3'},
-    {title:'Psalm 91 - Protection',duration:320,src:'Psalm_91.mp3'},
-    {title:'Psalm 124 - Thanksgiving',duration:280,src:'Psalm_124.mp3'}
+    {title:'Josh 1:8 · 1 John 3:1 · Romans 8:1',duration:260,src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
+    {title:'Isaiah 41:10 - Fear Not',duration:180,src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'},
+    {title:'Jeremiah 31:3 · Lamentations 3:22-23',duration:240,src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'},
+    {title:'Psalm 91 - Protection',duration:320,src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'},
+    {title:'Psalm 124 - Thanksgiving',duration:280,src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'}
   ];
   var _cur=0;
   var aud=document.getElementById('sp-audio');
@@ -1068,7 +1012,8 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
       btn.classList.add('playing');
       if(TRACKS[_cur].src && aud){
         aud.src=TRACKS[_cur].src;
-        try{aud.play();}catch(e){}
+        aud.crossOrigin='anonymous';
+        try{aud.play().catch(function(e){console.log('Audio play failed:',e);});}catch(e){console.log('Audio error:',e);}
       }
       if(_timer)clearInterval(_timer);
       _timer=setInterval(function(){
@@ -1217,17 +1162,27 @@ function updateRoutinesUI(){
 }
 
 function updateSupplementUI(){
+  var container=document.getElementById('hp-supp-grid');
+  if(!container)return;
+  var html='';
   for(var i=0;i<_healthState.supplements.length;i++){
-    var chk=document.getElementById('supp-'+i);
-    if(chk)chk.checked=_healthState.supplements[i].done;
+    var s=_healthState.supplements[i];
+    var done=s.done?'opacity:0.5;':'';
+    html+='<div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:6px;'+done+'"><div style="display:flex;gap:4px;justify-content:center;align-items:center;"><input type="checkbox" '+(done?'checked':'')+' onchange="toggleHealthItem(\'supplements\','+i+')" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;"><button onclick="deleteHealthItem(\'supplements\','+i+')" style="padding:2px 6px;background:#ff5a5a;color:#fff;border:none;border-radius:4px;font-size:9px;cursor:pointer;font-weight:600;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background=\'#ff3838\'" onmouseout="this.style.background=\'#ff5a5a\'">✕</button></div><div style="font-size:22px;">💊</div><div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">'+s.name+'</div></div>';
   }
+  container.innerHTML=html;
 }
 
 function updateExerciseUI(){
+  var container=document.getElementById('hp-ex-grid');
+  if(!container)return;
+  var html='';
   for(var i=0;i<_healthState.exercises.length;i++){
-    var chk=document.getElementById('ex-'+i);
-    if(chk)chk.checked=_healthState.exercises[i].done;
+    var e=_healthState.exercises[i];
+    var done=e.done?'opacity:0.5;':'';
+    html+='<div style="background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;'+done+'"><div style="display:flex;gap:4px;"><input type="checkbox" '+(done?'checked':'')+' onchange="toggleHealthItem(\'exercises\','+i+')" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;"><button onclick="deleteHealthItem(\'exercises\','+i+')" style="padding:2px 6px;background:#ff5a5a;color:#fff;border:none;border-radius:4px;font-size:9px;cursor:pointer;font-weight:600;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background=\'#ff3838\'" onmouseout="this.style.background=\'#ff5a5a\'">✕</button></div><div style="font-size:20px;">🏃</div><div style="font-size:11px;font-weight:600;color:rgba(220,230,255,0.92);">'+e.name+'</div></div>';
   }
+  container.innerHTML=html;
 }
 
 function updateMealUI(){
@@ -1238,10 +1193,15 @@ function updateMealUI(){
 }
 
 function updateShoppingUI(){
+  var container=document.getElementById('shopping-list');
+  if(!container)return;
+  var html='';
   for(var i=0;i<_healthState.shopping.length;i++){
-    var chk=document.getElementById('shop-'+i);
-    if(chk)chk.checked=_healthState.shopping[i].done;
+    var s=_healthState.shopping[i];
+    var done=s.done?'text-decoration:line-through;opacity:0.5;':'';
+    html+='<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#111820;border:1px solid rgba(255,255,255,0.07);border-radius:10px;"><input type="checkbox" '+(s.done?'checked':'')+' onchange="toggleShoppingItem('+i+')" style="width:18px;height:18px;cursor:pointer;accent-color:#00e676;"><span style="font-size:12px;color:rgba(220,230,255,0.92);flex:1;'+done+'">'+s.name+'</span><button onclick="deleteHealthItem(\'shopping\','+i+')" style="padding:4px 8px;background:#ff5a5a;color:#fff;border:none;border-radius:6px;font-size:10px;cursor:pointer;font-weight:600;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;flex-shrink:0;" onmouseover="this.style.background=\'#ff3838\'" onmouseout="this.style.background=\'#ff5a5a\'">Delete</button></div>';
   }
+  container.innerHTML=html;
 }
 
 function initHealthRoutines(){
@@ -1252,84 +1212,525 @@ function initHealthRoutines(){
   for(var i=0;i<routines.length;i++){
     var r=routines[i];
     var done=_healthState.routines[i]&&_healthState.routines[i].done?'checked':'';
-    html+='<div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;'+(done?'opacity:0.5;':'')+'"><input type="checkbox" '+done+' onchange="toggleHealthItem(\'routines\','+i+')" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;"><div style="flex-shrink:0;font-size:20px;">'+r.emoji+'</div><div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);'+(done?'text-decoration:line-through;':'')+'">'+r.name+'</div><div style="font-family:DM Mono,monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">'+r.time+'</div></div></div>';
+    html+='<div class="hp-routine-item" style="display:flex;gap:10px;align-items:center;'+(done?'opacity:0.5;':'')+'"><input type="checkbox" '+done+' onchange="toggleHealthItem(\'routines\','+i+')" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#00e676;"><div style="flex-shrink:0;font-size:20px;">'+r.emoji+'</div><div style="flex:1;"><div style="font-size:14px;font-weight:500;color:rgba(220,230,255,0.92);'+(done?'text-decoration:line-through;':'')+'">'+r.name+'</div><div style="font-family:DM Mono,monospace;font-size:10px;color:#7a8fa8;margin-top:2px;">'+r.time+'</div></div><button onclick="deleteHealthItem(\'routines\','+i+')" style="padding:6px 8px;background:#ff5a5a;color:#fff;border:none;border-radius:6px;font-size:11px;cursor:pointer;font-weight:600;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background=\'#ff3838\'" onmouseout="this.style.background=\'#ff5a5a\'">Delete</button></div>';
   }
   container.innerHTML=html;
 }
 
+function deleteHealthItem(type,idx){
+  if(!_healthState[type]||idx<0||idx>=_healthState[type].length)return;
+  var itemName=_healthState[type][idx].name;
+  _healthState[type].splice(idx,1);
+  saveHealthState();
+  updateHealthUI();
+  initHealthRoutines();
+  updateSupplementUI();
+  updateExerciseUI();
+  updateMealUI();
+  updateShoppingUI();
+  showToast('✓ Deleted: '+itemName);
+}
+
 /* ═══ HEALTH TRACKING ═══ */
 var _waterCount=6;
+function updateWaterDisplay(){
+  var glassesContainer=document.getElementById('water-glasses');
+  if(!glassesContainer)return;
+  
+  glassesContainer.innerHTML='';
+  for(var i=0;i<8;i++){
+    var glassDiv=document.createElement('div');
+    glassDiv.style.cssText='font-size:20px;cursor:pointer;transition:all 0.2s;user-select:none;';
+    glassDiv.textContent=(i<_waterCount)?'🥛':'🥤';
+    glassDiv.title='Glass '+(i+1)+' - Click to toggle';
+    glassDiv.onclick=(function(idx){
+      return function(){
+        if(idx<_waterCount){
+          _waterCount--;
+        }else{
+          _waterCount++;
+        }
+        if(_waterCount>8)_waterCount=8;
+        if(_waterCount<0)_waterCount=0;
+        updateWaterDisplay();
+        var countEl=document.getElementById('water-count');
+        if(countEl)countEl.textContent=_waterCount;
+        showToast('💧 Water intake: '+_waterCount+'/8 glasses');
+      };
+    })(i);
+    glassDiv.onmouseover=function(){this.style.transform='scale(1.2)';};
+    glassDiv.onmouseout=function(){this.style.transform='scale(1)';};
+    glassesContainer.appendChild(glassDiv);
+  }
+}
+
 function addWater(){
   if(_waterCount<8){
     _waterCount++;
-    document.getElementById('water-count').textContent=_waterCount;
-    var glasses=document.getElementById('water-glasses');
-    if(_waterCount<=8){
-      var pct=(_waterCount/8)*100;
-      glasses.parentElement.style.background='#111820';
-      var fillEl=glasses.parentElement.parentElement.querySelector('.background');
-      if(fillEl)fillEl.style.width=pct+'%';
-    }
-    showToast('💧 Water logged! '+_waterCount+'/8 glasses');
+    var countEl=document.getElementById('water-count');
+    if(countEl)countEl.textContent=_waterCount;
+    updateWaterDisplay();
+    showToast('💧 +1 Glass ('+_waterCount+'/8)');
+    if(_waterCount===8)showToast('💧 Daily goal reached! 🎉');
   }else{
-    showToast('💧 Daily goal reached! Great hydration!');
+    showToast('💧 Daily limit reached');
   }
 }
+/* ═══ WELLNESS THERAPY TRACKS ═══ */
+var _therapyTracks=[
+  {name:'432hz Healing',     benefit:'🧘 Deep calm & stress release', freq:432, duration:300},
+  {name:'Ocean Waves',       benefit:'🌊 Anxiety relief', freq:40, duration:180},
+  {name:'Rain Meditation',   benefit:'🌧️ Focus & sleep', freq:10, duration:240},
+  {name:'Binaural Beats',    benefit:'🔔 Deep meditation', freq:8, duration:600},
+  {name:'Classical Serenity',benefit:'🎻 Mood elevation', freq:528, duration:280},
+  {name:'Drum Healing',      benefit:'🥁 Energy boost', freq:63, duration:220}
+];
+var _therapyIdx=0;
 var _therapyPlaying=false;
-/* ═══ WELLNESS THERAPY AUDIO ═══ */
-var _therapyPlaying=false;
-var _therapyAudioEl=null;
+var _therapyCtx=null;
+var _therapyGain=null;
+var _therapyOscs=[];
+var _therapyStartTime=0;
+var _therapyDuration=300;
+var _therapyProgressInterval=null;
+var _stressLevel='med';
+var _calorieCount=1245;
 
-function getTherapyAudio(){
-  if(!_therapyAudioEl){
-    _therapyAudioEl=document.getElementById('wellness-audio');
-    if(!_therapyAudioEl){
-      _therapyAudioEl=document.createElement('audio');
-      _therapyAudioEl.id='wellness-audio';
-      _therapyAudioEl.preload='auto';
-      document.body.appendChild(_therapyAudioEl);
+function getTherapyContext(){
+  if(!_therapyCtx){
+    try{
+      var AudioContext=window.AudioContext||window.webkitAudioContext;
+      _therapyCtx=new AudioContext();
+    }catch(e){
+      console.log('Web Audio not available');
     }
   }
-  return _therapyAudioEl;
+  return _therapyCtx;
+}
+
+function updateTherapyProgress(){
+  try{
+    var progressBar=document.getElementById('th-progress-bar');
+    if(!progressBar)return;
+    
+    if(_therapyPlaying){
+      var ctx=getTherapyContext();
+      if(ctx){
+        var elapsed=ctx.currentTime-_therapyStartTime;
+        var percent=(elapsed/_therapyDuration)*100;
+        if(percent>100)percent=100;
+        progressBar.style.width=percent+'%';
+        
+        if(elapsed>=_therapyDuration){
+          stopTherapyFrequency();
+        }
+      }
+    }else{
+      progressBar.style.width='0%';
+    }
+  }catch(e){}
+}
+
+function playTherapyFrequency(freq){
+  var ctx=getTherapyContext();
+  if(!ctx)return false;
+  
+  try{
+    // Stop any existing oscillators
+    stopTherapyFrequency();
+    
+    var now=ctx.currentTime;
+    _therapyStartTime=now;
+    
+    // Create gain for volume control
+    if(!_therapyGain){
+      _therapyGain=ctx.createGain();
+      _therapyGain.connect(ctx.destination);
+    }
+    
+    _therapyGain.gain.setValueAtTime(0.15,now);
+    
+    var oscs=[];
+    
+    // For binaural beats (frequencies below 40 Hz), use oscillator pairs
+    if(freq<40){
+      var baseFreq=200;
+      var beatFreq=freq;
+      
+      var osc1=ctx.createOscillator();
+      var osc2=ctx.createOscillator();
+      
+      osc1.frequency.value=baseFreq;
+      osc2.frequency.value=baseFreq+beatFreq;
+      osc1.type='sine';
+      osc2.type='sine';
+      
+      osc1.connect(_therapyGain);
+      osc2.connect(_therapyGain);
+      
+      osc1.start(now);
+      osc2.start(now);
+      
+      oscs=[osc1,osc2];
+    }else{
+      // For higher frequencies, play multiple harmonics
+      var osc1=ctx.createOscillator();
+      var osc2=ctx.createOscillator();
+      var osc3=ctx.createOscillator();
+      
+      osc1.frequency.value=freq;
+      osc2.frequency.value=freq*2;
+      osc3.frequency.value=freq/2;
+      osc1.type='sine';
+      osc2.type='sine';
+      osc3.type='sine';
+      
+      osc1.connect(_therapyGain);
+      osc2.connect(_therapyGain);
+      osc3.connect(_therapyGain);
+      
+      osc1.start(now);
+      osc2.start(now);
+      osc3.start(now);
+      
+      oscs=[osc1,osc2,osc3];
+    }
+    
+    _therapyOscs=oscs;
+    
+    // Start progress tracking
+    if(_therapyProgressInterval)clearInterval(_therapyProgressInterval);
+    _therapyProgressInterval=setInterval(updateTherapyProgress,100);
+    
+    return true;
+  }catch(e){
+    console.log('Error playing frequency:',e);
+    _therapyOscs=[];
+    return false;
+  }
+}
+
+function stopTherapyFrequency(){
+  try{
+    if(_therapyOscs&&_therapyOscs.length>0){
+      for(var i=0;i<_therapyOscs.length;i++){
+        try{
+          _therapyOscs[i].stop();
+        }catch(e){}
+      }
+    }
+    _therapyOscs=[];
+    
+    if(_therapyProgressInterval){
+      clearInterval(_therapyProgressInterval);
+      _therapyProgressInterval=null;
+    }
+    
+    var progressBar=document.getElementById('th-progress-bar');
+    if(progressBar)progressBar.style.width='0%';
+  }catch(e){
+    _therapyOscs=[];
+  }
+}
+
+function selectTherapyTrack(idx){
+  if(idx<0||idx>=_therapyTracks.length)return;
+  _therapyIdx=idx;
+  _therapyPlaying=false;
+  stopTherapyFrequency();
+  var track=_therapyTracks[idx];
+  _therapyDuration=track.duration||300;
+  var titleEl=document.querySelector('.th-freq-title');
+  if(titleEl)titleEl.textContent=track.name+' ('+track.freq+' Hz)';
+  updateTherapyUI();
+  showToast('Selected: '+track.name);
 }
 
 function toggleTherapy(){
-  var aud=getTherapyAudio();
-  var btn=document.querySelector('.th-ctrl-btn.play');
-  
-  if(_therapyPlaying){
-    try{
-      aud.pause();
-      aud.currentTime=0;
-    }catch(e){}
-    _therapyPlaying=false;
-    if(btn)btn.textContent='▶';
-    showToast('⏸ Paused');
-  }else{
-    aud.src='Psalm_91.mp3';
-    aud.volume=0.75;
+  try{
+    var btn=document.getElementById('th-play-btn');
+    var track=_therapyTracks[_therapyIdx];
     
-    var playAttempt=function(){
-      try{
-        var playPromise=aud.play();
-        if(playPromise!==undefined){
-          playPromise.then(function(){
-            _therapyPlaying=true;
-            if(btn)btn.textContent='⏸';
-            showToast('▶ 432 Hz Healing Frequency...');
-          }).catch(function(error){
-            console.error('Play error:',error.message);
-            showToast('Unable to play - check file');
-          });
-        }
-      }catch(err){
-        console.error('Audio error:',err);
-        showToast('Audio error');
+    if(_therapyPlaying){
+      stopTherapyFrequency();
+      _therapyPlaying=false;
+      if(btn)btn.textContent='▶';
+      showToast('⏸ Paused');
+    }else{
+      _therapyDuration=track.duration||300;
+      var success=playTherapyFrequency(track.freq);
+      if(success){
+        _therapyPlaying=true;
+        if(btn)btn.textContent='⏸';
+        showToast('▶ '+track.name+' ('+track.freq+' Hz)');
+      }else{
+        showToast('⚠ Audio unavailable');
       }
-    };
-    
-    playAttempt();
+    }
+  }catch(e){
+    console.log('Therapy error:',e);
+    showToast('⚠ Playback error');
   }
+}
+
+function updateTherapyUI(){
+  var buttons=document.querySelectorAll('.track-btn');
+  if(!buttons||buttons.length===0)return;
+  for(var i=0;i<Math.min(buttons.length,_therapyTracks.length);i++){
+    if(i===_therapyIdx){
+      buttons[i].style.background='rgba(139,92,246,0.10)';
+      buttons[i].style.borderColor='rgba(139,92,246,0.22)';
+    }else{
+      buttons[i].style.background='rgba(255,255,255,0.7)';
+      buttons[i].style.borderColor='rgba(0,0,0,0.08)';
+    }
+  }
+}
+
+function addWaterGlass(){
+  if(_waterCount<8){
+    _waterCount++;
+    document.getElementById('water-count').textContent=_waterCount;
+    showToast('💧 +1 Glass ('+_waterCount+'/8)');
+    if(_waterCount===8)showToast('💧 Daily goal reached!');
+  }else{
+    showToast('💧 Daily limit reached');
+  }
+}
+
+/* ═══ MOOD & STRESS SYNC ═══ */
+var _moodHistory=JSON.parse(localStorage.getItem('zola_mood_history'))||[];
+var _streakData=JSON.parse(localStorage.getItem('zola_streak_data'))||{lastDate:null, count:0};
+
+function updateStreakByHearts(heartCount){
+  // Map heart count to stress level
+  // 5 hearts = low stress = 90% vitality
+  // 3-4 hearts = med stress = 60% vitality  
+  // 1-2 hearts = high stress = 30% vitality
+  
+  var stressLevel;
+  if(heartCount>=4){
+    stressLevel='low';
+  }else if(heartCount===3){
+    stressLevel='med';
+  }else{
+    stressLevel='high';
+  }
+  
+  // Trigger the full stress level update which syncs everything
+  setStressLevel(stressLevel);
+  
+  // Update heart display
+  for(var i=1;i<=5;i++){
+    var heartEl=document.getElementById('heart-'+i);
+    if(heartEl){
+      if(i<=heartCount){
+        heartEl.classList.remove('h-empty');
+        heartEl.classList.add('h-full');
+      }else{
+        heartEl.classList.remove('h-full');
+        heartEl.classList.add('h-empty');
+      }
+    }
+  }
+  
+  showToast('💖 Vitality updated! Streak: '+(_streakData.count||0)+' days 🔥');
+}
+
+function updateMoodThermometer(level){
+  var scoreEl=document.querySelector('.therm-score-num');
+  var statusEl=document.querySelector('.therm-card [style*="Happy"]');
+  var descEl=statusEl?statusEl.nextElementSibling:null;
+  
+  var score,emoji,status,desc;
+  
+  switch(level){
+    case 'low':
+      score=85;
+      emoji='😄';
+      status='Happy & Energized';
+      desc='You\'re feeling great today!';
+      break;
+    case 'med':
+      score=65;
+      emoji='😊';
+      status='Balanced & Content';
+      desc='You\'re in a good place today!';
+      break;
+    case 'high':
+      score=35;
+      emoji='😟';
+      status='Stressed & Overwhelmed';
+      desc='Take a moment to breathe. You\'ve got this!';
+      break;
+    default:
+      score=72;
+      emoji='😊';
+      status='Happy & Energized';
+      desc='You\'re feeling great today!';
+  }
+  
+  if(scoreEl){
+    scoreEl.textContent=score;
+    scoreEl.style.color=level==='high'?'#ff7a9a':(level==='low'?'#00e676':'#ffc107');
+  }
+  
+  var moodEmoji=document.querySelector('.therm-card div[style*="flex-direction"]>div:first-child');
+  if(moodEmoji)moodEmoji.textContent=emoji;
+  
+  var statusText=document.querySelector('.therm-card [style*="font-weight: 700; color: var(--t1)"]');
+  if(statusText)statusText.textContent=status;
+  
+  var descText=document.querySelector('.therm-card [style*="font-size: 11px"]');
+  if(descText)descText.textContent=desc;
+}
+
+function updateStreak(){
+  var today=new Date().toISOString().split('T')[0];
+  var lastDate=_streakData.lastDate;
+  var currentCount=_streakData.count||0;
+  
+  if(lastDate===today){
+    // Already checked in today
+    return;
+  }
+  
+  var yesterday=new Date();
+  yesterday.setDate(yesterday.getDate()-1);
+  var yesterdayStr=yesterday.toISOString().split('T')[0];
+  
+  if(lastDate===yesterdayStr){
+    // Streak continues
+    currentCount++;
+  }else if(lastDate!==today){
+    // New streak or gap
+    currentCount=1;
+  }
+  
+  _streakData.lastDate=today;
+  _streakData.count=currentCount;
+  localStorage.setItem('zola_streak_data',JSON.stringify(_streakData));
+  
+  return currentCount;
+}
+
+function updateStreakDisplay(){
+  var count=_streakData.count||0;
+  var streakEl=document.querySelector('.fire-badge');
+  if(streakEl){
+    streakEl.textContent='🔥 '+count+'-day streak';
+  }
+  
+  // Update joy percentage based on stress level
+  var joyPercent=0;
+  switch(_stressLevel){
+    case 'low': joyPercent=90; break;
+    case 'med': joyPercent=60; break;
+    case 'high': joyPercent=30; break;
+    default: joyPercent=45;
+  }
+  
+  var joyPctEl=document.getElementById('joy-pct');
+  var joyFillEl=document.getElementById('joy-fill');
+  if(joyPctEl)joyPctEl.textContent=joyPercent+'%';
+  if(joyFillEl)joyFillEl.style.width=joyPercent+'%';
+  
+  // Update hearts display
+  var heartsCount=Math.ceil((joyPercent/100)*5);
+  var heartContainer=document.querySelector('.res-card div[style*="display:flex; align-items: center; gap: 6px"]');
+  if(heartContainer){
+    var hearts=heartContainer.querySelectorAll('div[class*="h-"]');
+    for(var i=0;i<hearts.length;i++){
+      if(i<heartsCount){
+        hearts[i].classList.remove('h-empty');
+        hearts[i].classList.add('h-full');
+      }else{
+        hearts[i].classList.remove('h-full');
+        hearts[i].classList.add('h-empty');
+      }
+    }
+  }
+}
+
+function setStressLevel(level){
+  _stressLevel=level;
+  
+  // Update button styles
+  var stressLow=document.getElementById('stress-low');
+  var stressMed=document.getElementById('stress-med');
+  var stressHigh=document.getElementById('stress-high');
+  
+  if(stressLow)stressLow.style.background=level==='low'?'rgba(232,84,122,0.25)':'rgba(232,84,122,0.10)';
+  if(stressMed)stressMed.style.background=level==='med'?'rgba(196,152,32,0.25)':'rgba(196,152,32,0.10)';
+  if(stressHigh)stressHigh.style.background=level==='high'?'rgba(232,84,122,0.35)':'rgba(232,84,122,0.20)';
+  
+  // Update mood thermometer
+  updateMoodThermometer(level);
+  
+  // Update streak
+  var newStreak=updateStreak();
+  updateStreakDisplay();
+  
+  // Log to history
+  var entry={
+    date: new Date().toISOString(),
+    stress: level,
+    streak: newStreak
+  };
+  _moodHistory.push(entry);
+  localStorage.setItem('zola_mood_history',JSON.stringify(_moodHistory));
+  
+  showToast('😊 Mood updated! Streak: '+(_streakData.count||0)+' days 🔥');
+}
+
+function setMood(mood){
+  // Map mood to stress level
+  var stressLevel;
+  switch(mood){
+    case 'calm': stressLevel='low'; break;
+    case 'neutral': stressLevel='med'; break;
+    case 'stressed': stressLevel='high'; break;
+    default: stressLevel='med';
+  }
+  
+  // Update the stress level which will trigger all sync
+  setStressLevel(stressLevel);
+  
+  // Highlight the selected mood button
+  var moodBtns=document.querySelectorAll('.mood-btn');
+  for(var i=0;i<moodBtns.length;i++){
+    moodBtns[i].style.transform='scale(1)';
+    moodBtns[i].style.opacity='0.7';
+  }
+  
+  var selectedBtn=document.getElementById('mood-'+mood);
+  if(selectedBtn){
+    selectedBtn.style.transform='scale(1.05)';
+    selectedBtn.style.opacity='1';
+  }
+}
+
+function addCalories(amount){
+  _calorieCount+=amount;
+  var maxCal=2400;
+  if(_calorieCount>maxCal)_calorieCount=maxCal;
+  var pct=Math.round((_calorieCount/maxCal)*100);
+  var remaining=maxCal-_calorieCount;
+  
+  var countEl=document.getElementById('hp-cal-today-val');
+  if(countEl)countEl.textContent=_calorieCount+' / '+maxCal+' kcal';
+  
+  var fillEl=document.getElementById('hp-cal-fill');
+  if(fillEl)fillEl.style.width=pct+'%';
+  
+  var remainEl=document.getElementById('hp-cal-remain');
+  if(remainEl)remainEl.textContent=remaining+' kcal';
+  
+  showToast('+'+amount+' kcal → '+_calorieCount);
+}
+
+function openAddRoutine(){
+  showToast('Add routine: coming soon');
 }
 
 /* ═══ EXPORT ═══ */
@@ -1357,6 +1758,81 @@ function doSave(){
   a.download='Zola_'+new Date().toISOString().slice(0,10)+'.txt';
   a.click();
   showToast('Saved! 💾');
+}
+
+/* ═══ SCREENSHOT ═══ */
+function _buildScreenshotPage(title,icon,accent,contentHtml,footerNote){
+  var date=new Date().toDateString();
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+title+'</title>'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box;}'
+    +'body{font-family:"Segoe UI",Arial,sans-serif;background:#f8f4ff;padding:32px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    +'@media print{body{padding:16px;}@page{size:A4;margin:14mm;}}'
+    +'.card{max-width:700px;margin:0 auto;background:#fff;border-radius:18px;box-shadow:0 4px 32px rgba(0,0,0,0.08);overflow:hidden;}'
+    +'.hdr{background:linear-gradient(135deg,'+accent+' 0%,'+accent+'cc 100%);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;}'
+    +'.hdr-left .app{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;}'
+    +'.hdr-left .title{font-size:22px;font-weight:800;color:#fff;}'
+    +'.hdr-left .date{font-size:10px;color:rgba(255,255,255,0.6);margin-top:3px;}'
+    +'.hdr-icon{font-size:40px;opacity:0.9;}'
+    +'.body{padding:24px 28px;}'
+    +'.footer{padding:12px 28px;background:#f8f4ff;border-top:1px solid #eee;font-size:9px;color:#aaa;text-align:center;letter-spacing:0.5px;}'
+    +'</style></head><body>'
+    +'<div class="card">'
+    +'<div class="hdr"><div class="hdr-left"><div class="app">Zola App</div><div class="title">'+icon+' '+title+'</div><div class="date">'+date+'</div></div><div class="hdr-icon">'+icon+'</div></div>'
+    +'<div class="body">'+contentHtml+'</div>'
+    +'<div class="footer">'+(footerNote||'Generated by Zola App · '+title)+'</div>'
+    +'</div></body></html>';
+}
+
+function _openScreenshot(html,toastMsg){
+  var w=window.open('','_blank','width=780,height=980');
+  if(!w){showToast('Allow popups to use Screenshot');return;}
+  w.document.write(html);
+  w.document.close();
+  setTimeout(function(){w.print();},400);
+  showToast(toastMsg||'Screenshot ready 📸');
+}
+
+function doScreenshot(){
+  var activeTab=document.querySelector('[id^="screen-"]');
+  if(document.getElementById('screen-wellness').style.display!=='none'){
+    wellnessScreenshot();
+  }else{
+    spiritScreenshot();
+  }
+}
+
+function spiritScreenshot(){
+  var verse=VERSES[_vi];
+  var html='<h2 style="font-size:18px;color:#333;margin-bottom:16px;">'+verse.t+'</h2>'
+    +'<p style="font-size:14px;line-height:1.8;color:#666;margin-bottom:16px;">'+verse.r+'</p>'
+    +'<div style="margin-top:24px;padding-top:16px;border-top:1px solid #eee;">'
+    +'<p style="font-size:12px;color:#999;">Reading Progress: Day '+(_rp.day||1)+' / 30</p>'
+    +'<p style="font-size:12px;color:#999;">Days Completed: '+_rp.completed.length+'</p>'
+    +'</div>';
+  _openScreenshot(_buildScreenshotPage('Daily Reading','🙏','#7C3AED',html,'Your Daily Scripture · Keep the faith & grow!'),'Spirit reading screenshot ready 🙏');
+}
+
+function wellnessScreenshot(){
+  var stressText='Unknown';
+  switch(_stressLevel){
+    case 'low': stressText='Low - Relaxed & Happy'; break;
+    case 'med': stressText='Medium - Balanced & Content'; break;
+    case 'high': stressText='High - Stressed & Overwhelmed'; break;
+  }
+  
+  var html='<div style="margin-bottom:24px;">'
+    +'<h3 style="font-size:14px;font-weight:700;margin-bottom:8px;color:#333;">Today\'s Wellness Status</h3>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'
+    +'<div style="padding:12px;background:#f0f0f0;border-radius:8px;"><strong style="font-size:12px;color:#666;">Stress Level</strong><br><span style="font-size:16px;color:#7C3AED;font-weight:700;">'+stressText+'</span></div>'
+    +'<div style="padding:12px;background:#f0f0f0;border-radius:8px;"><strong style="font-size:12px;color:#666;">Water Intake</strong><br><span style="font-size:16px;color:#3b8ee8;font-weight:700;">'+_waterCount+' / 8 glasses</span></div>'
+    +'<div style="padding:12px;background:#f0f0f0;border-radius:8px;"><strong style="font-size:12px;color:#666;">Mood Streak</strong><br><span style="font-size:16px;color:#ff7a9a;font-weight:700;">'+(_streakData.count||0)+' days 🔥</span></div>'
+    +'<div style="padding:12px;background:#f0f0f0;border-radius:8px;"><strong style="font-size:12px;color:#666;">Vitality</strong><br><span style="font-size:16px;color:#00e676;font-weight:700;">'+document.getElementById("joy-pct").textContent+'</span></div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="padding:16px;background:#e8f5e9;border-left:4px solid #00e676;border-radius:4px;">'
+    +'<p style="font-size:12px;color:#333;"><strong>💡 Wellness Tip:</strong> Keep tracking your daily mood and stress levels to build a sustainable wellness routine. Every check-in counts!</p>'
+    +'</div>';
+  _openScreenshot(_buildScreenshotPage('Daily Wellness Report','💚','#15A854',html,'Your Daily Wellness Summary · Stay healthy, stay happy!'),'Wellness screenshot ready 💚');
 }
 
 /* ═══ TOAST ═══ */
@@ -1392,7 +1868,93 @@ function openAddExercise(){
 loadHealthState();
 initHealthRoutines();
 updateHealthUI();
+setTimeout(function(){
+  updateSupplementUI();
+  updateExerciseUI();
+  updateShoppingUI();
+},100);
+
+// Initialize streak display on load
+setTimeout(function(){
+  updateStreakDisplay();
+  updateMoodThermometer(_stressLevel);
+  updateWaterDisplay();
+},200);
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded',function(){
+  // Stress level buttons
+  var stressLowBtn=document.getElementById('stress-low');
+  var stressMedBtn=document.getElementById('stress-med');
+  var stressHighBtn=document.getElementById('stress-high');
+  
+  if(stressLowBtn)stressLowBtn.addEventListener('click',function(){setStressLevel('low');});
+  if(stressMedBtn)stressMedBtn.addEventListener('click',function(){setStressLevel('med');});
+  if(stressHighBtn)stressHighBtn.addEventListener('click',function(){setStressLevel('high');});
+  
+  // Mood buttons
+  var moodCalmBtn=document.getElementById('mood-calm');
+  var moodNeutralBtn=document.getElementById('mood-neutral');
+  var moodStressedBtn=document.getElementById('mood-stressed');
+  
+  if(moodCalmBtn)moodCalmBtn.addEventListener('click',function(){setMood('calm');});
+  if(moodNeutralBtn)moodNeutralBtn.addEventListener('click',function(){setMood('neutral');});
+  if(moodStressedBtn)moodStressedBtn.addEventListener('click',function(){setMood('stressed');});
+  
+  // Therapy play button
+  var playBtn=document.getElementById('th-play-btn');
+  if(playBtn)playBtn.addEventListener('click',toggleTherapy);
+  
+  // Therapy frequency buttons
+  var trackBtns=document.querySelectorAll('.track-btn');
+  for(var i=0;i<trackBtns.length;i++){
+    (function(idx){
+      trackBtns[idx].addEventListener('click',function(){selectTherapyTrack(idx);});
+    })(i);
+  }
+  
+  // Add glass button
+  var addGlassBtn=document.getElementById('add-glass-btn');
+  if(addGlassBtn)addGlassBtn.addEventListener('click',addWater);
+});
+
+// Fallback if DOM already loaded
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',function(){});
+}else{
+  setTimeout(function(){
+    var stressLowBtn=document.getElementById('stress-low');
+    var stressMedBtn=document.getElementById('stress-med');
+    var stressHighBtn=document.getElementById('stress-high');
+    
+    if(stressLowBtn)stressLowBtn.addEventListener('click',function(){setStressLevel('low');});
+    if(stressMedBtn)stressMedBtn.addEventListener('click',function(){setStressLevel('med');});
+    if(stressHighBtn)stressHighBtn.addEventListener('click',function(){setStressLevel('high');});
+    
+    var moodCalmBtn=document.getElementById('mood-calm');
+    var moodNeutralBtn=document.getElementById('mood-neutral');
+    var moodStressedBtn=document.getElementById('mood-stressed');
+    
+    if(moodCalmBtn)moodCalmBtn.addEventListener('click',function(){setMood('calm');});
+    if(moodNeutralBtn)moodNeutralBtn.addEventListener('click',function(){setMood('neutral');});
+    if(moodStressedBtn)moodStressedBtn.addEventListener('click',function(){setMood('stressed');});
+    
+    var playBtn=document.getElementById('th-play-btn');
+    if(playBtn)playBtn.addEventListener('click',toggleTherapy);
+    
+    var trackBtns=document.querySelectorAll('.track-btn');
+    for(var i=0;i<trackBtns.length;i++){
+      (function(idx){
+        trackBtns[idx].addEventListener('click',function(){selectTherapyTrack(idx);});
+      })(i);
+    }
+    
+    var addGlassBtn=document.getElementById('add-glass-btn');
+    if(addGlassBtn)addGlassBtn.addEventListener('click',addWater);
+  },100);
+}
 
 </script>
 </body>
 </html>
+
