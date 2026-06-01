@@ -161,8 +161,8 @@ body{background:#07091A;}
 .sp-grat-entry-text{font-size:12px;color:rgba(220,215,255,0.72);line-height:1.6;}
 
 /* MODALS */
-#add-prayer-modal,#add-verse-modal,#export-sheet,#candle-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.60);backdrop-filter:blur(8px);align-items:flex-end;}
-#add-prayer-modal.open,#add-verse-modal.open,#export-sheet.open{display:flex;}
+#add-prayer-modal,#add-verse-modal,#add-routine-modal,#add-supplement-modal,#add-workout-modal,#add-shopping-modal,#add-meal-modal,#add-recipe-modal,#export-sheet,#candle-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.60);backdrop-filter:blur(8px);align-items:flex-end;}
+#add-prayer-modal.open,#add-verse-modal.open,#add-routine-modal.open,#add-supplement-modal.open,#add-workout-modal.open,#add-shopping-modal.open,#add-meal-modal.open,#add-recipe-modal.open,#export-sheet.open{display:flex;}
 .ap-sheet{background:linear-gradient(180deg,#1A1040,#120D30);border:1px solid rgba(123,79,212,0.28);border-radius:26px 26px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom,20px)+20px);width:100%;max-width:430px;margin:0 auto;box-shadow:0 -14px 50px rgba(0,0,0,0.5);}
 .ap-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:rgba(230,225,255,0.90);margin-bottom:13px;}
 .ap-inp{width:100%;padding:12px 14px;border:1.5px solid rgba(123,79,212,0.28);border-radius:14px;background:rgba(123,79,212,0.08);color:rgba(230,225,255,0.88);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;}
@@ -629,17 +629,28 @@ body{background:#07091A;}
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>📅 Weekly Meal Prep<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
-              <div style="background:#111820;border:1px solid rgba(255,179,0,0.12);border-radius:12px;padding:12px;">
-                <div style="font-family:'DM Mono',monospace;font-size:8px;color:#ffb300;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">7-day plan</div>
-                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,179,0,0.12);border:1px solid rgba(255,179,0,0.24);cursor:pointer;" onclick="toggleMealDay(0)"><div style="font-size:9px;font-weight:700;color:#ffb300;">Mon</div><div style="font-size:7px;color:#7a8fa8;margin-top:2px;" id="mealday-0">Meal 1</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(1)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Tue</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-1">—</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(2)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Wed</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-2">—</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(3)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Thu</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-3">—</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(4)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Fri</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-4">—</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(5)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Sat</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-5">—</div></div>
-                  <div style="text-align:center;padding:6px 2px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);cursor:pointer;" onclick="toggleMealDay(6)"><div style="font-size:9px;font-weight:700;color:rgba(220,230,255,0.72);">Sun</div><div style="font-size:7px;color:#5a6472;margin-top:2px;" id="mealday-6">—</div></div>
+              <div style="background:linear-gradient(135deg,rgba(255,179,0,0.08),rgba(255,179,0,0.04));border:1px solid rgba(255,179,0,0.15);border-radius:18px;padding:16px;">
+                <!-- WEEKLY MEAL PLAN TITLE -->
+                <div style="font-family:'DM Mono',monospace;font-size:11px;color:#ffb300;letter-spacing:0.3em;margin-bottom:14px;text-transform:uppercase;">// WEEKLY MEAL PLAN</div>
+                
+                <!-- DAY SELECTOR -->
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:18px;" id="meal-days-selector">
+                  <button onclick="selectMealDay(0)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Mon<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(1)" style="padding:10px 8px;border-radius:14px;background:rgba(255,179,0,0.15);border:1.5px solid rgba(255,179,0,0.40);color:#ffb300;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Tue<div style="width:6px;height:6px;border-radius:50%;background:#ffb300;margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(2)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Wed<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(3)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Thu<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(4)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Fri<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(5)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Sat<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
+                  <button onclick="selectMealDay(6)" style="padding:10px 8px;border-radius:14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.10);color:rgba(150,160,180,0.80);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.3s;position:relative;">Sun<div style="width:6px;height:6px;border-radius:50%;background:rgba(150,160,180,0.40);margin:6px auto 0;"></div></button>
                 </div>
+                
+                <!-- MEAL SLOTS -->
+                <div style="display:flex;flex-direction:column;gap:10px;" id="meal-slots-container">
+                  <!-- Dynamically generated meal slots -->
+                </div>
+                
+                <!-- ADD MEAL BUTTON -->
+                <button onclick="openAddMeal()" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1.5px dashed rgba(255,179,0,0.30);background:rgba(255,179,0,0.08);color:#ffb300;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ Add Meal Slot</button>
               </div>
             </div>
           </div>
@@ -721,12 +732,108 @@ body{background:#07091A;}
             </div>
           </div>
 
+          <!-- RECIPE STACK -->
+          <div style="margin:0 14px 10px;">
+            <!-- RECIPE HEADER -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 4px;">
+              <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.12em;color:rgba(220,230,255,0.92);text-transform:uppercase;">Recipe Stack</div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <button onclick="filterRecipeByCalories()" style="padding:8px 14px;border-radius:20px;border:2px solid rgba(20,196,175,0.40);background:rgba(20,196,175,0.10);color:#14c4af;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px;">🔥 Cals</button>
+                <button onclick="openAddRecipe()" style="padding:8px 14px;border-radius:20px;border:2px solid rgba(20,196,175,0.40);background:rgba(20,196,175,0.10);color:#14c4af;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ Recipe</button>
+                <div style="cursor:pointer;color:#14c4af;font-size:12px;">▼</div>
+              </div>
+            </div>
+
+            <!-- RECIPES CONTAINER -->
+            <div style="display:flex;flex-direction:column;gap:12px;" id="recipes-container">
+              <!-- Sample Recipe -->
+              <div id="recipe-0" style="background:rgba(0,0,0,0.40);border:1px solid rgba(20,196,175,0.15);border-radius:18px;padding:16px;position:relative;">
+                <!-- Recipe Header with Expand Button -->
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+                  <div style="display:flex;gap:10px;flex:1;">
+                    <div style="font-size:28px;">🍗</div>
+                    <div style="flex:1;">
+                      <div style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;">High-Protein Chicken Bowl</div>
+                      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.80);">Serves 2 · 25 min · 520kcal · 48g protein</div>
+                    </div>
+                  </div>
+                  <button onclick="toggleRecipeExpand(0)" style="background:none;border:none;color:#14c4af;font-size:14px;cursor:pointer;">▲</button>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+                  <button onclick="addRecipeCalories(0)" style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(20,196,175,0.35);background:rgba(20,196,175,0.10);color:#14c4af;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px;">🔥 520 kcal</button>
+                  <button style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(255,179,0,0.35);background:rgba(255,179,0,0.10);color:#ffb300;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px;">💪 48g protein</button>
+                  <button onclick="logMealRecipe(0)" style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(20,196,175,0.35);background:rgba(20,196,175,0.10);color:#14c4af;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ Log Meal</button>
+                </div>
+
+                <!-- Expandable Content -->
+                <div id="recipe-content-0" style="display:none;">
+                  <!-- Ingredients Section -->
+                  <div style="margin-bottom:14px;padding-top:12px;border-top:1px solid rgba(20,196,175,0.15);">
+                    <div style="font-family:'DM Mono',monospace;font-size:8px;color:#14c4af;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">// INGREDIENTS</div>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">300g</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Chicken breast</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Chicken breast')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">1 cup</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Quinoa</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Quinoa')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">2 tbsp</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Olive oil</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Olive oil')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">1</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Avocado</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Avocado')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">Handful</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Spinach</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Spinach')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+                        <div style="display:flex;gap:8px;align-items:center;flex:1;">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,160,180,0.70);">1 tsp</div>
+                          <div style="font-family:'Cinzel',serif;font-size:12px;color:rgba(220,230,255,0.90);">Turmeric</div>
+                        </div>
+                        <button onclick="addToShoppingFromRecipe('Turmeric')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Method Section -->
+                  <div style="padding-top:12px;border-top:1px solid rgba(20,196,175,0.15);">
+                    <div style="font-family:'DM Mono',monospace;font-size:8px;color:#14c4af;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">// METHOD</div>
+                    <div style="font-family:'Cinzel',serif;font-size:11px;color:rgba(220,230,255,0.80);line-height:1.6;">Season chicken with turmeric. Cook quinoa. Pan-fry chicken in olive oil. Assemble bowl with spinach, quinoa, chicken, sliced avocado.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- SHOPPING LIST -->
           <div class="sp-sec" style="margin:0 14px 10px;">
             <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>🛒 Shopping List<div class="sp-sec-lbl-line"></div></div>
             <div class="sp-sec-body">
               <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;" id="shopping-list"></div>
-              <button id="add-glass-btn" style="width:100%;font-size:12px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:2px solid rgba(0,230,118,0.35);border-radius:12px;padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background='rgba(0,230,118,0.25)'" onmouseout="this.style.background='rgba(0,230,118,0.15)'" onclick="openAddItem()">+ Add Item</button>
+              <button id="add-item-btn" style="width:100%;font-size:12px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:2px solid rgba(0,230,118,0.35);border-radius:12px;padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background='rgba(0,230,118,0.25)'" onmouseout="this.style.background='rgba(0,230,118,0.15)'" onclick="openAddItem()">+ Add Item</button>
             </div>
           </div>
       </div>
@@ -797,6 +904,88 @@ body{background:#07091A;}
     <div class="ap-btns">
       <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddVerse()">Cancel</button>
       <button class="ap-save" onclick="saveAddVerse()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ROUTINE MODAL -->
+<div id="add-routine-modal" onclick="closeAddRoutine(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">💪 Add Daily Routine</div>
+    <input class="ap-inp" id="ar-name" placeholder="Routine name (e.g., Yoga, Journaling)" onkeydown="if(event.key==='Enter')saveAddRoutine()">
+    <input class="ap-inp" id="ar-emoji" placeholder="Emoji (e.g., 🧘, 📔, 🚶)" onkeydown="if(event.key==='Enter')saveAddRoutine()">
+    <input class="ap-inp" id="ar-time" placeholder="Time (e.g., 9:00 AM)" onkeydown="if(event.key==='Enter')saveAddRoutine()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddRoutine()">Cancel</button>
+      <button class="ap-save" onclick="saveAddRoutine()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SUPPLEMENT MODAL -->
+<div id="add-supplement-modal" onclick="closeAddSupplement(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">💊 Add Supplement</div>
+    <input class="ap-inp" id="as-name" placeholder="Supplement name (e.g., Vitamin D, Iron)" onkeydown="if(event.key==='Enter')saveAddSupplement()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddSupplement()">Cancel</button>
+      <button class="ap-save" onclick="saveAddSupplement()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD WORKOUT MODAL -->
+<div id="add-workout-modal" onclick="closeAddWorkout(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">🏋️ Add Workout</div>
+    <input class="ap-inp" id="aw-name" placeholder="Workout name (e.g., Running, Yoga)" onkeydown="if(event.key==='Enter')saveAddWorkout()">
+    <input class="ap-inp" id="aw-duration" placeholder="Duration in minutes (e.g., 30)" onkeydown="if(event.key==='Enter')saveAddWorkout()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddWorkout()">Cancel</button>
+      <button class="ap-save" onclick="saveAddWorkout()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SHOPPING ITEM MODAL -->
+<div id="add-shopping-modal" onclick="closeAddShopping(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">🛒 Add Shopping Item</div>
+    <input class="ap-inp" id="ash-item" placeholder="Item name (e.g., Organic Chicken)" onkeydown="if(event.key==='Enter')saveAddShopping()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddShopping()">Cancel</button>
+      <button class="ap-save" onclick="saveAddShopping()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MEAL MODAL -->
+<div id="add-meal-modal" onclick="closeAddMeal(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">🍽️ Add Meal Slot</div>
+    <input class="ap-inp" id="am-time" placeholder="Time (e.g., 06:00, 11:30)" onkeydown="if(event.key==='Enter')saveAddMeal()">
+    <input class="ap-inp" id="am-name" placeholder="Meal name (e.g., Hi-Protein, Complete)" onkeydown="if(event.key==='Enter')saveAddMeal()">
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddMeal()">Cancel</button>
+      <button class="ap-save" onclick="saveAddMeal()">Add ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD RECIPE MODAL -->
+<div id="add-recipe-modal" onclick="closeAddRecipe(event)">
+  <div class="ap-sheet">
+    <div class="ap-title">🍽️ Add Recipe</div>
+    <input class="ap-inp" id="ar-rname" placeholder="Recipe name" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <input class="ap-inp" id="ar-emoji" placeholder="Emoji (e.g., 🍗, 🥗)" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <input class="ap-inp" id="ar-serves" type="number" placeholder="Serves (e.g., 2)" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <input class="ap-inp" id="ar-time" type="number" placeholder="Time in minutes (e.g., 25)" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <input class="ap-inp" id="ar-cal" type="number" placeholder="Calories (e.g., 520)" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <input class="ap-inp" id="ar-protein" type="number" placeholder="Protein in grams (e.g., 48)" onkeydown="if(event.key==='Enter')saveAddRecipe()">
+    <textarea class="ap-inp" id="ar-method" placeholder="Cooking method..." style="resize:vertical;min-height:80px;"></textarea>
+    <div class="ap-btns">
+      <button class="ap-cancel" style="flex:1;padding:12px;border:1.5px solid rgba(255,255,255,0.10);border-radius:13px;background:rgba(255,255,255,0.05);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(200,190,255,0.55);cursor:pointer;" onclick="closeAddRecipe()">Cancel</button>
+      <button class="ap-save" onclick="saveAddRecipe()">Add ✦</button>
     </div>
   </div>
 </div>
@@ -1133,7 +1322,7 @@ renderJEEntries();
 /* ═══ HEALTH ROUTINES ═══ */
 /* ═══ HEALTH TRACKING ═══ */
 var _healthState={
-  routines:[{name:'Stretch',done:false},{name:'Meditate',done:false},{name:'Exercise',done:false},{name:'Sleep',done:false}],
+  routines:[{name:'Stretch',emoji:'💪',time:'7:00 AM',done:false},{name:'Meditate',emoji:'🧘',time:'8:00 AM',done:false},{name:'Exercise',emoji:'🏃',time:'6:00 PM',done:false},{name:'Sleep',emoji:'😴',time:'10:00 PM',done:false}],
   supplements:[{name:'Vitamin D3',done:false},{name:'Omega-3',done:false}],
   exercises:[{name:'Cardio',done:false},{name:'Strength',done:false}],
   meals:[{name:'Breakfast',done:false},{name:'Lunch',done:false},{name:'Dinner',done:false}],
@@ -1231,8 +1420,215 @@ function updateShoppingUI(){
   container.innerHTML=html;
 }
 
+/* ═══ MEAL PLANNING ═══ */
+var _currentMealDay=1;
+var _mealPlan=JSON.parse(localStorage.getItem('zolaMealPlan'))||{
+  0:[],1:[{time:'06:00',name:'16:8',completed:false},{time:'11:00',name:'Hi-Protein',completed:false},{time:'15:00',name:'Hi-Fat',completed:false},{time:'18:00',name:'Complete',completed:false}],2:[],3:[],4:[],5:[],6:[]
+};
+
+function saveMealPlan(){
+  localStorage.setItem('zolaMealPlan',JSON.stringify(_mealPlan));
+}
+
+function selectMealDay(day){
+  _currentMealDay=day;
+  updateMealDayButtons();
+  renderMealSlots();
+}
+
+function updateMealDayButtons(){
+  var buttons=document.querySelectorAll('#meal-days-selector button');
+  buttons.forEach(function(btn,idx){
+    if(idx===_currentMealDay){
+      btn.style.background='rgba(255,179,0,0.15)';
+      btn.style.borderColor='rgba(255,179,0,0.40)';
+      btn.style.color='#ffb300';
+    }else{
+      btn.style.background='rgba(255,255,255,0.05)';
+      btn.style.borderColor='rgba(255,255,255,0.10)';
+      btn.style.color='rgba(150,160,180,0.80)';
+    }
+  });
+}
+
+function renderMealSlots(){
+  var container=document.getElementById('meal-slots-container');
+  if(!container)return;
+  var meals=_mealPlan[_currentMealDay]||[];
+  var html='';
+  for(var i=0;i<meals.length;i++){
+    var meal=meals[i];
+    var completed=meal.completed?'opacity:0.5;':'';
+    var strikethrough=meal.completed?'text-decoration:line-through;':'';
+    html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,179,0,0.15);border-radius:16px;gap:10px;'+completed+'"><input type="checkbox" '+( meal.completed?'checked':'')+' onchange="toggleMealCompletion('+i+')" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:#ffb300;"><div style="font-family:\'DM Mono\',monospace;font-size:14px;font-weight:600;color:rgba(150,160,180,0.90);'+strikethrough+'">'+meal.time+'</div><div style="flex:1;"></div><div style="display:flex;gap:6px;align-items:center;"><button onclick="deleteMealSlot('+i+')" style="padding:4px 8px;background:#ff5a5a;color:#fff;border:none;border-radius:6px;font-size:9px;cursor:pointer;font-weight:600;transition:all 0.2s;" onmouseover="this.style.background=\'#ff3838\'" onmouseout="this.style.background=\'#ff5a5a\'">×</button><div style="padding:8px 14px;background:rgba(255,179,0,0.12);border:1.5px solid rgba(255,179,0,0.30);border-radius:20px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;color:#ffb300;'+strikethrough+'">'+meal.name+'</div></div></div>';
+  }
+  container.innerHTML=html||'<div style="text-align:center;padding:20px;color:rgba(150,160,180,0.60);font-size:12px;">No meals planned for this day</div>';
+}
+
+function openAddMeal(){
+  document.getElementById('add-meal-modal').classList.add('open');
+  document.getElementById('am-time').focus();
+}
+
+function closeAddMeal(e){
+  if(!e||e.target===document.getElementById('add-meal-modal')){
+    document.getElementById('add-meal-modal').classList.remove('open');
+    document.getElementById('am-time').value='';
+    document.getElementById('am-name').value='';
+  }
+}
+
+function saveAddMeal(){
+  var time=document.getElementById('am-time').value.trim();
+  var name=document.getElementById('am-name').value.trim();
+  
+  if(!time||!name){
+    showToast('Please enter time and meal name');
+    return;
+  }
+  
+  if(!_mealPlan[_currentMealDay])_mealPlan[_currentMealDay]=[];
+  _mealPlan[_currentMealDay].push({time:time,name:name,completed:false});
+  
+  saveMealPlan();
+  document.getElementById('add-meal-modal').classList.remove('open');
+  document.getElementById('am-time').value='';
+  document.getElementById('am-name').value='';
+  renderMealSlots();
+  showToast('✓ Meal added!');
+}
+
+function deleteMealSlot(idx){
+  if(_mealPlan[_currentMealDay]&&idx>=0&&idx<_mealPlan[_currentMealDay].length){
+    _mealPlan[_currentMealDay].splice(idx,1);
+    saveMealPlan();
+    renderMealSlots();
+    showToast('✓ Meal removed');
+  }
+}
+
+function toggleMealCompletion(idx){
+  if(_mealPlan[_currentMealDay]&&idx>=0&&idx<_mealPlan[_currentMealDay].length){
+    _mealPlan[_currentMealDay][idx].completed=!_mealPlan[_currentMealDay][idx].completed;
+    saveMealPlan();
+    renderMealSlots();
+  }
+}
+
+/* ═══ RECIPE STACK ═══ */
+var _recipes=JSON.parse(localStorage.getItem('zolaRecipes'))||[
+  {id:0,emoji:'🍗',name:'High-Protein Chicken Bowl',serves:2,time:25,calories:520,protein:48,ingredients:[{qty:'300g',name:'Chicken breast'},{qty:'1 cup',name:'Quinoa'},{qty:'2 tbsp',name:'Olive oil'},{qty:'1',name:'Avocado'},{qty:'Handful',name:'Spinach'},{qty:'1 tsp',name:'Turmeric'}],method:'Season chicken with turmeric. Cook quinoa. Pan-fry chicken in olive oil. Assemble bowl with spinach, quinoa, chicken, sliced avocado.',expanded:false}
+];
+
+function saveRecipes(){
+  localStorage.setItem('zolaRecipes',JSON.stringify(_recipes));
+}
+
+function toggleRecipeExpand(id){
+  var recipe=_recipes.find(r=>r.id===id);
+  if(recipe){
+    recipe.expanded=!recipe.expanded;
+    saveRecipes();
+    renderRecipes();
+  }
+}
+
+function renderRecipes(){
+  var container=document.getElementById('recipes-container');
+  if(!container)return;
+  var html='';
+  for(var i=0;i<_recipes.length;i++){
+    var r=_recipes[i];
+    var expanded=r.expanded?'':'display:none;';
+    html+='<div id="recipe-'+r.id+'" style="background:rgba(0,0,0,0.40);border:1px solid rgba(20,196,175,0.15);border-radius:18px;padding:16px;position:relative;"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;"><div style="display:flex;gap:10px;flex:1;"><div style="font-size:28px;">'+r.emoji+'</div><div style="flex:1;"><div style="font-family:\'Cinzel\',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;">'+r.name+'</div><div style="font-family:\'DM Mono\',monospace;font-size:10px;color:rgba(150,160,180,0.80);">Serves '+r.serves+' · '+r.time+' min · '+r.calories+'kcal · '+r.protein+'g protein</div></div></div><button onclick="toggleRecipeExpand('+r.id+')" style="background:none;border:none;color:#14c4af;font-size:14px;cursor:pointer;transition:transform 0.3s;">'+(r.expanded?'▼':'▲')+'</button></div><div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;"><button onclick="addRecipeCalories('+r.id+')" style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(20,196,175,0.35);background:rgba(20,196,175,0.10);color:#14c4af;font-family:\'DM Mono\',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px;">🔥 '+r.calories+' kcal</button><button style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(255,179,0,0.35);background:rgba(255,179,0,0.10);color:#ffb300;font-family:\'DM Mono\',monospace;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px;">💪 '+r.protein+'g protein</button><button onclick="logMealRecipe('+r.id+')" style="padding:8px 12px;border-radius:16px;border:1.5px solid rgba(20,196,175,0.35);background:rgba(20,196,175,0.10);color:#14c4af;font-family:\'DM Sans\',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ Log Meal</button></div><div id="recipe-content-'+r.id+'" style="'+expanded+'"><div style="margin-bottom:14px;padding-top:12px;border-top:1px solid rgba(20,196,175,0.15);"><div style="font-family:\'DM Mono\',monospace;font-size:8px;color:#14c4af;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">// INGREDIENTS</div><div style="display:flex;flex-direction:column;gap:8px;">';
+    for(var j=0;j<r.ingredients.length;j++){
+      var ing=r.ingredients[j];
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,0.30);border-radius:12px;border:1px solid rgba(255,255,255,0.06);"><div style="display:flex;gap:8px;align-items:center;flex:1;"><div style="font-family:\'DM Mono\',monospace;font-size:10px;color:rgba(150,160,180,0.70);">'+ing.qty+'</div><div style="font-family:\'Cinzel\',serif;font-size:12px;color:rgba(220,230,255,0.90);">'+ing.name+'</div></div><button onclick="addToShoppingFromRecipe(\''+ing.name+'\')" style="padding:6px 10px;border-radius:12px;border:1.5px solid rgba(20,196,175,0.35);background:none;color:#14c4af;font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;">+ List</button></div>';
+    }
+    html+='</div></div><div style="padding-top:12px;border-top:1px solid rgba(20,196,175,0.15);"><div style="font-family:\'DM Mono\',monospace;font-size:8px;color:#14c4af;letter-spacing:0.2em;margin-bottom:10px;text-transform:uppercase;">// METHOD</div><div style="font-family:\'Cinzel\',serif;font-size:11px;color:rgba(220,230,255,0.80);line-height:1.6;">'+r.method+'</div></div></div></div>';
+  }
+  container.innerHTML=html;
+}
+
+function openAddRecipe(){
+  document.getElementById('add-recipe-modal').classList.add('open');
+  document.getElementById('ar-rname').focus();
+}
+
+function closeAddRecipe(e){
+  if(!e||e.target===document.getElementById('add-recipe-modal')){
+    document.getElementById('add-recipe-modal').classList.remove('open');
+  }
+}
+
+function saveAddRecipe(){
+  var name=document.getElementById('ar-rname').value.trim();
+  var emoji=document.getElementById('ar-emoji').value.trim()||'🍽️';
+  var serves=parseInt(document.getElementById('ar-serves').value)||1;
+  var time=parseInt(document.getElementById('ar-time').value)||30;
+  var calories=parseInt(document.getElementById('ar-cal').value)||300;
+  var protein=parseInt(document.getElementById('ar-protein').value)||20;
+  var method=document.getElementById('ar-method').value.trim()||'Cook and serve.';
+  
+  if(!name){
+    showToast('Please enter recipe name');
+    return;
+  }
+  
+  var newId=_recipes.length>0?Math.max(..._recipes.map(r=>r.id))+1:0;
+  _recipes.push({id:newId,emoji:emoji,name:name,serves:serves,time:time,calories:calories,protein:protein,ingredients:[],method:method,expanded:true});
+  
+  saveRecipes();
+  document.getElementById('add-recipe-modal').classList.remove('open');
+  document.getElementById('ar-rname').value='';
+  document.getElementById('ar-emoji').value='';
+  document.getElementById('ar-serves').value='';
+  document.getElementById('ar-time').value='';
+  document.getElementById('ar-cal').value='';
+  document.getElementById('ar-protein').value='';
+  document.getElementById('ar-method').value='';
+  renderRecipes();
+  showToast('✓ Recipe added!');
+}
+
+function addRecipeCalories(id){
+  var recipe=_recipes.find(r=>r.id===id);
+  if(recipe){
+    addCalories(recipe.calories);
+    showToast('✓ '+recipe.calories+' kcal added!');
+  }
+}
+
+function logMealRecipe(id){
+  var recipe=_recipes.find(r=>r.id===id);
+  if(recipe){
+    if(!_mealPlan[_currentMealDay])_mealPlan[_currentMealDay]=[];
+    var time=new Date().getHours().toString().padStart(2,'0')+':00';
+    _mealPlan[_currentMealDay].push({time:time,name:recipe.name,completed:false});
+    saveMealPlan();
+    showToast('✓ Meal logged!');
+  }
+}
+
+function addToShoppingFromRecipe(ingredient){
+  if(!_healthState.shopping)_healthState.shopping=[];
+  var exists=_healthState.shopping.some(s=>s.name.toLowerCase()===ingredient.toLowerCase());
+  if(exists){
+    showToast('Already in shopping list');
+    return;
+  }
+  _healthState.shopping.push({name:ingredient,done:false});
+  saveHealthState();
+  updateShoppingUI();
+  showToast('✓ Added to shopping list');
+}
+
+function filterRecipeByCalories(){
+  showToast('Filter by calories (coming soon)');
+}
+
 function initHealthRoutines(){
-  var routines=[{emoji:'💪',name:'Stretch',time:'7:00 AM'},{emoji:'🧘',name:'Meditate',time:'8:00 AM'},{emoji:'🏃',name:'Exercise',time:'6:00 PM'},{emoji:'😴',name:'Sleep',time:'10:00 PM'}];
+  var routines=_healthState.routines||[{emoji:'💪',name:'Stretch',time:'7:00 AM'},{emoji:'🧘',name:'Meditate',time:'8:00 AM'},{emoji:'🏃',name:'Exercise',time:'6:00 PM'},{emoji:'😴',name:'Sleep',time:'10:00 PM'}];
   var container=document.getElementById('hp-routines');
   if(!container)return;
   var html='';
@@ -1782,7 +2178,39 @@ function addCalories(amount){
 }
 
 function openAddRoutine(){
-  showToast('Add routine: coming soon');
+  document.getElementById('add-routine-modal').classList.add('open');
+  document.getElementById('ar-name').focus();
+}
+
+function closeAddRoutine(e){
+  if(!e||e.target===document.getElementById('add-routine-modal')){
+    document.getElementById('add-routine-modal').classList.remove('open');
+    document.getElementById('ar-name').value='';
+    document.getElementById('ar-emoji').value='';
+    document.getElementById('ar-time').value='';
+  }
+}
+
+function saveAddRoutine(){
+  var name=document.getElementById('ar-name').value.trim();
+  var emoji=document.getElementById('ar-emoji').value.trim()||'✓';
+  var time=document.getElementById('ar-time').value.trim()||'12:00 PM';
+  
+  if(!name){
+    showToast('Please enter a routine name');
+    return;
+  }
+  
+  if(!_healthState.routines)_healthState.routines=[];
+  _healthState.routines.push({name:name,emoji:emoji,time:time,done:false});
+  
+  saveHealthState();
+  document.getElementById('add-routine-modal').classList.remove('open');
+  document.getElementById('ar-name').value='';
+  document.getElementById('ar-emoji').value='';
+  document.getElementById('ar-time').value='';
+  updateRoutinesUI();
+  showToast('✓ Routine added!');
 }
 
 /* ═══ EXPORT ═══ */
@@ -1905,15 +2333,96 @@ function dismissToast(){
 
 /* ═══ ADD ITEM STUBS ═══ */
 function openAddItem(){
-  showToast('✓ Item added to list');
+  document.getElementById('add-shopping-modal').classList.add('open');
+  document.getElementById('ash-item').focus();
+}
+
+function closeAddShopping(e){
+  if(!e||e.target===document.getElementById('add-shopping-modal')){
+    document.getElementById('add-shopping-modal').classList.remove('open');
+    document.getElementById('ash-item').value='';
+  }
+}
+
+function saveAddShopping(){
+  var item=document.getElementById('ash-item').value.trim();
+  
+  if(!item){
+    showToast('Please enter an item name');
+    return;
+  }
+  
+  if(!_healthState.shopping)_healthState.shopping=[];
+  _healthState.shopping.push({name:item,done:false});
+  
+  saveHealthState();
+  document.getElementById('add-shopping-modal').classList.remove('open');
+  document.getElementById('ash-item').value='';
+  updateShoppingUI();
+  showToast('✓ Item added!');
 }
 
 function openAddSupplement(){
-  showToast('✓ Supplement added');
+  document.getElementById('add-supplement-modal').classList.add('open');
+  document.getElementById('as-name').focus();
+}
+
+function closeAddSupplement(e){
+  if(!e||e.target===document.getElementById('add-supplement-modal')){
+    document.getElementById('add-supplement-modal').classList.remove('open');
+    document.getElementById('as-name').value='';
+  }
+}
+
+function saveAddSupplement(){
+  var name=document.getElementById('as-name').value.trim();
+  
+  if(!name){
+    showToast('Please enter a supplement name');
+    return;
+  }
+  
+  if(!_healthState.supplements)_healthState.supplements=[];
+  _healthState.supplements.push({name:name,done:false});
+  
+  saveHealthState();
+  document.getElementById('add-supplement-modal').classList.remove('open');
+  document.getElementById('as-name').value='';
+  updateSupplementUI();
+  showToast('✓ Supplement added!');
 }
 
 function openAddExercise(){
-  showToast('✓ Workout added');
+  document.getElementById('add-workout-modal').classList.add('open');
+  document.getElementById('aw-name').focus();
+}
+
+function closeAddWorkout(e){
+  if(!e||e.target===document.getElementById('add-workout-modal')){
+    document.getElementById('add-workout-modal').classList.remove('open');
+    document.getElementById('aw-name').value='';
+    document.getElementById('aw-duration').value='';
+  }
+}
+
+function saveAddWorkout(){
+  var name=document.getElementById('aw-name').value.trim();
+  var duration=document.getElementById('aw-duration').value.trim()||'30';
+  
+  if(!name){
+    showToast('Please enter a workout name');
+    return;
+  }
+  
+  if(!_healthState.exercises)_healthState.exercises=[];
+  _healthState.exercises.push({name:name,duration:duration,done:false});
+  
+  saveHealthState();
+  document.getElementById('add-workout-modal').classList.remove('open');
+  document.getElementById('aw-name').value='';
+  document.getElementById('aw-duration').value='';
+  updateExerciseUI();
+  showToast('✓ Workout added!');
 }
 
 /* ═══ 7-DAY PLANNER ═══ */
@@ -2030,6 +2539,9 @@ function setupPlannerListeners(){
 loadHealthState();
 initHealthRoutines();
 updateHealthUI();
+updateMealDayButtons();
+renderMealSlots();
+renderRecipes();
 setTimeout(function(){
   updateSupplementUI();
   updateExerciseUI();
@@ -2078,6 +2590,46 @@ document.addEventListener('DOMContentLoaded',function(){
   // Add glass button
   var addGlassBtn=document.getElementById('add-glass-btn');
   if(addGlassBtn)addGlassBtn.addEventListener('click',addWater);
+  
+  // Add prayer button
+  var addPrayerBtn=document.querySelector('.sp-add-prayer-btn');
+  if(addPrayerBtn)addPrayerBtn.addEventListener('click',function(){
+    if(!_prayerData)_prayerData=[];
+    _prayerData.push({text:'New Prayer',prayed:false});
+    savePrayerData();
+    renderPrayers();
+    showToast('✓ Prayer added');
+  });
+  
+  // Add supplement button
+  var addSupplementBtn=document.getElementById('add-supplement-btn');
+  if(addSupplementBtn)addSupplementBtn.addEventListener('click',function(){
+    if(!_supplementData)_supplementData=[];
+    _supplementData.push({name:'New Supplement',taken:false});
+    saveSupplementData();
+    renderSupplements();
+    showToast('✓ Supplement added');
+  });
+  
+  // Add exercise button
+  var addExerciseBtn=document.getElementById('add-exercise-btn');
+  if(addExerciseBtn)addExerciseBtn.addEventListener('click',function(){
+    if(!_exerciseData)_exerciseData=[];
+    _exerciseData.push({name:'New Exercise',completed:false,duration:'30'});
+    saveExerciseData();
+    renderExercises();
+    showToast('✓ Exercise added');
+  });
+  
+  // Add shopping item button
+  var addItemBtn=document.getElementById('add-item-btn');
+  if(addItemBtn)addItemBtn.addEventListener('click',function(){
+    if(!_shoppingData)_shoppingData=[];
+    _shoppingData.push({item:'New Item',checked:false});
+    saveShoppingData();
+    renderShoppingItems();
+    showToast('✓ Item added to shopping list');
+  });
 });
 
 // Fallback if DOM already loaded
@@ -2113,6 +2665,46 @@ if(document.readyState==='loading'){
     
     var addGlassBtn=document.getElementById('add-glass-btn');
     if(addGlassBtn)addGlassBtn.addEventListener('click',addWater);
+    
+    // Add prayer button
+    var addPrayerBtn=document.querySelector('.sp-add-prayer-btn');
+    if(addPrayerBtn)addPrayerBtn.addEventListener('click',function(){
+      if(!_prayerData)_prayerData=[];
+      _prayerData.push({text:'New Prayer',prayed:false});
+      savePrayerData();
+      renderPrayers();
+      showToast('✓ Prayer added');
+    });
+    
+    // Add supplement button
+    var addSupplementBtn=document.getElementById('add-supplement-btn');
+    if(addSupplementBtn)addSupplementBtn.addEventListener('click',function(){
+      if(!_supplementData)_supplementData=[];
+      _supplementData.push({name:'New Supplement',taken:false});
+      saveSupplementData();
+      renderSupplements();
+      showToast('✓ Supplement added');
+    });
+    
+    // Add exercise button
+    var addExerciseBtn=document.getElementById('add-exercise-btn');
+    if(addExerciseBtn)addExerciseBtn.addEventListener('click',function(){
+      if(!_exerciseData)_exerciseData=[];
+      _exerciseData.push({name:'New Exercise',completed:false,duration:'30'});
+      saveExerciseData();
+      renderExercises();
+      showToast('✓ Exercise added');
+    });
+    
+    // Add shopping item button
+    var addItemBtn=document.getElementById('add-item-btn');
+    if(addItemBtn)addItemBtn.addEventListener('click',function(){
+      if(!_shoppingData)_shoppingData=[];
+      _shoppingData.push({item:'New Item',checked:false});
+      saveShoppingData();
+      renderShoppingItems();
+      showToast('✓ Item added to shopping list');
+    });
   },100);
 }
 
