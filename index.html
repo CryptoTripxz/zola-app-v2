@@ -278,6 +278,7 @@ body{background:#07091A;}
   <div id="screen-nav">
     <div class="screen-tab active" onclick="switchScreen('spirit')">🙏 Spirit</div>
     <div class="screen-tab" onclick="switchScreen('wellness')">💚 Wellness</div>
+    <div class="screen-tab" onclick="switchScreen('planner')">📅 Planner</div>
   </div>
 
   <!-- MAIN CONTENT AREA -->
@@ -728,11 +729,37 @@ body{background:#07091A;}
               <button id="add-glass-btn" style="width:100%;font-size:12px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:2px solid rgba(0,230,118,0.35);border-radius:12px;padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;pointer-events:auto;position:relative;z-index:5;" onmouseover="this.style.background='rgba(0,230,118,0.25)'" onmouseout="this.style.background='rgba(0,230,118,0.15)'" onclick="openAddItem()">+ Add Item</button>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
+
+  <!-- PLANNER SCREEN -->
+  <div id="screen-planner" class="screen">
+    <div style="padding: 20px;">
+      <div style="background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%); border-radius: 24px; padding: 28px; min-height: calc(100vh - 300px);">
+        <h1 style="color: #E8E4FF; font-size: 24px; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.5px;">WEEKLY PLANNER</h1>
+        <p style="color: #8a8a9a; font-size: 11px; margin: 0 0 24px 0; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">// YOUR WEEKLY SCHEDULE</p>
+        
+        <div id="day-selector" style="display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding: 0 0 8px 0;">
+          <button data-day="0" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">MON</button>
+          <button data-day="1" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">TUE</button>
+          <button data-day="2" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">WED</button>
+          <button data-day="3" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">THU</button>
+          <button data-day="4" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">FRI</button>
+          <button data-day="5" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SAT</button>
+          <button data-day="6" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SUN</button>
+        </div>
+
+        <div id="slots-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        </div>
+
+        <button id="add-slot-btn" style="width: 100%; padding: 12px 20px; border-radius: 100px; border: 1.5px dashed rgba(167,139,250,0.40); background: transparent; color: rgba(167,139,250,0.70); font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.3s; font-family: 'DM Sans', sans-serif;">+ Add Time Slot</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- CANDLE OVERLAY -->
 <div id="candle-overlay" onclick="closeCandle(event)">
@@ -1501,6 +1528,7 @@ function addWaterGlass(){
 /* ═══ MOOD & STRESS SYNC ═══ */
 var _moodHistory=JSON.parse(localStorage.getItem('zola_mood_history'))||[];
 var _streakData=JSON.parse(localStorage.getItem('zola_streak_data'))||{lastDate:null, count:0};
+var _previousScore=72; // Track previous mood score for change detection
 
 function updateStreakByHearts(heartCount){
   // Map heart count to stress level
@@ -1570,19 +1598,43 @@ function updateMoodThermometer(level){
       desc='You\'re feeling great today!';
   }
   
+  // Detect score change direction
+  var scoreChange=score-_previousScore;
+  var changeIndicator='';
+  var changeMsg='';
+  
+  if(scoreChange>0){
+    changeIndicator='📈';
+    changeMsg=' Improving! Great work!';
+  }else if(scoreChange<0){
+    changeIndicator='📉';
+    changeMsg=' Things are getting harder. Be kind to yourself.';
+  }
+  
+  // Update score color based on level
   if(scoreEl){
     scoreEl.textContent=score;
     scoreEl.style.color=level==='high'?'#ff7a9a':(level==='low'?'#00e676':'#ffc107');
   }
   
   var moodEmoji=document.querySelector('.therm-card div[style*="flex-direction"]>div:first-child');
-  if(moodEmoji)moodEmoji.textContent=emoji;
+  if(moodEmoji)moodEmoji.textContent=emoji+' '+changeIndicator;
   
   var statusText=document.querySelector('.therm-card [style*="font-weight: 700; color: var(--t1)"]');
   if(statusText)statusText.textContent=status;
   
+  // Update description with change information
   var descText=document.querySelector('.therm-card [style*="font-size: 11px"]');
-  if(descText)descText.textContent=desc;
+  if(descText){
+    if(scoreChange!==0){
+      descText.textContent=desc+changeMsg;
+    }else{
+      descText.textContent=desc;
+    }
+  }
+  
+  // Store current score as previous for next update
+  _previousScore=score;
 }
 
 function updateStreak(){
@@ -1862,6 +1914,116 @@ function openAddSupplement(){
 
 function openAddExercise(){
   showToast('✓ Workout added');
+}
+
+/* ═══ 7-DAY PLANNER ═══ */
+var _plannerCurrentDay=1;
+var _plannerData=JSON.parse(localStorage.getItem('zolaPlannerData'))||{};
+
+function initPlanner(){
+  if(!_plannerData.days){
+    _plannerData.days={};
+    for(var d=0;d<7;d++){
+      _plannerData.days[d]=[
+        {time:'06:00',label:'Morning'},
+        {time:'12:00',label:'Afternoon'},
+        {time:'18:00',label:'Evening'},
+        {time:'21:00',label:'Night'}
+      ];
+    }
+    savePlannerData();
+  }
+  updatePlannerDisplay();
+}
+
+function savePlannerData(){
+  localStorage.setItem('zolaPlannerData',JSON.stringify(_plannerData));
+}
+
+function renderPlannerSlots(){
+  var container=document.getElementById('slots-container');
+  if(!container)return;
+  container.innerHTML='';
+  var daySlots=_plannerData.days[_plannerCurrentDay]||[];
+  
+  daySlots.forEach(function(slot,idx){
+    var slotEl=document.createElement('div');
+    slotEl.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;border:1px solid rgba(123,79,212,0.16);background:rgba(123,79,212,0.06);backdrop-filter:blur(2px);';
+    
+    var timeEl=document.createElement('span');
+    timeEl.textContent=slot.time;
+    timeEl.style.cssText='color:rgba(200,190,255,0.55);font-size:12px;font-weight:500;min-width:55px;font-family:"DM Mono",monospace;';
+    
+    var labelContainer=document.createElement('div');
+    labelContainer.style.cssText='display:flex;align-items:center;gap:8px;flex:1;margin-left:16px;';
+    
+    var labelInput=document.createElement('input');
+    labelInput.type='text';
+    labelInput.value=slot.label;
+    labelInput.style.cssText='flex:1;border:none;background:transparent;color:var(--sp2);font-weight:600;font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid rgba(167,139,250,0.30);text-align:right;outline:none;font-family:"DM Sans",sans-serif;';
+    labelInput.onchange=function(){
+      slot.label=labelInput.value;
+      savePlannerData();
+    };
+    
+    var deleteBtn=document.createElement('button');
+    deleteBtn.textContent='×';
+    deleteBtn.style.cssText='border:none;background:transparent;color:rgba(167,139,250,0.50);font-size:18px;cursor:pointer;padding:0;width:20px;height:20px;font-family:"DM Sans",sans-serif;';
+    deleteBtn.onclick=function(){
+      daySlots.splice(idx,1);
+      savePlannerData();
+      renderPlannerSlots();
+    };
+    
+    labelContainer.appendChild(labelInput);
+    labelContainer.appendChild(deleteBtn);
+    slotEl.appendChild(timeEl);
+    slotEl.appendChild(labelContainer);
+    container.appendChild(slotEl);
+  });
+}
+
+function updatePlannerDisplay(){
+  var dayBtns=document.querySelectorAll('.day-btn');
+  dayBtns.forEach(function(btn,idx){
+    if(idx===_plannerCurrentDay){
+      btn.style.borderColor='var(--sp2)';
+      btn.style.color='var(--sp2)';
+      btn.style.background='rgba(167,139,250,0.12)';
+      btn.innerHTML=btn.textContent.split('<')[0]+'<br><span style="font-size:8px;color:var(--sp2);">●</span>';
+    }else{
+      btn.style.borderColor='rgba(123,79,212,0.30)';
+      btn.style.color='rgba(200,190,255,0.55)';
+      btn.style.background='transparent';
+      btn.textContent=btn.textContent.split('<')[0];
+    }
+  });
+  renderPlannerSlots();
+}
+
+function setupPlannerListeners(){
+  var dayBtns=document.querySelectorAll('.day-btn');
+  dayBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      _plannerCurrentDay=parseInt(this.dataset.day);
+      updatePlannerDisplay();
+    });
+  });
+  
+  var addBtn=document.getElementById('add-slot-btn');
+  if(addBtn){
+    addBtn.addEventListener('click',function(){
+      if(!_plannerData.days[_plannerCurrentDay]){
+        _plannerData.days[_plannerCurrentDay]=[];
+      }
+      var hour=6+(Math.floor(_plannerData.days[_plannerCurrentDay].length));
+      var newTime=String(hour).padStart(2,'0')+':00';
+      _plannerData.days[_plannerCurrentDay].push({time:newTime,label:'New Task'});
+      savePlannerData();
+      renderPlannerSlots();
+      showToast('✓ Time slot added');
+    });
+  }
 }
 
 /* ═══ INIT ═══ */
