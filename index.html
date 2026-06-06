@@ -113,18 +113,6 @@ body{background:#07091A;}
 .sp-add-prayer-btn{width:100%;padding:10px;border:1.5px dashed rgba(123,79,212,0.22);border-radius:14px;background:none;font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(200,190,255,0.38);cursor:pointer;margin-top:5px;transition:all 0.2s;}
 .sp-add-prayer-btn:hover{border-color:var(--sp2);color:var(--sp2);}
 
-/* DECLARATIONS */
-.sp-declaration-entry{display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:16px;background:linear-gradient(145deg,rgba(123,79,212,0.10),rgba(100,60,200,0.06));border:1px solid rgba(123,79,212,0.22);cursor:pointer;transition:all 0.22s;margin-bottom:8px;position:relative;overflow:hidden;}
-.sp-declaration-entry::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 100% 0%,rgba(123,79,212,0.12),transparent 70%);}
-.sp-decl-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,rgba(255,220,100,0.30),rgba(123,79,212,0.25));border:1.5px solid rgba(123,79,212,0.25);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative;z-index:1;}
-.sp-decl-content{flex:1;position:relative;z-index:1;}
-.sp-decl-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(200,190,255,0.45);margin-bottom:4px;font-weight:600;}
-.sp-decl-text{font-family:'Cinzel',serif;font-size:14px;color:rgba(240,236,255,0.90);line-height:1.6;font-style:italic;}
-.sp-declaration-entry:hover{background:linear-gradient(145deg,rgba(123,79,212,0.15),rgba(100,60,200,0.10));border-color:rgba(123,79,212,0.35);}
-.sp-decl-del{display:none;position:absolute;right:12px;top:12px;width:24px;height:24px;border-radius:50%;background:rgba(232,84,122,0.15);border:1px solid rgba(232,84,122,0.30);color:#FF7A9A;cursor:pointer;font-size:14px;transition:all 0.2s;z-index:2;align-items:center;justify-content:center;font-weight:bold;}
-.sp-declaration-entry:hover .sp-decl-del{display:flex;}
-.sp-decl-del:hover{background:rgba(232,84,122,0.25);border-color:rgba(232,84,122,0.50);}
-
 /* AUDIO CARD */
 .sp-audio-card{margin:4px 14px 10px;border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02));border:1px solid rgba(196,152,32,0.35);padding:16px 16px 14px;position:relative;overflow:hidden;}
 .sp-audio-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(196,152,32,0.15),transparent 60%);}
@@ -325,29 +313,6 @@ body{background:#07091A;}
                 <button class="sp-vbtn sp-vbtn-fav" id="fav-btn" onclick="toggleFav()">♡ Save</button>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- DECLARATIONS OF THE DAY -->
-        <div class="sp-sec">
-          <div class="sp-sec-lbl" onclick="toggleSec(this)"><span class="sp-chev">▾</span>Declarations of the Day<div class="sp-sec-lbl-line"></div></div>
-          <div class="sp-sec-body">
-            <!-- Declaration Input Card -->
-            <div style="background:linear-gradient(145deg,rgba(100,80,180,0.12),rgba(80,60,150,0.08));border:1.5px solid rgba(123,79,212,0.25);border-radius:24px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden;">
-              <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(123,79,212,0.15),transparent 60%);pointer-events:none;"></div>
-              
-              <textarea id="declaration-input" placeholder="What are you declaring over your life today?... ✨" style="width:100%;border:none;background:transparent;font-family:'Cinzel',serif;font-size:16px;color:rgba(240,236,255,0.88);outline:none;resize:none;min-height:40px;line-height:1.8;position:relative;z-index:1;" onkeyup="updateDeclarationCount()" onfocus="this.style.color='rgba(240,236,255,0.92)'"></textarea>
-              
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;position:relative;z-index:1;border-top:1px solid rgba(123,79,212,0.20);padding-top:14px;">
-                <div style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(200,190,255,0.45);font-weight:600;letter-spacing:0.1em;">
-                  <span id="declaration-char-count">0</span> / 500
-                </div>
-                <button onclick="saveDeclaration()" style="padding:12px 28px;border-radius:100px;border:none;background:linear-gradient(135deg,var(--sp),var(--sp2));color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 4px 16px rgba(123,79,212,0.30);">Save ✦</button>
-              </div>
-            </div>
-
-            <!-- Saved Declarations -->
-            <div id="sp-declarations-list" style="display:flex;flex-direction:column;gap:10px;"></div>
           </div>
         </div>
 
@@ -876,100 +841,27 @@ body{background:#07091A;}
   </div>
 
   <!-- PLANNER SCREEN -->
-  <div id="screen-planner" class="screen" style="background:linear-gradient(180deg,#e8f4fa 0%,#f0f8fc 100%);overflow-y:auto;">
-    <div style="padding:24px 16px;min-height:100vh;">
-      
-      <!-- CALENDAR HEADER -->
-      <div style="margin-bottom:32px;">
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;">
-          <!-- Sunday -->
-          <div onclick="selectPlannerDay(0)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">SUN</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">31</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Monday (Active) -->
-          <div id="planner-day-1" onclick="selectPlannerDay(1)" style="text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);border-radius:20px;padding:16px 12px;color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">MON</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#fff;line-height:1;">1</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.60);margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Tuesday -->
-          <div onclick="selectPlannerDay(2)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">TUE</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">2</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Wednesday -->
-          <div onclick="selectPlannerDay(3)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">WED</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">3</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Thursday -->
-          <div onclick="selectPlannerDay(4)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">THU</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">4</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Friday -->
-          <div onclick="selectPlannerDay(5)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">FRI</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">5</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Saturday -->
-          <div onclick="selectPlannerDay(6)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">SAT</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">6</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADD TASK CARD -->
-      <div style="background:#fff;border-radius:28px;padding:24px;margin-bottom:28px;box-shadow:0 2px 12px rgba(30,91,168,0.12);border:1px solid rgba(30,91,168,0.08);">
+  <div id="screen-planner" class="screen">
+    <div style="padding: 20px;">
+      <div style="background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%); border-radius: 24px; padding: 28px; min-height: calc(100vh - 300px);">
+        <h1 style="color: #E8E4FF; font-size: 24px; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.5px;">WEEKLY PLANNER</h1>
+        <p style="color: #8a8a9a; font-size: 11px; margin: 0 0 24px 0; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">// YOUR WEEKLY SCHEDULE</p>
         
-        <!-- Task Input -->
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
-          <div style="font-size:26px;flex-shrink:0;">✏️</div>
-          <input id="task-input" type="text" placeholder="Add a task for today..." style="flex:1;border:none;background:transparent;font-size:16px;color:#1a2a3a;font-family:'DM Sans',sans-serif;outline:none;font-weight:500;" onkeydown="if(event.key==='Enter')addPlannerTask()" onfocus="this.style.color='#1a2a3a'" onblur="if(!this.value)this.style.color='rgba(26,42,58,0.40)'">
+        <div id="day-selector" style="display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding: 0 0 8px 0;">
+          <button data-day="0" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">MON</button>
+          <button data-day="1" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">TUE</button>
+          <button data-day="2" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">WED</button>
+          <button data-day="3" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">THU</button>
+          <button data-day="4" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">FRI</button>
+          <button data-day="5" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SAT</button>
+          <button data-day="6" class="day-btn" style="padding: 12px 18px; border-radius: 14px; border: 1.5px solid rgba(123,79,212,0.30); background: transparent; color: rgba(200,190,255,0.55); font-weight: 600; cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.3s; min-width: 75px; font-family: 'DM Sans', sans-serif;">SUN</button>
         </div>
-        
-        <!-- Controls Row -->
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-          
-          <!-- Time Selector -->
-          <div style="display:flex;align-items:center;gap:10px;background:rgba(30,91,168,0.08);border-radius:14px;padding:10px 14px;border:1.5px solid rgba(30,91,168,0.15);flex-shrink:0;">
-            <span style="font-size:20px;opacity:0.8;">🕐</span>
-            <input id="task-time" type="time" value="09:00" style="border:none;background:transparent;color:#1e5ba8;font-weight:700;font-size:15px;font-family:'DM Mono',monospace;outline:none;width:60px;" onchange="">
-          </div>
-          
-          <!-- Priority Buttons -->
-          <div style="display:flex;gap:8px;align-items:center;">
-            <button class="priority-btn" data-priority="High" onclick="setTaskPriority('High')" style="padding:10px 16px;border-radius:12px;border:1.5px solid rgba(30,91,168,0.20);background:transparent;color:#4b5f89;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">High</button>
-            
-            <button class="priority-btn active" id="priority-med" data-priority="Med" onclick="setTaskPriority('Med')" style="padding:10px 16px;border-radius:12px;border:2px solid #1e5ba8;background:rgba(30,91,168,0.08);color:#1e5ba8;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">Med</button>
-            
-            <button class="priority-btn" data-priority="Low" onclick="setTaskPriority('Low')" style="padding:10px 16px;border-radius:12px;border:1.5px solid rgba(30,91,168,0.20);background:transparent;color:#4b5f89;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">Low</button>
-          </div>
-          
-          <!-- Add Button -->
-          <button onclick="addPlannerTask()" style="padding:11px 24px;border-radius:12px;border:none;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-left:auto;box-shadow:0 2px 8px rgba(30,91,168,0.20);">Add Task</button>
-        </div>
-      </div>
 
-      <!-- TASKS LIST -->
-      <div style="display:flex;flex-direction:column;gap:12px;" id="planner-tasks-container">
-        <!-- Tasks will be rendered here -->
+        <div id="slots-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        </div>
+
+        <button id="add-slot-btn" style="width: 100%; padding: 12px 20px; border-radius: 100px; border: 1.5px dashed rgba(167,139,250,0.40); background: transparent; color: rgba(167,139,250,0.70); font-weight: 600; cursor: pointer; font-size: 12px; transition: all 0.3s; font-family: 'DM Sans', sans-serif;">+ Add Time Slot</button>
       </div>
-      
     </div>
   </div>
 
@@ -2535,134 +2427,26 @@ function saveAddWorkout(){
 
 /* ═══ 7-DAY PLANNER ═══ */
 var _plannerCurrentDay=1;
-var _plannerTasks=JSON.parse(localStorage.getItem('zolaPlannerTasks'))||{
-  0:[],1:[{id:0,time:'07:00',emoji:'☀️',name:'Rise & Sunlight',priority:'Med',done:false}],2:[],3:[],4:[],5:[],6:[]
-};
-var _plannerTaskIdCounter=1;
-var _currentTaskPriority='Med';
+var _plannerData=JSON.parse(localStorage.getItem('zolaPlannerData'))||{};
+
+function initPlanner(){
+  if(!_plannerData.days){
+    _plannerData.days={};
+    for(var d=0;d<7;d++){
+      _plannerData.days[d]=[
+        {time:'06:00',label:'Morning'},
+        {time:'12:00',label:'Afternoon'},
+        {time:'18:00',label:'Evening'},
+        {time:'21:00',label:'Night'}
+      ];
+    }
+    savePlannerData();
+  }
+  updatePlannerDisplay();
+}
 
 function savePlannerData(){
-  localStorage.setItem('zolaPlannerTasks',JSON.stringify(_plannerTasks));
-}
-
-function selectPlannerDay(day){
-  _plannerCurrentDay=day;
-  updatePlannerDayHighlight();
-  renderPlannerTasks();
-}
-
-function updatePlannerDayHighlight(){
-  for(var i=0;i<7;i++){
-    var dayEl=document.getElementById('planner-day-'+i);
-    if(dayEl){
-      if(i===_plannerCurrentDay){
-        dayEl.style.background='#1e5ba8';
-        dayEl.style.color='#fff';
-      }else{
-        dayEl.style.background='transparent';
-        dayEl.style.color='#1a2a3a';
-      }
-    }
-  }
-}
-
-function setTaskPriority(priority){
-  _currentTaskPriority=priority;
-  var buttons=document.querySelectorAll('[onclick*="setTaskPriority"]');
-  buttons.forEach(function(btn){
-    btn.style.borderColor='rgba(100,120,160,0.25)';
-    btn.style.color='rgba(100,120,160,0.70)';
-    btn.style.borderWidth='1.5px';
-  });
-  var selectedBtn=document.querySelector('[onclick*="\''+priority+'\'"]');
-  if(selectedBtn){
-    selectedBtn.style.borderColor='#1e5ba8';
-    selectedBtn.style.color='#1e5ba8';
-    selectedBtn.style.borderWidth='2px';
-  }
-}
-
-function addPlannerTask(){
-  var input=document.getElementById('task-input');
-  var timeInput=document.getElementById('task-time');
-  var taskName=input.value.trim();
-  var taskTime=timeInput.value||'09:00';
-  
-  if(!taskName){
-    showToast('Please enter a task name');
-    return;
-  }
-  
-  if(!_plannerTasks[_plannerCurrentDay])_plannerTasks[_plannerCurrentDay]=[];
-  
-  _plannerTasks[_plannerCurrentDay].push({
-    id:_plannerTaskIdCounter++,
-    time:taskTime,
-    emoji:'',
-    name:taskName,
-    priority:_currentTaskPriority,
-    done:false
-  });
-  
-  savePlannerData();
-  input.value='';
-  timeInput.value='09:00';
-  _currentTaskPriority='Med';
-  renderPlannerTasks();
-  showToast('✓ Task added!');
-}
-
-function renderPlannerTasks(){
-  var container=document.getElementById('planner-tasks-container');
-  if(!container)return;
-  
-  var tasks=_plannerTasks[_plannerCurrentDay]||[];
-  var html='';
-  
-  for(var i=0;i<tasks.length;i++){
-    var task=tasks[i];
-    var priorityColor='#9ca3af';
-    var priorityBg='#f3f4f6';
-    
-    if(task.priority==='High'){
-      priorityColor='#ef4444';
-      priorityBg='rgba(239,68,68,0.10)';
-    }else if(task.priority==='Med'){
-      priorityColor='#d97706';
-      priorityBg='rgba(217,119,6,0.10)';
-    }else if(task.priority==='Low'){
-      priorityColor='#8b5cf6';
-      priorityBg='rgba(139,92,246,0.10)';
-    }
-    
-    var doneStyle=task.done?'opacity:0.5;text-decoration:line-through;':'';
-    var circleStyle=task.done?'background:#1e5ba8;border-color:#1e5ba8;':'border:2px solid #1e5ba8;background:transparent;';
-    
-    html+='<div style="background:#fff;border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);"><div style="width:24px;height:24px;border-radius:50%;'+circleStyle+'cursor:pointer;flex-shrink:0;" onclick="togglePlannerTaskDone('+task.id+')"></div><div style="font-size:18px;">'+task.emoji+'</div><div style="flex:1;"><div style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:700;color:#1a2a3a;'+doneStyle+'">'+task.name+'</div><div style="font-family:\'DM Mono\',monospace;font-size:11px;color:rgba(100,120,160,0.60);margin-top:2px;">'+task.time+'</div></div><button style="padding:6px 10px;border-radius:10px;border:none;background:'+priorityBg+';color:'+priorityColor+';font-family:\'DM Sans\',sans-serif;font-size:10px;font-weight:700;cursor:pointer;">'+task.priority+'</button><button onclick="deletePlannerTask('+task.id+')" style="padding:8px 10px;border-radius:12px;border:1.5px solid rgba(236,72,153,0.30);background:rgba(236,72,153,0.08);color:#f43f5e;font-size:16px;cursor:pointer;border:none;">×</button></div>';
-  }
-  
-  container.innerHTML=html||'<div style="text-align:center;padding:30px;color:rgba(100,120,160,0.60);font-size:14px;">No tasks yet. Add one above!</div>';
-}
-
-function togglePlannerTaskDone(id){
-  var task=_plannerTasks[_plannerCurrentDay].find(t=>t.id===id);
-  if(task){
-    task.done=!task.done;
-    savePlannerData();
-    renderPlannerTasks();
-  }
-}
-
-function deletePlannerTask(id){
-  if(_plannerTasks[_plannerCurrentDay]){
-    var idx=_plannerTasks[_plannerCurrentDay].findIndex(t=>t.id===id);
-    if(idx>=0){
-      _plannerTasks[_plannerCurrentDay].splice(idx,1);
-      savePlannerData();
-      renderPlannerTasks();
-      showToast('✓ Task deleted');
-    }
-  }
+  localStorage.setItem('zolaPlannerData',JSON.stringify(_plannerData));
 }
 
 function renderPlannerSlots(){
@@ -2923,103 +2707,6 @@ if(document.readyState==='loading'){
     });
   },100);
 }
-
-// DECLARATIONS DATA
-var _declarationsData=[];
-function loadDeclarations(){
-  var saved=localStorage.getItem('zola_declarations');
-  if(saved){
-    try{
-      _declarationsData=JSON.parse(saved);
-    }catch(e){
-      _declarationsData=[];
-    }
-  }
-  renderDeclarations();
-}
-
-function saveDeclarations(){
-  localStorage.setItem('zola_declarations',JSON.stringify(_declarationsData));
-}
-
-function saveDeclaration(){
-  var input=document.getElementById('declaration-input');
-  var text=input.value.trim();
-  
-  if(!text){
-    showToast('Please write a declaration');
-    return;
-  }
-  
-  if(text.length>500){
-    showToast('Declaration is too long (max 500 characters)');
-    return;
-  }
-  
-  var today=new Date();
-  var dateStr=(today.getMonth()+1).toString().padStart(2,'0')+'/'+today.getDate().toString().padStart(2,'0')+'/'+today.getFullYear();
-  
-  _declarationsData.unshift({
-    text:text,
-    date:dateStr,
-    timestamp:today.getTime()
-  });
-  
-  saveDeclarations();
-  input.value='';
-  document.getElementById('declaration-char-count').textContent='0';
-  renderDeclarations();
-  showToast('✦ Declaration saved!');
-}
-
-function updateDeclarationCount(){
-  var input=document.getElementById('declaration-input');
-  var count=input.value.length;
-  document.getElementById('declaration-char-count').textContent=Math.min(count,500);
-  
-  if(count>500){
-    input.value=input.value.substring(0,500);
-    document.getElementById('declaration-char-count').textContent='500';
-  }
-}
-
-function renderDeclarations(){
-  var container=document.getElementById('sp-declarations-list');
-  if(!container)return;
-  
-  if(_declarationsData.length===0){
-    container.innerHTML='<div style="text-align:center;padding:20px;color:rgba(200,190,255,0.38);font-size:12px;margin-top:10px;">Your declarations will appear here</div>';
-    return;
-  }
-  
-  var html='';
-  for(var i=0;i<_declarationsData.length;i++){
-    var decl=_declarationsData[i];
-    html+='<div class="sp-declaration-entry"><div class="sp-decl-avatar">✨</div><div class="sp-decl-content"><div class="sp-decl-date">'+decl.date+'</div><div class="sp-decl-text">'+escapeHtml(decl.text)+'</div></div><div class="sp-decl-del" onclick="deleteDeclaration('+i+')" title="Delete">×</div></div>';
-  }
-  
-  container.innerHTML=html;
-}
-
-function deleteDeclaration(index){
-  if(confirm('Delete this declaration?')){
-    _declarationsData.splice(index,1);
-    saveDeclarations();
-    renderDeclarations();
-    showToast('✓ Declaration deleted');
-  }
-}
-
-function escapeHtml(text){
-  var div=document.createElement('div');
-  div.textContent=text;
-  return div.innerHTML;
-}
-
-// Load declarations on startup
-setTimeout(function(){
-  loadDeclarations();
-},200);
 
 </script>
 </body>
