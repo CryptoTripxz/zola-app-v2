@@ -1229,7 +1229,8 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
       if(TRACKS[_cur].src && aud){
         aud.src=TRACKS[_cur].src;
         aud.crossOrigin='anonymous';
-        try{aud.play().catch(function(e){console.log('Audio play failed:',e);});}catch(e){console.log('Audio error:',e);}
+        aud.volume=0.7;
+        try{aud.play().catch(function(e){console.log('Audio play failed:',e);showToast('⚠ Audio playback blocked');});}catch(e){console.log('Audio error:',e);showToast('⚠ Audio unavailable');}
       }
       if(_timer)clearInterval(_timer);
       _timer=setInterval(function(){
@@ -1728,6 +1729,10 @@ function getTherapyContext(){
       console.log('Web Audio not available');
     }
   }
+  // Resume suspended context (required by modern browsers)
+  if(_therapyCtx&&_therapyCtx.state==='suspended'){
+    _therapyCtx.resume().catch(function(e){console.log('Audio context resume failed:',e);});
+  }
   return _therapyCtx;
 }
 
@@ -1771,7 +1776,7 @@ function playTherapyFrequency(freq){
       _therapyGain.connect(ctx.destination);
     }
     
-    _therapyGain.gain.setValueAtTime(0.15,now);
+    _therapyGain.gain.setValueAtTime(0.35,now);
     
     var oscs=[];
     
