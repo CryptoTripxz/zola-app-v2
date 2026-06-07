@@ -524,9 +524,55 @@ body{background:#07091A;}
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- THERAPY TAB -->
+          <!-- BREATHING TAB -->
+          <div class="tab-header active" onclick="toggleTab(this)">
+            <span class="tab-title">🫁 4-7-8 Breathing</span>
+            <span class="tab-chev">▾</span>
+          </div>
+          <div class="tab-content">
+            <div style="background:linear-gradient(135deg,rgba(59,142,232,0.15) 0%,rgba(100,180,255,0.10) 100%);border-radius:16px;padding:16px;border:1px solid rgba(59,142,232,0.25);">
+              <div style="text-align:center;margin-bottom:16px;">
+                <div style="font-size:20px;font-weight:800;color:rgba(255,255,255,0.95);margin-bottom:2px;">4-7-8 Breathing</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.72);">A natural tranquilliser for the nervous system</div>
+              </div>
+              
+              <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+                <div style="position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;">
+                  <svg style="position:absolute;inset:0;" viewBox="0 0 160 160">
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(59,142,232,0.25)" stroke-width="2"/>
+                    <circle cx="80" cy="80" r="60" fill="none" stroke="rgba(59,142,232,0.40)" stroke-width="1.5"/>
+                  </svg>
+                  <div style="text-align:center;z-index:2;">
+                    <div id="breath-phase" style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.95);margin-bottom:4px;">Ready</div>
+                    <div id="breath-timer" style="font-size:42px;font-weight:800;color:#5DADE2;font-family:'Fredoka One',cursive;">—</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:8px;width:100%;justify-content:center;">
+                  <div style="text-align:center;padding:8px 10px;background:rgba(59,142,232,0.20);border-radius:10px;flex:1;">
+                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.80);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Inhale</div>
+                    <div style="font-size:16px;font-weight:800;color:#85C1E9;font-family:'DM Mono',monospace;">4s</div>
+                  </div>
+                  <div style="text-align:center;padding:8px 10px;background:rgba(59,142,232,0.20);border-radius:10px;flex:1;">
+                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.80);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Hold</div>
+                    <div style="font-size:16px;font-weight:800;color:#85C1E9;font-family:'DM Mono',monospace;">7s</div>
+                  </div>
+                  <div style="text-align:center;padding:8px 10px;background:rgba(59,142,232,0.20);border-radius:10px;flex:1;">
+                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.80);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Exhale</div>
+                    <div style="font-size:16px;font-weight:800;color:#85C1E9;font-family:'DM Mono',monospace;">8s</div>
+                  </div>
+                </div>
+
+                <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.75);">
+                  <span id="breath-cycle">Cycle 1 of 4</span>
+                </div>
+
+                <button id="breath-btn" onclick="startBreathing()" style="width:100%;padding:12px;background:linear-gradient(135deg,#3B8EE8,#1E90FF);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;">Begin 🫁</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="tab-header active" onclick="toggleTab(this)">
           <span class="tab-title">🎵 Therapy</span>
           <span class="tab-chev">▾</span>
@@ -1338,6 +1384,18 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
         aud.src=TRACKS[_cur].src;
         aud.crossOrigin='anonymous';
         aud.volume=0.7;
+        
+        // Get actual audio duration when metadata loads
+        aud.onloadedmetadata=function(){
+          var actualDuration=aud.duration;
+          if(actualDuration && actualDuration>0){
+            TRACKS[_cur].baseDuration=actualDuration;
+            TRACKS[_cur].duration=actualDuration*4;
+            _duration=TRACKS[_cur].duration;
+            durEl.textContent=fmt(_duration);
+          }
+        };
+        
         try{aud.play().catch(function(e){console.log('Audio play failed:',e);});}catch(e){console.log('Audio error:',e);}
       }
       if(_timer)clearInterval(_timer);
@@ -2039,7 +2097,70 @@ function updateTherapyUI(){
   }
 }
 
-function addWaterGlass(){
+var _breathingActive=false;
+var _breathingCycle=0;
+var _breathingTimer=null;
+
+function startBreathing(){
+  if(_breathingActive)return;
+  _breathingActive=true;
+  _breathingCycle=0;
+  runBreathingCycle();
+}
+
+function runBreathingCycle(){
+  _breathingCycle++;
+  if(_breathingCycle>4){
+    // Finished all 4 cycles
+    _breathingActive=false;
+    document.getElementById('breath-phase').textContent='✓ Complete';
+    document.getElementById('breath-timer').textContent='—';
+    document.getElementById('breath-cycle').textContent='Cycle 1 of 4';
+    document.getElementById('breath-btn').textContent='Begin 🫁';
+    document.getElementById('breath-btn').onclick=startBreathing;
+    showToast('✓ Breathing complete');
+    return;
+  }
+  
+  document.getElementById('breath-cycle').textContent='Cycle '+_breathingCycle+' of 4';
+  var btn=document.getElementById('breath-btn');
+  if(btn){
+    btn.textContent='Breathing...';
+    btn.style.pointerEvents='none';
+    btn.style.opacity='0.6';
+  }
+  
+  // Inhale 4 seconds
+  breathePhase('Inhale',4,function(){
+    // Hold 7 seconds
+    breathePhase('Hold',7,function(){
+      // Exhale 8 seconds
+      breathePhase('Exhale',8,function(){
+        // Move to next cycle
+        setTimeout(runBreathingCycle,500);
+      });
+    });
+  });
+}
+
+function breathePhase(phase,duration,callback){
+  var timerEl=document.getElementById('breath-timer');
+  var phaseEl=document.getElementById('breath-phase');
+  var elapsed=0;
+  var interval=setInterval(function(){
+    elapsed+=0.1;
+    var remaining=duration-elapsed;
+    if(remaining<=0){
+      clearInterval(interval);
+      if(callback)callback();
+    }else{
+      if(timerEl)timerEl.textContent=Math.ceil(remaining);
+      if(phaseEl)phaseEl.textContent=phase;
+    }
+  },100);
+}
+
+function addWaterGlass(){n
   if(_waterCount<8){
     _waterCount++;
     document.getElementById('water-count').textContent=_waterCount;
