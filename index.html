@@ -503,10 +503,10 @@ body{background:#07091A;}
             </div>
           </div>
 
-          <div class="therm-card" style="cursor:pointer;" onclick="openMoodSelector()">
+          <div class="therm-card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
               <div class="therm-title" style="font-size:13px;font-weight:700;color:var(--t1);">Mood Thermometer</div>
-              <div class="therm-date" style="background:var(--em-pale);border-radius:12px;padding:2px 9px;font-size:10px;font-weight:600;color:var(--t3);" id="mood-date">Today</div>
+              <div class="therm-date" style="background:var(--em-pale);border-radius:12px;padding:2px 9px;font-size:10px;font-weight:600;color:var(--t3);">Today</div>
             </div>
             <div style="display:flex;align-items:flex-end;gap:12px;">
               <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
@@ -516,46 +516,12 @@ body{background:#07091A;}
               </div>
               <div style="flex:1;">
                 <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:1px;">
-                  <div class="therm-score-num" id="mood-score" style="font-family:'Fredoka One',cursive;font-size:42px;color:var(--au2);">72</div>
+                  <div class="therm-score-num" style="font-family:'Fredoka One',cursive;font-size:42px;color:var(--au2);">72</div>
                   <div style="font-size:11px;color:var(--t3);font-weight:600;">°</div>
                 </div>
-                <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px;" id="mood-label">Happy & Energized</div>
-                <div style="font-size:11px;color:var(--t2);line-height:1.5;" id="mood-desc">You're feeling great today!</div>
+                <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px;">Happy & Energized</div>
+                <div style="font-size:11px;color:var(--t2);line-height:1.5;">You're feeling great today!</div>
               </div>
-            </div>
-          </div>
-
-          <!-- MOOD SELECTOR MODAL -->
-          <div id="mood-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none';">
-            <div style="background:#fff;border-radius:20px;padding:24px;max-width:300px;box-shadow:0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation();">
-              <div style="text-align:center;margin-bottom:20px;">
-                <div style="font-size:18px;font-weight:900;color:#1a2a3a;">How are you feeling?</div>
-              </div>
-              
-              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;">
-                <div onclick="setMood(5,'😄','Excellent','Feeling amazing!')" style="text-align:center;cursor:pointer;padding:12px;border-radius:12px;background:#f0f5ff;transition:all 0.2s;" onmouseover="this.style.background='#dde9ff';this.style.transform='scale(1.05)';" onmouseout="this.style.background='#f0f5ff';this.style.transform='scale(1)';">
-                  <div style="font-size:24px;margin-bottom:4px;">😄</div>
-                  <div style="font-size:9px;color:#1a2a3a;font-weight:600;">Excellent</div>
-                </div>
-                <div onclick="setMood(4,'😊','Happy','Feeling good!')" style="text-align:center;cursor:pointer;padding:12px;border-radius:12px;background:#f0f5ff;transition:all 0.2s;" onmouseover="this.style.background='#dde9ff';this.style.transform='scale(1.05)';" onmouseout="this.style.background='#f0f5ff';this.style.transform='scale(1)';">
-                  <div style="font-size:24px;margin-bottom:4px;">😊</div>
-                  <div style="font-size:9px;color:#1a2a3a;font-weight:600;">Happy</div>
-                </div>
-                <div onclick="setMood(3,'😐','Okay','Feeling neutral')" style="text-align:center;cursor:pointer;padding:12px;border-radius:12px;background:#f0f5ff;transition:all 0.2s;" onmouseover="this.style.background='#dde9ff';this.style.transform='scale(1.05)';" onmouseout="this.style.background='#f0f5ff';this.style.transform='scale(1)';">
-                  <div style="font-size:24px;margin-bottom:4px;">😐</div>
-                  <div style="font-size:9px;color:#1a2a3a;font-weight:600;">Okay</div>
-                </div>
-                <div onclick="setMood(2,'😟','Worried','A bit stressed')" style="text-align:center;cursor:pointer;padding:12px;border-radius:12px;background:#f0f5ff;transition:all 0.2s;" onmouseover="this.style.background='#dde9ff';this.style.transform='scale(1.05)';" onmouseout="this.style.background='#f0f5ff';this.style.transform='scale(1)';">
-                  <div style="font-size:24px;margin-bottom:4px;">😟</div>
-                  <div style="font-size:9px;color:#1a2a3a;font-weight:600;">Worried</div>
-                </div>
-                <div onclick="setMood(1,'😢','Sad','Feeling down')" style="text-align:center;cursor:pointer;padding:12px;border-radius:12px;background:#f0f5ff;transition:all 0.2s;" onmouseover="this.style.background='#dde9ff';this.style.transform='scale(1.05)';" onmouseout="this.style.background='#f0f5ff';this.style.transform='scale(1)';">
-                  <div style="font-size:24px;margin-bottom:4px;">😢</div>
-                  <div style="font-size:9px;color:#1a2a3a;font-weight:600;">Sad</div>
-                </div>
-              </div>
-              
-              <button onclick="document.getElementById('mood-modal').style.display='none';" style="width:100%;padding:12px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">Done</button>
             </div>
           </div>
 
@@ -1004,11 +970,6 @@ body{background:#07091A;}
       
       <!-- CALENDAR HEADER -->
       <div style="margin-bottom:32px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <button onclick="navigatePlannerWeek(-1)" style="padding:8px 16px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:14px;font-family:'DM Sans',sans-serif;">← Previous</button>
-          <div id="planner-week-label" style="font-size:16px;font-weight:800;color:#1a2a3a;text-align:center;">This Week</div>
-          <button onclick="navigatePlannerWeek(1)" style="padding:8px 16px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:14px;font-family:'DM Sans',sans-serif;">Next →</button>
-        </div>
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;">
           <!-- Sunday -->
           <div onclick="selectPlannerDay(0)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
@@ -2461,60 +2422,6 @@ function voiceExportEntries(){
   showToast('✓ Exported '+count+' entries');
 }
 
-
-// MOOD THERMOMETER - LIVE & OFFLINE
-var _moodData=JSON.parse(localStorage.getItem('zola_mood'))||{score:72,emoji:'😄',label:'Happy & Energized',desc:'You\'re feeling great today!',date:new Date().toDateString()};
-
-function initMood(){
-  loadMoodEntry();
-}
-
-function loadMoodEntry(){
-  // Load last saved mood entry
-  _moodData=JSON.parse(localStorage.getItem('zola_mood'))||{score:72,emoji:'😄',label:'Happy & Energized',desc:'You\'re feeling great today!',date:new Date().toDateString()};
-  updateMoodDisplay();
-}
-
-function openMoodSelector(){
-  document.getElementById('mood-modal').style.display='flex';
-}
-
-function setMood(level,emoji,label,desc){
-  var scores={5:100,4:80,3:60,2:40,1:20};
-  _moodData={
-    score:scores[level],
-    emoji:emoji,
-    label:label,
-    desc:desc,
-    date:new Date().toDateString()
-  };
-  localStorage.setItem('zola_mood',JSON.stringify(_moodData));
-  updateMoodDisplay();
-  document.getElementById('mood-modal').style.display='none';
-  showToast(emoji+' Mood saved!');
-}
-
-function updateMoodDisplay(){
-  var score=document.getElementById('mood-score');
-  var label=document.getElementById('mood-label');
-  var desc=document.getElementById('mood-desc');
-  var dateEl=document.getElementById('mood-date');
-  
-  if(score)score.textContent=_moodData.score;
-  if(label)label.textContent=_moodData.label;
-  if(desc)desc.textContent=_moodData.desc;
-  
-  var today=new Date().toDateString();
-  if(dateEl){
-    if(_moodData.date===today){
-      dateEl.textContent='Today';
-    }else{
-      var d=new Date(_moodData.date);
-      dateEl.textContent=(d.getMonth()+1)+'/'+d.getDate();
-    }
-  }
-}
-
 function addWaterGlass(){
   if(_waterCount<8){
     _waterCount++;
@@ -3032,102 +2939,11 @@ function saveAddWorkout(){
 
 /* ═══ 7-DAY PLANNER ═══ */
 var _plannerCurrentDay=1;
-var _plannerWeekOffset=0;
-var _plannerTasks=JSON.parse(localStorage.getItem('zolaPlannerTasks'))||{};
+var _plannerTasks=JSON.parse(localStorage.getItem('zolaPlannerTasks'))||{
+  0:[],1:[{id:0,time:'07:00',emoji:'☀️',name:'Rise & Sunlight',priority:'Med',done:false}],2:[],3:[],4:[],5:[],6:[]
+};
 var _plannerTaskIdCounter=1;
 var _currentTaskPriority='Med';
-var _plannerWeekOffset=0;
-var _plannerCurrentDay=null;
-
-function initPlanner(){
-  var now=new Date();
-  _plannerCurrentDay=now.getDay();
-  updatePlannerDates();
-  // Update dates in real-time every minute
-  setInterval(function(){
-    updatePlannerDates();
-  },60000);
-}
-
-function getSundayOfWeek(date,weekOffset){
-  var d=new Date(date);
-  d.setDate(d.getDate()+(weekOffset*7));
-  var day=d.getDay();
-  var diff=d.getDate()-day;
-  return new Date(d.setDate(diff));
-}
-
-function getPlannerDateKey(dayIndex,weekOffset){
-  var sunday=getSundayOfWeek(new Date(),weekOffset);
-  var date=new Date(sunday);
-  date.setDate(date.getDate()+dayIndex);
-  return date.toISOString().split('T')[0];
-}
-
-function updatePlannerDates(){
-  var sunday=getSundayOfWeek(new Date(),_plannerWeekOffset);
-  var weekLabel=document.getElementById('planner-week-label');
-  
-  if(weekLabel){
-    // Create date range display
-    var startDate=new Date(sunday);
-    var endDate=new Date(sunday);
-    endDate.setDate(endDate.getDate()+6);
-    
-    var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var startStr=monthNames[startDate.getMonth()]+' '+startDate.getDate();
-    var endStr=monthNames[endDate.getMonth()]+' '+endDate.getDate();
-    
-    var weekText='';
-    if(_plannerWeekOffset===0){
-      weekText='This Week • '+startStr+' - '+endStr;
-    }else if(_plannerWeekOffset===-1){
-      weekText='Last Week • '+startStr+' - '+endStr;
-    }else if(_plannerWeekOffset<0){
-      weekText=Math.abs(_plannerWeekOffset)+' weeks ago • '+startStr+' - '+endStr;
-    }else{
-      weekText=_plannerWeekOffset+' weeks ahead • '+startStr+' - '+endStr;
-    }
-    
-    weekLabel.textContent=weekText;
-  }
-  
-  var dayNames=['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  var now=new Date();
-  now.setHours(0,0,0,0);
-  
-  for(var i=0;i<7;i++){
-    var date=new Date(sunday);
-    date.setDate(date.getDate()+i);
-    var dayEl=document.getElementById('planner-day-'+i);
-    
-    if(dayEl){
-      var isToday=date.toDateString()===now.toDateString();
-      var isSelected=_plannerCurrentDay===i&&_plannerWeekOffset===0;
-      var dateStr=date.getDate();
-      var monthStr=(date.getMonth()+1);
-      
-      var bgColor=isSelected?'linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%)':'transparent';
-      var textColor=isSelected?'#fff':'#1a2a3a';
-      var labelColor=isSelected?'rgba(255,255,255,0.85)':'#4b5f89';
-      var subColor=isSelected?'rgba(255,255,255,0.70)':'#4b5f89';
-      var border=isToday&&!isSelected?'2px solid #1e5ba8':'none';
-      
-      dayEl.style.background=bgColor;
-      dayEl.style.border=border;
-      dayEl.innerHTML='<div style="font-family:\'DM Mono\',monospace;font-size:10px;color:'+labelColor+';font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">'+dayNames[i]+(isToday?' •':'')+' </div><div style="font-family:\'Syne\',sans-serif;font-size:32px;font-weight:800;color:'+textColor+';line-height:1;">'+dateStr+'</div><div style="font-size:8px;color:'+subColor+';margin-top:2px;">'+monthStr+'</div>';
-    }
-  }
-  
-  renderPlannerTasks();
-}
-
-function navigatePlannerWeek(direction){
-  _plannerWeekOffset+=direction;
-  _plannerCurrentDay=1;
-  updatePlannerDates();
-  updatePlannerDayHighlight();
-}
 
 function savePlannerData(){
   localStorage.setItem('zolaPlannerTasks',JSON.stringify(_plannerTasks));
@@ -3144,17 +2960,11 @@ function updatePlannerDayHighlight(){
     var dayEl=document.getElementById('planner-day-'+i);
     if(dayEl){
       if(i===_plannerCurrentDay){
-        dayEl.style.background='linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%)';
+        dayEl.style.background='#1e5ba8';
         dayEl.style.color='#fff';
-        dayEl.style.boxShadow='0 4px 16px rgba(30,91,168,0.25)';
-        dayEl.style.borderRadius='20px';
-        dayEl.style.padding='16px 12px';
       }else{
         dayEl.style.background='transparent';
         dayEl.style.color='#1a2a3a';
-        dayEl.style.boxShadow='none';
-        dayEl.style.borderRadius='16px';
-        dayEl.style.padding='8px 0';
       }
     }
   }
@@ -3187,10 +2997,9 @@ function addPlannerTask(){
     return;
   }
   
-  var dateKey=getPlannerDateKey(_plannerCurrentDay,_plannerWeekOffset);
-  if(!_plannerTasks[dateKey])_plannerTasks[dateKey]=[];
+  if(!_plannerTasks[_plannerCurrentDay])_plannerTasks[_plannerCurrentDay]=[];
   
-  _plannerTasks[dateKey].push({
+  _plannerTasks[_plannerCurrentDay].push({
     id:_plannerTaskIdCounter++,
     time:taskTime,
     emoji:'',
@@ -3198,13 +3007,6 @@ function addPlannerTask(){
     priority:_currentTaskPriority,
     done:false
   });
-  
-  input.value='';
-  timeInput.value='09:00';
-  savePlannerData();
-  renderPlannerTasks();
-  showToast('✓ Task added');
-}
   
   savePlannerData();
   input.value='';
@@ -3218,8 +3020,7 @@ function renderPlannerTasks(){
   var container=document.getElementById('planner-tasks-container');
   if(!container)return;
   
-  var dateKey=getPlannerDateKey(_plannerCurrentDay,_plannerWeekOffset);
-  var tasks=_plannerTasks[dateKey]||[];
+  var tasks=_plannerTasks[_plannerCurrentDay]||[];
   var html='';
   
   for(var i=0;i<tasks.length;i++){
@@ -3248,24 +3049,19 @@ function renderPlannerTasks(){
 }
 
 function togglePlannerTaskDone(id){
-  var dateKey=getPlannerDateKey(_plannerCurrentDay,_plannerWeekOffset);
-  var tasks=_plannerTasks[dateKey];
-  if(tasks){
-    var task=tasks.find(t=>t.id===id);
-    if(task){
-      task.done=!task.done;
-      savePlannerData();
-      renderPlannerTasks();
-    }
+  var task=_plannerTasks[_plannerCurrentDay].find(t=>t.id===id);
+  if(task){
+    task.done=!task.done;
+    savePlannerData();
+    renderPlannerTasks();
   }
 }
 
 function deletePlannerTask(id){
-  var dateKey=getPlannerDateKey(_plannerCurrentDay,_plannerWeekOffset);
-  if(_plannerTasks[dateKey]){
-    var idx=_plannerTasks[dateKey].findIndex(t=>t.id===id);
+  if(_plannerTasks[_plannerCurrentDay]){
+    var idx=_plannerTasks[_plannerCurrentDay].findIndex(t=>t.id===id);
     if(idx>=0){
-      _plannerTasks[dateKey].splice(idx,1);
+      _plannerTasks[_plannerCurrentDay].splice(idx,1);
       savePlannerData();
       renderPlannerTasks();
       showToast('✓ Task deleted');
@@ -3381,10 +3177,6 @@ setTimeout(function(){
 
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded',function(){
-  // Initialize Mood & Planner
-  initMood();
-  initPlanner();
-  
   // Voice Journal
   voiceRefreshEntries();
   
