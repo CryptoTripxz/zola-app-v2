@@ -622,6 +622,41 @@ body{background:#07091A;}
               <button class="je-save" onclick="jeSave()">Save</button>
             </div>
           </div>
+
+          <!-- VIBE VOICE JOURNAL -->
+          <div style="background:linear-gradient(135deg,rgba(100,200,255,0.08) 0%,rgba(150,220,255,0.05) 100%);border-radius:14px;border:1px solid rgba(100,200,255,0.15);padding:14px;margin-top:12px;">
+            <div style="text-align:center;margin-bottom:14px;">
+              <div style="font-size:18px;font-weight:900;color:var(--t1);margin-bottom:2px;">Vibe Voice Journal</div>
+              <div style="font-size:11px;color:var(--t3);display:flex;align-items:center;justify-content:center;gap:4px;">🎙️</div>
+            </div>
+
+            <div style="text-align:center;margin-bottom:12px;">
+              <div style="font-size:32px;font-weight:900;font-family:'DM Mono',monospace;color:var(--t1);" id="voice-timer">0:00</div>
+            </div>
+
+            <div style="text-align:center;font-size:10px;color:var(--t3);margin-bottom:12px;">
+              Tap 🎙️ to record · 📁 to upload audio
+            </div>
+
+            <div style="display:flex;justify-content:center;gap:12px;margin-bottom:12px;">
+              <div onclick="voiceUpload()" style="width:60px;height:60px;border-radius:50%;background:rgba(100,180,255,0.20);border:2px solid rgba(100,180,255,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:24px;" onmouseover="this.style.transform='scale(1.1)';this.style.background='rgba(100,180,255,0.30)';" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(100,180,255,0.20)';">
+                📁
+              </div>
+              <div id="voice-record-btn" onclick="voiceToggleRecord()" style="width:60px;height:60px;border-radius:50%;background:rgba(255,100,130,0.25);border:2px solid rgba(255,100,130,0.40);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:24px;" onmouseover="this.style.transform='scale(1.1)';this.style.background='rgba(255,100,130,0.35)';" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(255,100,130,0.25)';">
+                🎙️
+              </div>
+              <div id="voice-save-btn" onclick="voiceSaveEntry()" style="width:60px;height:60px;border-radius:50%;background:rgba(100,200,100,0.20);border:2px solid rgba(100,200,100,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:24px;opacity:0.5;pointer-events:none;" onmouseover="if(this.style.opacity!='0.5'){this.style.transform='scale(1.1)';this.style.background='rgba(100,200,100,0.30)';}" onmouseout="if(this.style.opacity!='0.5'){this.style.transform='scale(1)';this.style.background='rgba(100,200,100,0.20)';}'">
+                ✓
+              </div>
+            </div>
+
+            <textarea id="voice-note" placeholder="Add a note about this" style="width:100%;padding:10px 12px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;font-size:11px;font-family:'DM Sans',sans-serif;resize:none;height:50px;background:#fff;color:var(--t1);box-sizing:border-box;"></textarea>
+
+            <input type="file" id="voice-file-input" accept="audio/*" style="display:none;" onchange="voiceFileSelected()"/>
+          </div>
+
+          <!-- PAST VOICE ENTRIES -->
+          <div id="voice-entries-container"></div>
           <div id="je-entries"></div>
         </div>
 
@@ -2160,7 +2195,226 @@ function breathePhase(phase,duration,callback){
   },100);
 }
 
-function addWaterGlass(){n
+// Voice Journal Variables
+var _voiceRecorder=null;
+var _voiceChunks=[];
+var _voiceRecording=false;
+var _voiceTimer=null;
+var _voiceSeconds=0;
+var _voiceBlob=null;
+
+function voiceToggleRecord(){
+  if(!_voiceRecording){
+    // Start recording
+    voiceStartRecord();
+  }else{
+    // Stop recording
+    voiceStopRecord();
+  }
+}
+
+function voiceStartRecord(){
+  _voiceChunks=[];
+  _voiceSeconds=0;
+  _voiceRecording=true;
+  
+  var btn=document.getElementById('voice-record-btn');
+  if(btn){
+    btn.style.background='rgba(255,100,130,0.50)';
+    btn.style.borderColor='rgba(255,100,130,0.70)';
+  }
+  
+  // Update save button
+  var saveBtn=document.getElementById('voice-save-btn');
+  if(saveBtn){
+    saveBtn.style.opacity='1';
+    saveBtn.style.pointerEvents='auto';
+  }
+  
+  try{
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      var audioContext=new (window.AudioContext||window.webkitAudioContext)();
+      _voiceRecorder=new MediaRecorder(stream);
+      _voiceRecorder.ondataavailable=function(e){
+        if(e.data.size>0)_voiceChunks.push(e.data);
+      };
+      _voiceRecorder.start();
+      
+      // Timer
+      if(_voiceTimer)clearInterval(_voiceTimer);
+      _voiceTimer=setInterval(function(){
+        _voiceSeconds++;
+        var mins=Math.floor(_voiceSeconds/60);
+        var secs=_voiceSeconds%60;
+        var display=mins+':'+(secs<10?'0':'')+secs;
+        document.getElementById('voice-timer').textContent=display;
+      },1000);
+      
+      showToast('🎙️ Recording...');
+    }).catch(function(e){
+      _voiceRecording=false;
+      showToast('⚠ Microphone access denied');
+      if(btn){
+        btn.style.background='rgba(255,100,130,0.25)';
+        btn.style.borderColor='rgba(255,100,130,0.40)';
+      }
+    });
+  }catch(e){
+    _voiceRecording=false;
+    showToast('⚠ Recording not available');
+  }
+}
+
+function voiceStopRecord(){
+  _voiceRecording=false;
+  if(_voiceTimer)clearInterval(_voiceTimer);
+  
+  if(_voiceRecorder){
+    _voiceRecorder.onstop=function(){
+      _voiceBlob=new Blob(_voiceChunks,{type:'audio/webm'});
+      showToast('⏸ Recording saved');
+    };
+    _voiceRecorder.stop();
+    if(_voiceRecorder.stream){
+      _voiceRecorder.stream.getTracks().forEach(function(track){track.stop();});
+    }
+  }
+  
+  var btn=document.getElementById('voice-record-btn');
+  if(btn){
+    btn.style.background='rgba(255,100,130,0.25)';
+    btn.style.borderColor='rgba(255,100,130,0.40)';
+  }
+}
+
+function voiceUpload(){
+  document.getElementById('voice-file-input').click();
+}
+
+function voiceFileSelected(){
+  var fileInput=document.getElementById('voice-file-input');
+  if(fileInput.files&&fileInput.files[0]){
+    var file=fileInput.files[0];
+    var reader=new FileReader();
+    reader.onload=function(e){
+      _voiceBlob=e.target.result;
+      showToast('📁 Audio uploaded');
+      document.getElementById('voice-timer').textContent='0:00';
+    };
+    reader.readAsArrayBuffer(file);
+  }
+}
+
+function voiceSaveEntry(){
+  if(!_voiceBlob){
+    showToast('⚠ No audio recorded');
+    return;
+  }
+  
+  var note=document.getElementById('voice-note').value;
+  var entry={
+    id:Date.now(),
+    date:new Date().toLocaleString(),
+    duration:_voiceSeconds,
+    note:note,
+    audio:_voiceBlob instanceof Blob?_voiceBlob:new Blob([_voiceBlob],{type:'audio/webm'})
+  };
+  
+  // Store in localStorage (as base64 for audio)
+  var entries=JSON.parse(localStorage.getItem('zola_voice_entries'))||[];
+  var audioBase64='';
+  if(entry.audio instanceof Blob){
+    var reader=new FileReader();
+    reader.onload=function(){
+      entry.audioBase64=reader.result;
+      entries.push(entry);
+      localStorage.setItem('zola_voice_entries',JSON.stringify(entries.map(e=>({...e,audio:null,audioBase64:e.audioBase64}))));
+      voiceRefreshEntries();
+      _voiceBlob=null;
+      _voiceSeconds=0;
+      document.getElementById('voice-timer').textContent='0:00';
+      document.getElementById('voice-note').value='';
+      document.getElementById('voice-file-input').value='';
+      showToast('✓ Voice entry saved');
+    };
+    reader.readAsDataURL(entry.audio);
+  }
+}
+
+function voiceRefreshEntries(){
+  var entries=JSON.parse(localStorage.getItem('zola_voice_entries'))||[];
+  var container=document.getElementById('voice-entries-container');
+  if(!container)return;
+  
+  if(entries.length===0){
+    container.innerHTML='<div style="margin-top:14px;text-align:center;padding:12px;font-size:10px;color:var(--t3);">No voice entries yet</div>';
+    return;
+  }
+  
+  var html='<div style="margin-top:16px;">';
+  
+  // Past Entries header with count and export
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">';
+  html+='<div><div style="font-size:14px;font-weight:900;color:var(--t1);">Past</div><div style="font-size:14px;font-weight:900;color:var(--t1);">Entries</div></div>';
+  html+='<div style="background:rgba(200,220,255,0.15);border-radius:12px;padding:6px 12px;text-align:center;font-size:11px;color:var(--t3);font-weight:600;">'+entries.length+'<br/>entry'+(entries.length===1?'':'ies')+'</div>';
+  html+='<button onclick="voiceExportEntries()" style="padding:8px 14px;background:linear-gradient(135deg,rgba(100,200,100,0.25) 0%,rgba(150,230,150,0.15) 100%);color:var(--t1);border:1.5px solid rgba(100,200,100,0.35);border-radius:12px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background=\'linear-gradient(135deg,rgba(100,200,100,0.35) 0%,rgba(150,230,150,0.25) 100%)\';" onmouseout="this.style.background=\'linear-gradient(135deg,rgba(100,200,100,0.25) 0%,rgba(150,230,150,0.15) 100%)\';"> 📁 Export</button>';
+  html+='</div>';
+  
+  // Voice entries
+  for(var i=entries.length-1;i>=Math.max(0,entries.length-5);i--){
+    var e=entries[i];
+    html+='<div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.08);">';
+    html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">';
+    html+='<div style="font-size:9px;color:var(--t3);font-family:\'DM Mono\',monospace;">🎙️ '+e.date+'</div>';
+    html+='<button onclick="voiceDownloadEntry('+i+')" style="padding:4px 8px;background:linear-gradient(135deg,#1E90FF,#3B8EE8);color:#fff;border:none;border-radius:6px;font-size:9px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform=\'scale(1.05)\';" onmouseout="this.style.transform=\'scale(1)\';">⬇ Download</button>';
+    html+='</div>';
+    if(e.note){
+      html+='<div style="font-size:9px;color:var(--t3);font-style:italic;margin-bottom:4px;">📝 '+e.note+'</div>';
+    }
+    html+='<div style="font-size:8px;color:var(--t3);">⏱ '+e.duration+'s</div>';
+    html+='</div>';
+  }
+  
+  html+='</div>';
+  container.innerHTML=html;
+}
+
+function voiceDownloadEntry(idx){
+  var entries=JSON.parse(localStorage.getItem('zola_voice_entries'))||[];
+  if(idx<0||idx>=entries.length)return;
+  var e=entries[idx];
+  if(e.audioBase64){
+    var link=document.createElement('a');
+    link.href=e.audioBase64;
+    link.download='voice-entry-'+e.id+'.webm';
+    link.click();
+    showToast('⬇ Downloading...');
+  }
+}
+
+function voiceExportEntries(){
+  var entries=JSON.parse(localStorage.getItem('zola_voice_entries'))||[];
+  if(entries.length===0){
+    showToast('⚠ No entries to export');
+    return;
+  }
+  
+  var zip='';
+  var count=0;
+  for(var i=0;i<entries.length;i++){
+    if(entries[i].audioBase64){
+      var e=entries[i];
+      var link=document.createElement('a');
+      link.href=e.audioBase64;
+      link.download='voice-entry-'+e.id+'.webm';
+      link.click();
+      count++;
+    }
+  }
+  showToast('✓ Exported '+count+' entries');
+}
+
+function addWaterGlass(){
   if(_waterCount<8){
     _waterCount++;
     document.getElementById('water-count').textContent=_waterCount;
@@ -2915,6 +3169,9 @@ setTimeout(function(){
 
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded',function(){
+  // Voice Journal
+  voiceRefreshEntries();
+  
   // Stress level buttons
   var stressLowBtn=document.getElementById('stress-low');
   var stressMedBtn=document.getElementById('stress-med');
