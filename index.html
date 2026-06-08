@@ -985,19 +985,34 @@ body{background:#07091A;}
   <div id="screen-planner" class="screen active" style="background:linear-gradient(180deg,#e8f4fa 0%,#f0f8fc 100%);overflow-y:auto;">
     <div style="padding:24px 16px;min-height:100vh;">
       
-      <!-- WEEK NAVIGATION -->
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <button onclick="goToPreviousWeek()" style="padding:10px 16px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;">← Previous</button>
-        <div style="font-family:'DM Mono',monospace;font-size:12px;color:#4b5f89;font-weight:700;text-align:center;">
-          <div id="week-label">Week of Jan 1</div>
+      <!-- CALENDAR SECTION (COLLAPSIBLE) -->
+      <div style="margin-bottom:28px;">
+        <!-- Calendar Header with Collapse -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer;" onclick="toggleCalendarSection()">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span id="calendar-chevron" style="font-size:16px;transition:transform 0.3s;">▼</span>
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#1a2a3a;">📅 Weekly Calendar</div>
+          </div>
+          <span style="font-size:12px;color:#7a8fa8;font-family:'DM Mono',monospace;" id="calendar-status">Week of Jan 1</span>
         </div>
-        <button id="next-week-btn" onclick="goToNextWeek()" style="padding:10px 16px;background:#ccc;color:#999;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:not-allowed;transition:all 0.3s;">Next →</button>
-      </div>
-      
-      <!-- CALENDAR HEADER -->
-      <div style="margin-bottom:32px;">
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;" id="planner-days-grid">
-          <!-- Days will be generated dynamically -->
+        
+        <!-- Calendar Content (Collapsible) -->
+        <div id="calendar-section-content" style="max-height:1000px;overflow:hidden;transition:max-height 0.3s ease;">
+          <!-- WEEK NAVIGATION -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <button onclick="goToPreviousWeek()" style="padding:10px 16px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;">← Previous</button>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#4b5f89;font-weight:700;text-align:center;">
+              <div id="week-label">Week of Jan 1</div>
+            </div>
+            <button id="next-week-btn" onclick="goToNextWeek()" style="padding:10px 16px;background:#ccc;color:#999;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:not-allowed;transition:all 0.3s;">Next →</button>
+          </div>
+          
+          <!-- CALENDAR DAYS GRID -->
+          <div style="margin-bottom:24px;">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;" id="planner-days-grid">
+              <!-- Days will be generated dynamically -->
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1036,6 +1051,43 @@ body{background:#07091A;}
       <!-- TASKS LIST -->
       <div style="display:flex;flex-direction:column;gap:12px;" id="planner-tasks-container">
         <!-- Tasks will be rendered here -->
+      </div>
+
+      <!-- VISION BOARD SECTION (COLLAPSIBLE) -->
+      <div style="margin-top:32px;margin-bottom:28px;">
+        <!-- Vision Board Header with Collapse -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer;" onclick="toggleVisionSection()">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span id="vision-chevron" style="font-size:16px;transition:transform 0.3s;">▼</span>
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#1a2a3a;">🎯 Vision Board</div>
+          </div>
+          <span style="font-size:12px;color:#7a8fa8;font-family:'DM Mono',monospace;" id="vision-status">Manifest Your Future</span>
+        </div>
+        
+        <!-- Vision Board Content (Collapsible) -->
+        <div id="vision-section-content" style="max-height:1000px;overflow:hidden;transition:max-height 0.3s ease;">
+          <!-- VISION BOARD WEEK NAVIGATION -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <button onclick="goToPreviousVisionWeek()" style="padding:10px 16px;background:#7B4FD4;color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;">← Previous</button>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#7a8fa8;font-weight:700;text-align:center;">
+              <div id="vision-week-label">Week of Jan 1</div>
+            </div>
+            <button id="vision-next-week-btn" onclick="goToNextVisionWeek()" style="padding:10px 16px;background:#ccc;color:#999;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:not-allowed;transition:all 0.3s;">Next →</button>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+            <button onclick="screenshotVisionBoard()" style="padding:10px 14px;border-radius:12px;border:1.5px solid rgba(123,79,212,0.30);background:rgba(123,79,212,0.10);color:#7B4FD4;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">📸 Screenshot</button>
+            <button onclick="saveVisionBoardLocal()" style="padding:10px 14px;border-radius:12px;border:1.5px solid rgba(123,79,212,0.30);background:rgba(123,79,212,0.10);color:#7B4FD4;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">💾 Save</button>
+            <button onclick="exportVisionBoardPDF()" style="padding:10px 14px;border-radius:12px;border:1.5px solid rgba(123,79,212,0.30);background:rgba(123,79,212,0.10);color:#7B4FD4;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;">📄 PDF</button>
+            <button onclick="shareVisionBoard()" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#7B4FD4,#A78BFA);color:#fff;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-left:auto;">↑ Share</button>
+          </div>
+          
+          <!-- Vision Board Grid -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="vision-board-grid">
+            <!-- Vision cards will be generated here -->
+          </div>
+        </div>
       </div>
       
     </div>
@@ -3099,6 +3151,198 @@ function saveAddWorkout(){
   showToast('✓ Workout added!');
 }
 
+/* ═══ VISION BOARD ═══ */
+var _visionBoardByDate=JSON.parse(localStorage.getItem('zolaVisionBoardByDate'))||{};
+var _visionWeekStartDate=null;
+var _visionCurrentDate='2025-01-01';
+
+function initVisionBoard(){
+  var today=new Date();
+  _visionCurrentDate=formatDateISO(today);
+  _visionWeekStartDate=getWeekStartDate(today);
+  renderVisionBoardForWeek();
+}
+
+function renderVisionBoardForWeek(){
+  var weekDates=getWeekDates(_visionWeekStartDate);
+  // Use Sunday of the week as the key for the entire week
+  var weekKey=weekDates[0].date;
+  
+  if(!_visionBoardByDate[weekKey]){
+    _visionBoardByDate[weekKey]=[null,null,null,null,null,null];
+  }
+  
+  renderVisionBoard(_visionBoardByDate[weekKey]);
+  updateVisionWeekLabel();
+  updateVisionNextWeekButton();
+}
+
+function renderVisionBoard(boardData){
+  var grid=document.getElementById('vision-board-grid');
+  if(!grid)return;
+  
+  var html='';
+  for(var i=0;i<6;i++){
+    var card=boardData[i];
+    var hasImage=card&&card.data;
+    
+    html+='<div style="position:relative;aspect-ratio:1;border-radius:18px;border:2px dashed rgba(123,79,212,0.25);background:rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;overflow:hidden;" onclick="openVisionCardUpload('+i+')" onmouseover="this.style.borderColor=\'rgba(123,79,212,0.50)\';this.style.background=\'rgba(255,255,255,0.6)\';" onmouseout="this.style.borderColor=\'rgba(123,79,212,0.25)\';this.style.background=\'rgba(255,255,255,0.4)\'">';
+    
+    if(hasImage){
+      html+='<img src="'+card.data+'" style="width:100%;height:100%;object-fit:cover;" />';
+      html+='<button onclick="removeVisionCard('+i+',event)" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:#ff4444;color:#fff;border:none;font-size:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background=\'#ff2222\';" onmouseout="this.style.background=\'#ff4444\';">×</button>';
+    }else{
+      html+='<div style="text-align:center;pointer-events:none;"><div style="font-size:32px;margin-bottom:8px;">⭐</div><div style="font-size:12px;color:var(--sp2);font-weight:700;font-family:\'DM Sans\',sans-serif;">TAP TO ADD</div></div>';
+    }
+    
+    html+='</div>';
+  }
+  
+  grid.innerHTML=html;
+}
+
+function openVisionCardUpload(index){
+  var weekKey=getWeekDates(_visionWeekStartDate)[0].date;
+  var input=document.createElement('input');
+  input.type='file';
+  input.accept='image/*';
+  input.onchange=function(e){
+    var file=e.target.files[0];
+    if(file){
+      var reader=new FileReader();
+      reader.onload=function(event){
+        if(!_visionBoardByDate[weekKey])_visionBoardByDate[weekKey]=[null,null,null,null,null,null];
+        _visionBoardByDate[weekKey][index]={
+          data:event.target.result,
+          addedDate:new Date().toISOString()
+        };
+        saveVisionBoard();
+        renderVisionBoardForWeek();
+        showToast('✓ Vision added!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+}
+
+function removeVisionCard(index,e){
+  e.stopPropagation();
+  if(confirm('Remove this vision?')){
+    var weekKey=getWeekDates(_visionWeekStartDate)[0].date;
+    if(_visionBoardByDate[weekKey]){
+      _visionBoardByDate[weekKey][index]=null;
+      saveVisionBoard();
+      renderVisionBoardForWeek();
+      showToast('✓ Vision removed');
+    }
+  }
+}
+
+function saveVisionBoard(){
+  localStorage.setItem('zolaVisionBoardByDate',JSON.stringify(_visionBoardByDate));
+}
+
+function saveVisionBoardLocal(){
+  saveVisionBoard();
+  showToast('💾 Vision board saved locally');
+}
+
+function goToPreviousVisionWeek(){
+  var currentStart=new Date(_visionWeekStartDate);
+  currentStart.setDate(currentStart.getDate()-7);
+  _visionWeekStartDate=currentStart;
+  renderVisionBoardForWeek();
+}
+
+function goToNextVisionWeek(){
+  var today=new Date();
+  var nextWeekStart=new Date(_visionWeekStartDate);
+  nextWeekStart.setDate(nextWeekStart.getDate()+7);
+  
+  if(nextWeekStart>today){
+    showToast('Cannot view future weeks');
+    return;
+  }
+  
+  _visionWeekStartDate=nextWeekStart;
+  renderVisionBoardForWeek();
+}
+
+function updateVisionWeekLabel(){
+  var label=document.getElementById('vision-week-label');
+  if(label){
+    var startDate=new Date(_visionWeekStartDate);
+    var monthName=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][startDate.getMonth()];
+    label.textContent='Week of '+monthName+' '+startDate.getDate();
+  }
+}
+
+function updateVisionNextWeekButton(){
+  var btn=document.getElementById('vision-next-week-btn');
+  var today=new Date();
+  var nextWeekStart=new Date(_visionWeekStartDate);
+  nextWeekStart.setDate(nextWeekStart.getDate()+7);
+  
+  if(nextWeekStart>today){
+    btn.style.background='#ccc';
+    btn.style.color='#999';
+    btn.style.cursor='not-allowed';
+    btn.style.opacity='0.6';
+  }else{
+    btn.style.background='#7B4FD4';
+    btn.style.color='#fff';
+    btn.style.cursor='pointer';
+    btn.style.opacity='1';
+  }
+}
+
+function screenshotVisionBoard(){
+  showToast('📸 Screenshot feature coming soon');
+}
+
+function shareVisionBoard(){
+  if(navigator.share){
+    navigator.share({
+      title:'My Vision Board',
+      text:'Check out my vision board - manifesting my future! ✨'
+    }).catch(function(){});
+  }else{
+    showToast('↑ Share via your device menu');
+  }
+}
+
+function exportVisionBoardPDF(){
+  showToast('📄 PDF export coming soon');
+}
+
+/* ═══ COLLAPSE TOGGLE FUNCTIONS ═══ */
+function toggleCalendarSection(){
+  var content=document.getElementById('calendar-section-content');
+  var chevron=document.getElementById('calendar-chevron');
+  
+  if(content.style.maxHeight==='0px'){
+    content.style.maxHeight='1000px';
+    chevron.style.transform='rotate(0deg)';
+  }else{
+    content.style.maxHeight='0px';
+    chevron.style.transform='rotate(-90deg)';
+  }
+}
+
+function toggleVisionSection(){
+  var content=document.getElementById('vision-section-content');
+  var chevron=document.getElementById('vision-chevron');
+  
+  if(content.style.maxHeight==='0px'){
+    content.style.maxHeight='1000px';
+    chevron.style.transform='rotate(0deg)';
+  }else{
+    content.style.maxHeight='0px';
+    chevron.style.transform='rotate(-90deg)';
+  }
+}
+
 /* ═══ 7-DAY PLANNER ═══ */
 var _plannerCurrentDate='2025-01-01'; // Will be set to today on init
 var _plannerWeekStartDate=null; // Sunday of current week
@@ -3419,9 +3663,10 @@ function setupPlannerListeners(){
 }
 
 /* ═══ INIT ═══ */
-// Initialize planner with dates on load
+// Initialize planner with dates and vision board on load
 setTimeout(function(){
   initializePlannerDates();
+  initVisionBoard();
 },150);
 
 loadHealthState();
