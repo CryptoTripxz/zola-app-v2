@@ -288,16 +288,16 @@ body{background:#07091A;}
 
   <!-- SCREEN SWITCHER -->
   <div id="screen-nav">
-    <div class="screen-tab active" onclick="switchScreen('spirit')">🙏 Spirit</div>
+    <div class="screen-tab active" onclick="switchScreen('planner')">📅 Planner</div>
     <div class="screen-tab" onclick="switchScreen('wellness')">💚 Wellness</div>
-    <div class="screen-tab" onclick="switchScreen('planner')">📅 Planner</div>
+    <div class="screen-tab" onclick="switchScreen('spirit')">🙏 Spirit</div>
   </div>
 
   <!-- MAIN CONTENT AREA -->
   <div id="main">
     
     <!-- ═══════════════════════════════════════════════════════════════ SPIRIT CENTRE ═══════════════════════════════════════════════════════════════ -->
-    <div id="screen-spirit" class="screen active">
+    <div id="screen-spirit" class="screen">
       <div id="spirit-main">
         <!-- HEADER -->
         <div class="sp-hdr">
@@ -490,9 +490,9 @@ body{background:#07091A;}
           <div class="res-card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
               <div class="res-title">Today's Vitality</div>
-              <div class="res-pct" id="joy-pct">45%</div>
+              <div class="res-pct" id="joy-pct" style="cursor:pointer;transition:all 0.2s;" onclick="toggleVitalityInput()" onmouseover="this.style.color='#ff6b9d';this.style.transform='scale(1.1)';" onmouseout="this.style.color='inherit';this.style.transform='scale(1)';">45%</div>
             </div>
-            <div class="res-bar"><div class="res-fill" id="joy-fill" style="width:45%"></div></div>
+            <div class="res-bar" style="cursor:pointer;" onclick="setVitalityFromClick(event)"><div class="res-fill" id="joy-fill" style="width:45%"></div></div>
             <div style="display:flex;align-items:center;gap:6px;">
               <div id="heart-1" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(1);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
               <div id="heart-2" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(2);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
@@ -511,10 +511,14 @@ body{background:#07091A;}
             <div style="display:flex;align-items:flex-end;gap:12px;">
               <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
                 <div style="display:flex;flex-direction:column;justify-content:space-between;height:100px;margin-left:4px;font-size:9.5px;color:var(--t3);">
-                  <div>😄</div><div>😊</div><div>😐</div><div>😟</div><div>😢</div>
+                  <div style="cursor:pointer;transition:all 0.2s;user-select:none;" onclick="setMoodScore(90);" onmouseover="this.style.transform='scale(1.3)';" onmouseout="this.style.transform='scale(1)';">😄</div>
+                  <div style="cursor:pointer;transition:all 0.2s;user-select:none;" onclick="setMoodScore(70);" onmouseover="this.style.transform='scale(1.3)';" onmouseout="this.style.transform='scale(1)';">😊</div>
+                  <div style="cursor:pointer;transition:all 0.2s;user-select:none;" onclick="setMoodScore(50);" onmouseover="this.style.transform='scale(1.3)';" onmouseout="this.style.transform='scale(1)';">😐</div>
+                  <div style="cursor:pointer;transition:all 0.2s;user-select:none;" onclick="setMoodScore(30);" onmouseover="this.style.transform='scale(1.3)';" onmouseout="this.style.transform='scale(1)';">😟</div>
+                  <div style="cursor:pointer;transition:all 0.2s;user-select:none;" onclick="setMoodScore(10);" onmouseover="this.style.transform='scale(1.3)';" onmouseout="this.style.transform='scale(1)';">😢</div>
                 </div>
               </div>
-              <div style="flex:1;">
+              <div style="flex:1;cursor:pointer;transition:all 0.2s;" onclick="toggleMoodInput()" onmouseover="this.style.opacity='0.7';" onmouseout="this.style.opacity='1';">
                 <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:1px;">
                   <div class="therm-score-num" style="font-family:'Fredoka One',cursive;font-size:42px;color:var(--au2);">72</div>
                   <div style="font-size:11px;color:var(--t3);font-weight:600;">°</div>
@@ -522,6 +526,19 @@ body{background:#07091A;}
                 <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px;">Happy & Energized</div>
                 <div style="font-size:11px;color:var(--t2);line-height:1.5;">You're feeling great today!</div>
               </div>
+            </div>
+          </div>
+
+          <!-- JOY ENTRY -->
+          <div style="background:linear-gradient(135deg,rgba(59,142,232,0.10) 0%,rgba(100,180,255,0.08) 100%);border-radius:16px;padding:16px;border:1px solid rgba(59,142,232,0.20);margin-top:14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div style="font-size:12px;font-weight:700;color:var(--t1);">✨ Joy Notes</div>
+              <div style="font-size:9px;color:var(--t3);" id="joy-entry-status">Ready</div>
+            </div>
+            <textarea id="joy-entry-input" placeholder="What brought you joy today?" style="width:100%;padding:12px;border:1px solid rgba(59,142,232,0.25);border-radius:12px;font-size:12px;font-family:'DM Sans',sans-serif;resize:none;height:80px;background:rgba(255,255,255,0.06);color:var(--t1);box-sizing:border-box;outline:none;" oninput="autoSaveJoyEntry()"></textarea>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px;">
+              <span style="font-size:8px;color:var(--t3);font-family:'DM Mono',monospace;font-weight:600;" id="joy-entry-char-count">0 / 500</span>
+              <span style="font-size:8px;color:#a0a0a0;font-family:'DM Mono',monospace;" id="joy-entry-time">Never saved</span>
             </div>
           </div>
 
@@ -965,60 +982,22 @@ body{background:#07091A;}
   </div>
 
   <!-- PLANNER SCREEN -->
-  <div id="screen-planner" class="screen" style="background:linear-gradient(180deg,#e8f4fa 0%,#f0f8fc 100%);overflow-y:auto;">
+  <div id="screen-planner" class="screen active" style="background:linear-gradient(180deg,#e8f4fa 0%,#f0f8fc 100%);overflow-y:auto;">
     <div style="padding:24px 16px;min-height:100vh;">
+      
+      <!-- WEEK NAVIGATION -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <button onclick="goToPreviousWeek()" style="padding:10px 16px;background:#1e5ba8;color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.3s;">← Previous</button>
+        <div style="font-family:'DM Mono',monospace;font-size:12px;color:#4b5f89;font-weight:700;text-align:center;">
+          <div id="week-label">Week of Jan 1</div>
+        </div>
+        <button id="next-week-btn" onclick="goToNextWeek()" style="padding:10px 16px;background:#ccc;color:#999;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:not-allowed;transition:all 0.3s;">Next →</button>
+      </div>
       
       <!-- CALENDAR HEADER -->
       <div style="margin-bottom:32px;">
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;">
-          <!-- Sunday -->
-          <div onclick="selectPlannerDay(0)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">SUN</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">31</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Monday (Active) -->
-          <div id="planner-day-1" onclick="selectPlannerDay(1)" style="text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);border-radius:20px;padding:16px 12px;color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">MON</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#fff;line-height:1;">1</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.60);margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Tuesday -->
-          <div onclick="selectPlannerDay(2)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">TUE</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">2</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Wednesday -->
-          <div onclick="selectPlannerDay(3)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">WED</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">3</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Thursday -->
-          <div onclick="selectPlannerDay(4)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">THU</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">4</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Friday -->
-          <div onclick="selectPlannerDay(5)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">FRI</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">5</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
-          
-          <!-- Saturday -->
-          <div onclick="selectPlannerDay(6)" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:8px 0;border-radius:16px;">
-            <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4b5f89;font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">SAT</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#1a2a3a;line-height:1;">6</div>
-            <div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin:10px auto 0;"></div>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;" id="planner-days-grid">
+          <!-- Days will be generated dynamically -->
         </div>
       </div>
 
@@ -2612,6 +2591,189 @@ function updateStreakDisplay(){
   }
 }
 
+/* ═══ ACTIVE MOOD & VITALITY ═══ */
+function setMoodScore(score){
+  var scoreEl=document.querySelector('.therm-score-num');
+  if(scoreEl)scoreEl.textContent=score;
+  updateMoodDisplay(score);
+  
+  // Save mood score for offline persistence
+  localStorage.setItem('zola_mood_score',score.toString());
+  localStorage.setItem('zola_mood_score_time',new Date().getTime().toString());
+  
+  // Log to history
+  var entry={
+    date: new Date().toISOString(),
+    mood: score,
+    type:'manual'
+  };
+  _moodHistory.push(entry);
+  localStorage.setItem('zola_mood_history',JSON.stringify(_moodHistory));
+  
+  showToast('🌡️ Mood set to '+score+'°');
+}
+
+function toggleMoodInput(){
+  var currentScore=parseInt(document.querySelector('.therm-score-num').textContent);
+  var input=prompt('Set mood score (0-100):', currentScore);
+  if(input!==null){
+    var score=parseInt(input);
+    if(!isNaN(score)&&score>=0&&score<=100){
+      setMoodScore(score);
+    }else{
+      showToast('⚠ Please enter a number between 0-100');
+    }
+  }
+}
+
+function updateMoodDisplay(score){
+  var statusEl=document.querySelector('.therm-card [style*="Happy"]').nextElementSibling;
+  var descEl=statusEl?statusEl.nextElementSibling:null;
+  
+  var emoji,status,desc;
+  
+  if(score>=80){
+    emoji='😄';
+    status='Happy & Energized';
+    desc='You\'re feeling great today!';
+  }else if(score>=60){
+    emoji='😊';
+    status='Balanced & Content';
+    desc='You\'re in a good place today!';
+  }else if(score>=40){
+    emoji='😐';
+    status='Neutral & Calm';
+    desc='Take things as they come.';
+  }else if(score>=20){
+    emoji='😟';
+    status='Stressed & Overwhelmed';
+    desc='Take a moment to breathe. You\'ve got this!';
+  }else{
+    emoji='😢';
+    status='Struggling';
+    desc='Reach out for support when needed.';
+  }
+  
+  if(statusEl)statusEl.textContent=status;
+  if(descEl)descEl.textContent=desc;
+}
+
+function setVitalityFromClick(e){
+  var bar=e.currentTarget;
+  var rect=bar.getBoundingClientRect();
+  var clickX=e.clientX-rect.left;
+  var percent=Math.round((clickX/rect.width)*100);
+  percent=Math.max(0,Math.min(100,percent));
+  
+  setVitality(percent);
+}
+
+function setVitality(percent){
+  var joyPctEl=document.getElementById('joy-pct');
+  var joyFillEl=document.getElementById('joy-fill');
+  if(joyPctEl)joyPctEl.textContent=percent+'%';
+  if(joyFillEl)joyFillEl.style.width=percent+'%';
+  
+  var heartsCount=Math.ceil((percent/100)*5);
+  updateStreakByHearts(heartsCount);
+  showToast('💚 Vitality set to '+percent+'%');
+}
+
+function toggleVitalityInput(){
+  var currentPercent=parseInt(document.getElementById('joy-pct').textContent);
+  var input=prompt('Set vitality percentage (0-100):', currentPercent);
+  if(input!==null){
+    var percent=parseInt(input);
+    if(!isNaN(percent)&&percent>=0&&percent<=100){
+      setVitality(percent);
+    }else{
+      showToast('⚠ Please enter a number between 0-100');
+    }
+  }
+}
+
+function loadOfflineMood(){
+  var savedScore=localStorage.getItem('zola_mood_score');
+  if(savedScore){
+    var score=parseInt(savedScore);
+    var scoreEl=document.querySelector('.therm-score-num');
+    if(scoreEl)scoreEl.textContent=score;
+    updateMoodDisplay(score);
+  }
+}
+
+/* ═══ JOY ENTRY ═══ */
+var _joyEntryData=localStorage.getItem('zolaJoyEntry')||'';
+var _joyEntrySaveTimeout=null;
+
+function loadLastJoyEntry(){
+  var textarea=document.getElementById('joy-entry-input');
+  var timeEl=document.getElementById('joy-entry-time');
+  if(!textarea)return;
+  
+  textarea.value=_joyEntryData;
+  updateJoyEntryCharCount();
+  
+  var lastSave=localStorage.getItem('zolaJoyEntrySaveTime');
+  if(lastSave){
+    var saveDate=new Date(parseInt(lastSave));
+    var now=new Date();
+    var diff=now-saveDate;
+    var minutes=Math.floor(diff/60000);
+    var hours=Math.floor(diff/3600000);
+    var days=Math.floor(diff/86400000);
+    
+    var timeStr='';
+    if(days>0)timeStr=days+' day'+(days>1?'s':'')+' ago';
+    else if(hours>0)timeStr=hours+' hour'+(hours>1?'s':'')+' ago';
+    else if(minutes>0)timeStr=minutes+' min'+(minutes>1?'s':'')+' ago';
+    else timeStr='Just now';
+    
+    if(timeEl)timeEl.textContent=timeStr;
+  }else{
+    if(timeEl)timeEl.textContent='Never saved';
+  }
+}
+
+function updateJoyEntryCharCount(){
+  var textarea=document.getElementById('joy-entry-input');
+  var countEl=document.getElementById('joy-entry-char-count');
+  if(!textarea||!countEl)return;
+  
+  var count=textarea.value.length;
+  countEl.textContent=count+' / 500';
+  
+  if(count>500){
+    textarea.value=textarea.value.substring(0,500);
+    countEl.textContent='500 / 500';
+  }
+}
+
+function autoSaveJoyEntry(){
+  var textarea=document.getElementById('joy-entry-input');
+  var statusEl=document.getElementById('joy-entry-status');
+  if(!textarea)return;
+  
+  updateJoyEntryCharCount();
+  
+  if(_joyEntrySaveTimeout)clearTimeout(_joyEntrySaveTimeout);
+  
+  if(statusEl)statusEl.textContent='Saving...';
+  
+  _joyEntrySaveTimeout=setTimeout(function(){
+    _joyEntryData=textarea.value;
+    localStorage.setItem('zolaJoyEntry',_joyEntryData);
+    localStorage.setItem('zolaJoyEntrySaveTime',new Date().getTime().toString());
+    
+    if(statusEl)statusEl.textContent='✓ Saved';
+    setTimeout(function(){
+      if(statusEl)statusEl.textContent='Ready';
+    },2000);
+    
+    loadLastJoyEntry();
+  },1000);
+}
+
 function setStressLevel(level){
   _stressLevel=level;
   
@@ -2938,36 +3100,133 @@ function saveAddWorkout(){
 }
 
 /* ═══ 7-DAY PLANNER ═══ */
-var _plannerCurrentDay=1;
-var _plannerTasks=JSON.parse(localStorage.getItem('zolaPlannerTasks'))||{
-  0:[],1:[{id:0,time:'07:00',emoji:'☀️',name:'Rise & Sunlight',priority:'Med',done:false}],2:[],3:[],4:[],5:[],6:[]
-};
-var _plannerTaskIdCounter=1;
+var _plannerCurrentDate='2025-01-01'; // Will be set to today on init
+var _plannerWeekStartDate=null; // Sunday of current week
+var _plannerAllTasks=JSON.parse(localStorage.getItem('zolaPlannerTasksByDate'))||{};
+var _plannerTaskIdCounter=parseInt(localStorage.getItem('zolaPlannerTaskIdCounter'))||1;
 var _currentTaskPriority='Med';
+var _dayNames=['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
-function savePlannerData(){
-  localStorage.setItem('zolaPlannerTasks',JSON.stringify(_plannerTasks));
+function initializePlannerDates(){
+  var today=new Date();
+  _plannerCurrentDate=formatDateISO(today);
+  _plannerWeekStartDate=getWeekStartDate(today);
+  renderPlannerWeek();
+  selectPlannerDay(_plannerCurrentDate);
 }
 
-function selectPlannerDay(day){
-  _plannerCurrentDay=day;
-  updatePlannerDayHighlight();
+function formatDateISO(date){
+  return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+}
+
+function getWeekStartDate(date){
+  var d=new Date(date);
+  var day=d.getDay();
+  var diff=d.getDate()-day;
+  return new Date(d.setDate(diff));
+}
+
+function getWeekDates(startDate){
+  var dates=[];
+  for(var i=0;i<7;i++){
+    var d=new Date(startDate);
+    d.setDate(d.getDate()+i);
+    dates.push({date:formatDateISO(d),dayName:_dayNames[d.getDay()],dayNum:d.getDate(),fullDate:d});
+  }
+  return dates;
+}
+
+function goToPreviousWeek(){
+  var currentStart=new Date(_plannerWeekStartDate);
+  currentStart.setDate(currentStart.getDate()-7);
+  _plannerWeekStartDate=currentStart;
+  _plannerCurrentDate=formatDateISO(new Date(currentStart));
+  renderPlannerWeek();
+  selectPlannerDay(_plannerCurrentDate);
+}
+
+function goToNextWeek(){
+  var today=new Date();
+  var nextWeekStart=new Date(_plannerWeekStartDate);
+  nextWeekStart.setDate(nextWeekStart.getDate()+7);
+  
+  if(nextWeekStart>today){
+    showToast('Cannot view future weeks');
+    return;
+  }
+  
+  _plannerWeekStartDate=nextWeekStart;
+  _plannerCurrentDate=formatDateISO(new Date(nextWeekStart));
+  renderPlannerWeek();
+  selectPlannerDay(_plannerCurrentDate);
+}
+
+function renderPlannerWeek(){
+  var weekDates=getWeekDates(_plannerWeekStartDate);
+  var grid=document.getElementById('planner-days-grid');
+  if(!grid)return;
+  
+  var today=formatDateISO(new Date());
+  var html='';
+  
+  for(var i=0;i<weekDates.length;i++){
+    var day=weekDates[i];
+    var isToday=day.date===today;
+    var isSelected=day.date===_plannerCurrentDate;
+    
+    var bgStyle=isSelected?'background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);':isToday?'':'';
+    var textColor=isSelected?'#fff':'#1a2a3a';
+    var labelColor=isSelected?'rgba(255,255,255,0.85)':'#4b5f89';
+    
+    html+='<div onclick="selectPlannerDay(\''+day.date+'\')" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:'+( isSelected?'16px 12px':'8px 0')+';border-radius:'+( isSelected?'20px':'16px')+';"'+(isSelected?' style="text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);border-radius:20px;padding:16px 12px;color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);"':'')+' id="planner-day-'+day.date+'">'
+      +'<div style="font-family:\'DM Mono\',monospace;font-size:10px;color:'+labelColor+';font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">'+day.dayName+'</div>'
+      +'<div style="font-family:\'Syne\',sans-serif;font-size:32px;font-weight:800;color:'+textColor+';line-height:1;">'+day.dayNum+'</div>'
+      +'<div style="width:6px;height:6px;border-radius:50%;background:'+(isSelected?'rgba(255,255,255,0.60)':'#3b82f6')+';margin:10px auto 0;"></div>'
+      +'</div>';
+  }
+  
+  grid.innerHTML=html;
+  updateWeekLabel();
+  updateNextWeekButton();
+}
+
+function updateWeekLabel(){
+  var label=document.getElementById('week-label');
+  if(label){
+    var startDate=new Date(_plannerWeekStartDate);
+    var monthName=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][startDate.getMonth()];
+    label.textContent='Week of '+monthName+' '+startDate.getDate();
+  }
+}
+
+function updateNextWeekButton(){
+  var btn=document.getElementById('next-week-btn');
+  var today=new Date();
+  var nextWeekStart=new Date(_plannerWeekStartDate);
+  nextWeekStart.setDate(nextWeekStart.getDate()+7);
+  
+  if(nextWeekStart>today){
+    btn.style.background='#ccc';
+    btn.style.color='#999';
+    btn.style.cursor='not-allowed';
+    btn.style.opacity='0.6';
+  }else{
+    btn.style.background='#1e5ba8';
+    btn.style.color='#fff';
+    btn.style.cursor='pointer';
+    btn.style.opacity='1';
+  }
+}
+
+function selectPlannerDay(dateStr){
+  _plannerCurrentDate=dateStr;
+  renderPlannerWeek();
   renderPlannerTasks();
 }
 
-function updatePlannerDayHighlight(){
-  for(var i=0;i<7;i++){
-    var dayEl=document.getElementById('planner-day-'+i);
-    if(dayEl){
-      if(i===_plannerCurrentDay){
-        dayEl.style.background='#1e5ba8';
-        dayEl.style.color='#fff';
-      }else{
-        dayEl.style.background='transparent';
-        dayEl.style.color='#1a2a3a';
-      }
-    }
-  }
+function savePlannerData(){
+  localStorage.setItem('zolaPlannerTasksByDate',JSON.stringify(_plannerAllTasks));
+  localStorage.setItem('zolaPlannerTaskIdCounter',_plannerTaskIdCounter.toString());
 }
 
 function setTaskPriority(priority){
@@ -2997,9 +3256,9 @@ function addPlannerTask(){
     return;
   }
   
-  if(!_plannerTasks[_plannerCurrentDay])_plannerTasks[_plannerCurrentDay]=[];
+  if(!_plannerAllTasks[_plannerCurrentDate])_plannerAllTasks[_plannerCurrentDate]=[];
   
-  _plannerTasks[_plannerCurrentDay].push({
+  _plannerAllTasks[_plannerCurrentDate].push({
     id:_plannerTaskIdCounter++,
     time:taskTime,
     emoji:'',
@@ -3020,7 +3279,7 @@ function renderPlannerTasks(){
   var container=document.getElementById('planner-tasks-container');
   if(!container)return;
   
-  var tasks=_plannerTasks[_plannerCurrentDay]||[];
+  var tasks=_plannerAllTasks[_plannerCurrentDate]||[];
   var html='';
   
   for(var i=0;i<tasks.length;i++){
@@ -3049,19 +3308,23 @@ function renderPlannerTasks(){
 }
 
 function togglePlannerTaskDone(id){
-  var task=_plannerTasks[_plannerCurrentDay].find(t=>t.id===id);
-  if(task){
-    task.done=!task.done;
-    savePlannerData();
-    renderPlannerTasks();
+  var tasks=_plannerAllTasks[_plannerCurrentDate];
+  if(tasks){
+    var task=tasks.find(t=>t.id===id);
+    if(task){
+      task.done=!task.done;
+      savePlannerData();
+      renderPlannerTasks();
+    }
   }
 }
 
 function deletePlannerTask(id){
-  if(_plannerTasks[_plannerCurrentDay]){
-    var idx=_plannerTasks[_plannerCurrentDay].findIndex(t=>t.id===id);
+  var tasks=_plannerAllTasks[_plannerCurrentDate];
+  if(tasks){
+    var idx=tasks.findIndex(t=>t.id===id);
     if(idx>=0){
-      _plannerTasks[_plannerCurrentDay].splice(idx,1);
+      tasks.splice(idx,1);
       savePlannerData();
       renderPlannerTasks();
       showToast('✓ Task deleted');
@@ -3156,6 +3419,11 @@ function setupPlannerListeners(){
 }
 
 /* ═══ INIT ═══ */
+// Initialize planner with dates on load
+setTimeout(function(){
+  initializePlannerDates();
+},150);
+
 loadHealthState();
 initHealthRoutines();
 updateHealthUI();
@@ -3173,6 +3441,8 @@ setTimeout(function(){
   updateStreakDisplay();
   updateMoodThermometer(_stressLevel);
   updateWaterDisplay();
+  loadLastJoyEntry();
+  loadOfflineMood();
 },200);
 
 // Initialize event listeners
