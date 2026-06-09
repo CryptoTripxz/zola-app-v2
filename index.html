@@ -1495,7 +1495,19 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
       if(TRACKS[_cur].src && aud){
         aud.src=TRACKS[_cur].src;
         aud.crossOrigin='anonymous';
-        aud.volume=0.7;
+        aud.volume=1;
+        
+        // Route to speaker using Web Audio API
+        if(window.AudioContext||window.webkitAudioContext){
+          try{
+            var ctx=window._audioContext||(window._audioContext=new(window.AudioContext||window.webkitAudioContext)());
+            if(aud._source){
+              aud._source.disconnect();
+            }
+            aud._source=ctx.createMediaElementAudioSource(aud);
+            aud._source.connect(ctx.destination);
+          }catch(e){}
+        }
         
         // Get actual audio duration when metadata loads
         aud.onloadedmetadata=function(){
@@ -2070,7 +2082,8 @@ function playTherapyFrequency(freq){
       _therapyGain.connect(ctx.destination);
     }
     
-    _therapyGain.gain.setValueAtTime(0.35,now);
+    // Set volume to maximum for speaker output
+    _therapyGain.gain.setValueAtTime(0.8,now);
     
     var oscs=[];
     
@@ -2458,14 +2471,10 @@ function playReminderAudio(id){
     return;
   }
   
-  try{
-    var audio=new Audio();
-    audio.src=entry.audioBase64;
-    audio.play();
-    showToast('▶ Playing...');
-  }catch(e){
+  playSoundWithSpeaker(entry.audioBase64,function(){
     showToast('⚠ Could not play audio');
-  }
+  });
+  showToast('▶ Playing on speaker...');
 }
 
 function downloadReminderAudio(id){
@@ -2668,7 +2677,10 @@ function voiceRefreshEntries(){
     html+='<div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.08);">';
     html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">';
     html+='<div style="font-size:9px;color:rgba(255,255,255,0.75);font-family:\'DM Mono\',monospace;">🎙️ '+e.date+'</div>';
+    html+='<div style="display:flex;gap:6px;">';
+    html+='<button onclick="voicePlayEntry('+i+')" style="padding:4px 8px;background:linear-gradient(135deg,#FF6B9D,#FF8FB6);color:#fff;border:none;border-radius:6px;font-size:9px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:\'DM Sans\',sans-serif;" onmouseover="this.style.transform=\'scale(1.05)\';" onmouseout="this.style.transform=\'scale(1)\';">▶ Play</button>';
     html+='<button onclick="voiceDownloadEntry('+i+')" style="padding:4px 8px;background:linear-gradient(135deg,#1E90FF,#3B8EE8);color:#fff;border:none;border-radius:6px;font-size:9px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:\'DM Sans\',sans-serif;" onmouseover="this.style.transform=\'scale(1.05)\';" onmouseout="this.style.transform=\'scale(1)\';">⬇ Download</button>';
+    html+='</div>';
     html+='</div>';
     if(e.note){
       html+='<div style="font-size:9px;color:rgba(255,255,255,0.75);font-style:italic;margin-bottom:4px;">📝 '+e.note+'</div>';
@@ -2679,6 +2691,18 @@ function voiceRefreshEntries(){
   
   html+='</div>';
   container.innerHTML=html;
+}
+
+function voicePlayEntry(idx){
+  var entries=JSON.parse(localStorage.getItem('zola_voice_entries'))||[];
+  if(idx<0||idx>=entries.length)return;
+  var e=entries[idx];
+  if(e.audioBase64){
+    playSoundWithSpeaker(e.audioBase64,function(){
+      showToast('⚠ Could not play audio');
+    });
+    showToast('▶ Playing on speaker...');
+  }
 }
 
 function voiceDownloadEntry(idx){
@@ -3707,7 +3731,45 @@ function toggleVisionSection(){
   }
 }
 
-/* ═══ 7-DAY PLANNER ═══ */
+// Global Audio Player for Speaker Output
+var _globalAudioPlayer=null;
+
+function initGlobalAudioPlayer(){
+  if(!_globalAudioPlayer){
+    _globalAudioPlayer=new Audio();
+    _globalAudioPlayer.addEventListener('play',function(){
+      // Force speaker output when play starts
+      if(window.AudioContext||window.webkitAudioContext){
+        try{
+          var ctx=window._audioContext||(window._audioContext=new(window.AudioContext||window.webkitAudioContext)());
+          if(_globalAudioPlayer._source){
+            _globalAudioPlayer._source.disconnect();
+          }
+          _globalAudioPlayer._source=ctx.createMediaElementAudioSource(_globalAudioPlayer);
+          _globalAudioPlayer._source.connect(ctx.destination);
+        }catch(e){}
+      }
+    });
+  }
+  return _globalAudioPlayer;
+}
+
+function playSoundWithSpeaker(audioBase64,onError){
+  try{
+    var audio=initGlobalAudioPlayer();
+    audio.src=audioBase64;
+    audio.volume=1;
+    
+    var playPromise=audio.play();
+    if(playPromise!==undefined){
+      playPromise.catch(function(error){
+        if(onError)onError(error);
+      });
+    }
+  }catch(e){
+    if(onError)onError(e);
+  }
+}
 var _plannerCurrentDate='2025-01-01'; // Will be set to today on init
 var _plannerWeekStartDate=null; // Sunday of current week
 var _plannerAllTasks=JSON.parse(localStorage.getItem('zolaPlannerTasksByDate'))||{};
