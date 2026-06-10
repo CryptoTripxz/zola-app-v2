@@ -137,6 +137,35 @@ body{background:#07091A;}
 .joy-entry-item:hover .joy-entry-del{display:flex;}
 .joy-entry-del:hover{background:rgba(232,84,122,0.25);border-color:rgba(232,84,122,0.50);}
 
+/* SHARE MODAL */
+#share-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;flex-direction:column;}
+#share-modal.open{display:flex;}
+.share-modal-content{background:linear-gradient(135deg,rgba(59,142,232,0.15),rgba(100,180,255,0.10));border:1px solid rgba(59,142,232,0.30);border-radius:20px;padding:24px;max-width:380px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);}
+.share-modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:rgba(220,235,255,0.95);margin-bottom:16px;}
+.share-modal-subtitle{font-size:12px;color:rgba(150,200,255,0.70);margin-bottom:16px;}
+.share-duration-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.share-dur-btn{padding:10px;border-radius:10px;border:1.5px solid rgba(59,142,232,0.25);background:rgba(59,142,232,0.10);color:rgba(220,235,255,0.85);font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.share-dur-btn:hover{border-color:rgba(59,142,232,0.50);background:rgba(59,142,232,0.20);}
+.share-dur-btn.active{border-color:rgba(59,142,232,0.80);background:rgba(59,142,232,0.35);color:#fff;}
+.share-link-box{background:rgba(0,0,0,0.2);border:1px solid rgba(59,142,232,0.25);border-radius:12px;padding:12px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.share-link-input{flex:1;background:transparent;border:none;color:rgba(220,235,255,0.92);font-family:'DM Mono',monospace;font-size:11px;outline:none;word-break:break-all;}
+.share-copy-btn{padding:6px 12px;background:rgba(59,142,232,0.30);border:1px solid rgba(59,142,232,0.50);border-radius:8px;color:rgba(220,235,255,0.95);font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.share-copy-btn:hover{background:rgba(59,142,232,0.50);}
+.share-copy-btn.copied{background:rgba(21,168,84,0.40);border-color:rgba(21,168,84,0.60);color:#7FFF8F;}
+.share-info{background:rgba(255,220,100,0.08);border-left:3px solid rgba(255,220,100,0.40);padding:10px 12px;border-radius:8px;font-size:11px;color:rgba(220,235,255,0.80);margin-bottom:16px;line-height:1.5;}
+.share-modal-btns{display:flex;gap:10px;}
+.share-modal-btn{flex:1;padding:11px;border-radius:10px;border:1.5px solid rgba(59,142,232,0.30);background:rgba(59,142,232,0.12);color:rgba(220,235,255,0.95);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.share-modal-btn:hover{border-color:rgba(59,142,232,0.50);background:rgba(59,142,232,0.20);}
+.share-modal-btn.generate{background:linear-gradient(135deg,rgba(59,142,232,0.35),rgba(100,180,255,0.25));border-color:rgba(59,142,232,0.50);}
+.share-modal-btn.close{background:rgba(232,84,122,0.12);border-color:rgba(232,84,122,0.25);color:rgba(255,150,170,0.90);}
+.share-modal-btn.close:hover{background:rgba(232,84,122,0.20);border-color:rgba(232,84,122,0.40);}
+
+/* SHARE BUTTON ON ENTRIES */
+.entry-share-btn{display:none;position:absolute;right:40px;top:12px;width:24px;height:24px;border-radius:50%;background:rgba(59,142,232,0.15);border:1px solid rgba(59,142,232,0.30);color:rgba(59,142,232,0.80);cursor:pointer;font-size:12px;transition:all 0.2s;z-index:2;align-items:center;justify-content:center;font-weight:bold;}
+.sp-declaration-entry:hover .entry-share-btn{display:flex;}
+.joy-entry-item:hover .entry-share-btn{display:flex;}
+.entry-share-btn:hover{background:rgba(59,142,232,0.30);border-color:rgba(59,142,232,0.50);}
+
 /* AUDIO CARD */
 .sp-audio-card{margin:4px 14px 10px;border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02));border:1px solid rgba(196,152,32,0.35);padding:16px 16px 14px;position:relative;overflow:hidden;}
 .sp-audio-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(196,152,32,0.15),transparent 60%);}
@@ -1157,6 +1186,41 @@ body{background:#07091A;}
     <div class="candle-verse-ref">— Psalm 27:1</div>
   </div>
   <button class="candle-close" onclick="closeCandle()">Close</button>
+</div>
+
+<!-- SHARE MODAL -->
+<div id="share-modal" onclick="closeShareModal(event)">
+  <div class="share-modal-content">
+    <div class="share-modal-title">📤 Share This Entry</div>
+    <div class="share-modal-subtitle">Anyone with the link can view for the selected duration</div>
+    
+    <div style="margin-bottom:16px;">
+      <div style="font-size:10px;color:rgba(150,200,255,0.70);margin-bottom:8px;font-weight:700;text-transform:uppercase;">ACCESS DURATION</div>
+      <div class="share-duration-opts">
+        <button class="share-dur-btn active" onclick="setShareDuration(3600)">1 Hour</button>
+        <button class="share-dur-btn" onclick="setShareDuration(86400)">1 Day</button>
+        <button class="share-dur-btn" onclick="setShareDuration(604800)">1 Week</button>
+        <button class="share-dur-btn" onclick="setShareDuration(2592000)">1 Month</button>
+      </div>
+    </div>
+    
+    <div class="share-info">
+      ℹ️ The link expires after the selected duration. Once expired, it can no longer be accessed.
+    </div>
+    
+    <div id="share-link-section" style="display:none;">
+      <div style="font-size:10px;color:rgba(150,200,255,0.70);margin-bottom:8px;font-weight:700;text-transform:uppercase;">YOUR SHARE LINK</div>
+      <div class="share-link-box">
+        <input type="text" class="share-link-input" id="share-link-input" readonly>
+        <button class="share-copy-btn" id="share-copy-btn" onclick="copyShareLink()">Copy</button>
+      </div>
+    </div>
+    
+    <div class="share-modal-btns">
+      <button class="share-modal-btn generate" onclick="generateShareLink()">Generate Link</button>
+      <button class="share-modal-btn close" onclick="closeShareModal()">Close</button>
+    </div>
+  </div>
 </div>
 
 <!-- ADD PRAYER MODAL -->
@@ -3126,7 +3190,7 @@ function renderJoyEntries(){
   var html='';
   for(var i=0;i<_joyEntriesData.length;i++){
     var entry=_joyEntriesData[i];
-    html+='<div class="joy-entry-item"><div class="joy-entry-avatar">✨</div><div class="joy-entry-content"><div class="joy-entry-date">'+entry.date+'</div><div class="joy-entry-text">'+escapeHtml(entry.text)+'</div></div><div class="joy-entry-del" onclick="deleteJoyEntry('+i+')" title="Delete">×</div></div>';
+    html+='<div class="joy-entry-item"><div class="joy-entry-avatar">✨</div><div class="joy-entry-content"><div class="joy-entry-date">'+entry.date+'</div><div class="joy-entry-text">'+escapeHtml(entry.text)+'</div></div><div class="entry-share-btn" onclick="openShareModal(\'joyentry\','+i+')" title="Share">🔗</div><div class="joy-entry-del" onclick="deleteJoyEntry('+i+')" title="Delete">×</div></div>';
   }
   
   container.innerHTML=html;
@@ -4377,7 +4441,7 @@ function renderDeclarations(){
   var html='';
   for(var i=0;i<_declarationsData.length;i++){
     var decl=_declarationsData[i];
-    html+='<div class="sp-declaration-entry"><div class="sp-decl-avatar">✨</div><div class="sp-decl-content"><div class="sp-decl-date">'+decl.date+'</div><div class="sp-decl-text">'+escapeHtml(decl.text)+'</div></div><div class="sp-decl-del" onclick="deleteDeclaration('+i+')" title="Delete">×</div></div>';
+    html+='<div class="sp-declaration-entry"><div class="sp-decl-avatar">✨</div><div class="sp-decl-content"><div class="sp-decl-date">'+decl.date+'</div><div class="sp-decl-text">'+escapeHtml(decl.text)+'</div></div><div class="entry-share-btn" onclick="openShareModal(\'declaration\','+i+')" title="Share">🔗</div><div class="sp-decl-del" onclick="deleteDeclaration('+i+')" title="Delete">×</div></div>';
   }
   
   container.innerHTML=html;
@@ -4402,6 +4466,175 @@ function escapeHtml(text){
 setTimeout(function(){
   loadDeclarations();
 },200);
+
+// ═══════════════════════════════════════════════════════════════════════════ 
+// SHARING FUNCTIONALITY
+// ═══════════════════════════════════════════════════════════════════════════
+
+var _currentShareModal={type:null,index:null};
+var _shareSelectedDuration=3600;
+var _shares=[];
+
+function loadShares(){
+  var saved=localStorage.getItem('zola_shares');
+  if(saved){
+    try{
+      _shares=JSON.parse(saved);
+      // Remove expired shares
+      var now=new Date().getTime();
+      _shares=_shares.filter(function(s){return s.expiresAt>now;});
+      saveShares();
+    }catch(e){
+      _shares=[];
+    }
+  }
+}
+
+function saveShares(){
+  localStorage.setItem('zola_shares',JSON.stringify(_shares));
+}
+
+function generateShareToken(){
+  return 'share_'+Math.random().toString(36).substr(2,9)+Math.random().toString(36).substr(2,9);
+}
+
+function openShareModal(type,index){
+  _currentShareModal={type:type,index:index};
+  _shareSelectedDuration=3600;
+  document.getElementById('share-modal').classList.add('open');
+  document.getElementById('share-link-section').style.display='none';
+  
+  // Reset buttons
+  var btns=document.querySelectorAll('.share-dur-btn');
+  btns.forEach(function(btn,i){
+    btn.classList.remove('active');
+    if(i===0)btn.classList.add('active');
+  });
+}
+
+function closeShareModal(event){
+  if(event&&event.target.id!=='share-modal')return;
+  document.getElementById('share-modal').classList.remove('open');
+}
+
+function setShareDuration(seconds){
+  _shareSelectedDuration=seconds;
+  var btns=document.querySelectorAll('.share-dur-btn');
+  btns.forEach(function(btn){btn.classList.remove('active');});
+  event.target.classList.add('active');
+}
+
+function generateShareLink(){
+  if(!_currentShareModal.type||_currentShareModal.index===null){
+    showToast('Error: Invalid entry');
+    return;
+  }
+  
+  var token=generateShareToken();
+  var expiresAt=new Date().getTime()+(_shareSelectedDuration*1000);
+  
+  var entryData=null;
+  var entryTitle='Entry';
+  
+  if(_currentShareModal.type==='declaration'){
+    entryData=_declarationsData[_currentShareModal.index];
+    entryTitle='Declaration: '+entryData.date;
+  }else if(_currentShareModal.type==='joyentry'){
+    entryData=_joyEntriesData[_currentShareModal.index];
+    entryTitle='Joy Entry: '+entryData.date;
+  }
+  
+  if(!entryData){
+    showToast('Error: Entry not found');
+    return;
+  }
+  
+  var share={
+    token:token,
+    type:_currentShareModal.type,
+    entryData:entryData,
+    entryTitle:entryTitle,
+    createdAt:new Date().getTime(),
+    expiresAt:expiresAt,
+    createdDate:new Date().toLocaleDateString()
+  };
+  
+  _shares.push(share);
+  saveShares();
+  
+  var shareUrl=window.location.origin+window.location.pathname+'?view=shared&token='+token;
+  
+  document.getElementById('share-link-input').value=shareUrl;
+  document.getElementById('share-link-section').style.display='block';
+  
+  showToast('✨ Share link generated!');
+}
+
+function copyShareLink(){
+  var input=document.getElementById('share-link-input');
+  input.select();
+  document.execCommand('copy');
+  
+  var btn=document.getElementById('share-copy-btn');
+  btn.textContent='✓ Copied!';
+  btn.classList.add('copied');
+  
+  setTimeout(function(){
+    btn.textContent='Copy';
+    btn.classList.remove('copied');
+  },2000);
+}
+
+function loadSharedEntry(){
+  var params=new URLSearchParams(window.location.search);
+  var token=params.get('token');
+  
+  if(!token)return;
+  
+  var share=_shares.find(function(s){return s.token===token;});
+  
+  if(!share){
+    alert('Share link not found or has expired');
+    return;
+  }
+  
+  var now=new Date().getTime();
+  if(share.expiresAt<=now){
+    alert('This share link has expired');
+    return;
+  }
+  
+  // Display shared entry
+  var container=document.getElementById('shared-entry-container');
+  if(!container){
+    // Create container if it doesn't exist
+    container=document.createElement('div');
+    container.id='shared-entry-container';
+    container.style.cssText='position:fixed;inset:0;z-index:10000;background:linear-gradient(165deg,#07091A 0%,#0D1B3E 42%,#13113A 72%,#0A1628 100%);padding:20px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;';
+    document.body.appendChild(container);
+  }
+  
+  var timeLeft=share.expiresAt-now;
+  var hours=Math.floor(timeLeft/3600000);
+  var minutes=Math.floor((timeLeft%3600000)/60000);
+  
+  var html='<div style="max-width:400px;background:rgba(59,142,232,0.10);border:1px solid rgba(59,142,232,0.25);border-radius:16px;padding:24px;text-align:center;">';
+  html+='<div style="font-size:28px;margin-bottom:12px;">✨</div>';
+  html+='<div style="font-size:16px;font-weight:700;color:rgba(220,235,255,0.95);margin-bottom:8px;">Shared Entry</div>';
+  html+='<div style="font-size:12px;color:rgba(150,200,255,0.70);margin-bottom:20px;">'+share.entryTitle+'</div>';
+  html+='<div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;margin-bottom:16px;text-align:left;">';
+  html+='<div style="font-size:12px;color:rgba(220,235,255,0.92);line-height:1.6;">'+escapeHtml(share.entryData.text)+'</div>';
+  html+='</div>';
+  html+='<div style="font-size:11px;color:rgba(255,220,100,0.80);background:rgba(255,220,100,0.08);border-left:3px solid rgba(255,220,100,0.40);padding:10px;border-radius:6px;margin-bottom:16px;">⏰ Access expires in '+hours+'h '+minutes+'m</div>';
+  html+='<div style="font-size:10px;color:rgba(150,200,255,0.60);">Shared on '+share.createdDate+'</div>';
+  html+='</div>';
+  
+  container.innerHTML=html;
+}
+
+// Load shares and check for shared entry
+loadShares();
+setTimeout(function(){loadSharedEntry();},300);
 
 </script>
 </body>
