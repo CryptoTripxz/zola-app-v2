@@ -487,22 +487,6 @@ body{background:#07091A;}
           <span class="tab-chev">▾</span>
         </div>
         <div class="tab-content">
-          <div class="res-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div class="res-title">Today's Vitality</div>
-              <div class="res-pct" id="joy-pct" style="cursor:pointer;transition:all 0.2s;" onclick="toggleVitalityInput()" onmouseover="this.style.color='#ff6b9d';this.style.transform='scale(1.1)';" onmouseout="this.style.color='inherit';this.style.transform='scale(1)';">45%</div>
-            </div>
-            <div class="res-bar" style="cursor:pointer;" onclick="setVitalityFromClick(event)"><div class="res-fill" id="joy-fill" style="width:45%"></div></div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div id="heart-1" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(1);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
-              <div id="heart-2" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(2);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
-              <div id="heart-3" class="h-full" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(3);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
-              <div id="heart-4" class="h-empty" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(4);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
-              <div id="heart-5" class="h-empty" style="cursor:pointer;transition:all 0.2s;" onclick="updateStreakByHearts(5);" onmouseover="this.style.transform='scale(1.15)';" onmouseout="this.style.transform='scale(1)';">❤️</div>
-              <span class="fire-badge">🔥 <span id="streak-display">3</span>-day streak</span>
-            </div>
-          </div>
-
           <div class="therm-card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
               <div class="therm-title" style="font-size:13px;font-weight:700;color:var(--t1);">Mood Thermometer</div>
@@ -532,14 +516,15 @@ body{background:#07091A;}
           <!-- JOY ENTRY -->
           <div style="background:linear-gradient(135deg,rgba(59,142,232,0.10) 0%,rgba(100,180,255,0.08) 100%);border-radius:16px;padding:16px;border:1px solid rgba(59,142,232,0.20);margin-top:14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div style="font-size:12px;font-weight:700;color:var(--t1);">✨ Joy Notes</div>
-              <div style="font-size:9px;color:var(--t3);" id="joy-entry-status">Ready</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.92);">✨ Joy Notes</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.62);" id="joy-entry-status">Ready</div>
             </div>
-            <textarea id="joy-entry-input" placeholder="What brought you joy today?" style="width:100%;padding:12px;border:1px solid rgba(59,142,232,0.25);border-radius:12px;font-size:12px;font-family:'DM Sans',sans-serif;resize:none;height:80px;background:rgba(255,255,255,0.06);color:var(--t1);box-sizing:border-box;outline:none;" oninput="autoSaveJoyEntry()"></textarea>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px;">
-              <span style="font-size:8px;color:var(--t3);font-family:'DM Mono',monospace;font-weight:600;" id="joy-entry-char-count">0 / 500</span>
-              <span style="font-size:8px;color:#a0a0a0;font-family:'DM Mono',monospace;" id="joy-entry-time">Never saved</span>
+            <textarea id="joy-entry-input" placeholder="What brought you joy today?" style="width:100%;padding:12px;border:1px solid rgba(59,142,232,0.25);border-radius:12px;font-size:12px;font-family:'DM Sans',sans-serif;resize:none;height:80px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.88);box-sizing:border-box;outline:none;" oninput="autoSaveJoyEntry()"></textarea>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px;margin-bottom:8px;">
+              <span style="font-size:8px;color:rgba(255,255,255,0.62);font-family:'DM Mono',monospace;font-weight:600;" id="joy-entry-char-count">0 / 500</span>
+              <span style="font-size:8px;color:rgba(255,255,255,0.62);font-family:'DM Mono',monospace;" id="joy-entry-time">Never saved</span>
             </div>
+            <button id="save-joy-entry-btn" onclick="saveJoyEntry()" style="width:100%;padding:10px;background:linear-gradient(135deg,rgba(59,142,232,0.25) 0%,rgba(100,180,255,0.20) 100%);border:1.5px solid rgba(59,142,232,0.35);border-radius:10px;color:rgba(255,255,255,0.92);font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;">💾 Save Entry</button>
           </div>
 
           <!-- BREATHING TAB -->
@@ -1045,6 +1030,16 @@ body{background:#07091A;}
           
           <!-- Add Button -->
           <button onclick="addPlannerTask()" style="padding:11px 24px;border-radius:12px;border:none;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-left:auto;box-shadow:0 2px 8px rgba(30,91,168,0.20);">Add Task</button>
+        </div>
+      </div>
+
+      <!-- TASKS FOR TODAY SECTION -->
+      <div style="margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#1a2a3a;">✓ Today's Tasks</div>
+        </div>
+        <div id="planner-tasks-container" style="display:flex;flex-direction:column;gap:12px;">
+          <!-- Tasks will render here -->
         </div>
       </div>
 
@@ -3111,6 +3106,32 @@ function autoSaveJoyEntry(){
     
     loadLastJoyEntry();
   },1000);
+}
+
+function saveJoyEntry(){
+  var textarea=document.getElementById('joy-entry-input');
+  var statusEl=document.getElementById('joy-entry-status');
+  if(!textarea)return;
+  
+  var text=textarea.value.trim();
+  if(!text){
+    if(statusEl)statusEl.textContent='Nothing to save';
+    setTimeout(function(){
+      if(statusEl)statusEl.textContent='Ready';
+    },1500);
+    return;
+  }
+  
+  _joyEntryData=textarea.value;
+  localStorage.setItem('zolaJoyEntry',_joyEntryData);
+  localStorage.setItem('zolaJoyEntrySaveTime',new Date().getTime().toString());
+  
+  if(statusEl)statusEl.textContent='✓ Saved!';
+  setTimeout(function(){
+    if(statusEl)statusEl.textContent='Ready';
+  },2000);
+  
+  loadLastJoyEntry();
 }
 
 function setStressLevel(level){
