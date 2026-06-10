@@ -125,6 +125,18 @@ body{background:#07091A;}
 .sp-declaration-entry:hover .sp-decl-del{display:flex;}
 .sp-decl-del:hover{background:rgba(232,84,122,0.25);border-color:rgba(232,84,122,0.50);}
 
+/* JOY ENTRIES */
+.joy-entry-item{display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:16px;background:linear-gradient(145deg,rgba(59,142,232,0.10),rgba(100,180,255,0.06));border:1px solid rgba(59,142,232,0.22);cursor:pointer;transition:all 0.22s;margin-bottom:8px;position:relative;overflow:hidden;}
+.joy-entry-item::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 100% 0%,rgba(59,142,232,0.12),transparent 70%);}
+.joy-entry-avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,rgba(255,180,120,0.30),rgba(59,142,232,0.25));border:1.5px solid rgba(59,142,232,0.25);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative;z-index:1;}
+.joy-entry-content{flex:1;position:relative;z-index:1;}
+.joy-entry-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(150,200,255,0.60);margin-bottom:4px;font-weight:600;}
+.joy-entry-text{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(220,235,255,0.92);line-height:1.6;}
+.joy-entry-item:hover{background:linear-gradient(145deg,rgba(59,142,232,0.15),rgba(100,180,255,0.10));border-color:rgba(59,142,232,0.35);}
+.joy-entry-del{display:none;position:absolute;right:12px;top:12px;width:24px;height:24px;border-radius:50%;background:rgba(232,84,122,0.15);border:1px solid rgba(232,84,122,0.30);color:#FF7A9A;cursor:pointer;font-size:14px;transition:all 0.2s;z-index:2;align-items:center;justify-content:center;font-weight:bold;}
+.joy-entry-item:hover .joy-entry-del{display:flex;}
+.joy-entry-del:hover{background:rgba(232,84,122,0.25);border-color:rgba(232,84,122,0.50);}
+
 /* AUDIO CARD */
 .sp-audio-card{margin:4px 14px 10px;border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02));border:1px solid rgba(196,152,32,0.35);padding:16px 16px 14px;position:relative;overflow:hidden;}
 .sp-audio-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(196,152,32,0.15),transparent 60%);}
@@ -516,15 +528,18 @@ body{background:#07091A;}
           <!-- JOY ENTRY -->
           <div style="background:linear-gradient(135deg,rgba(59,142,232,0.10) 0%,rgba(100,180,255,0.08) 100%);border-radius:16px;padding:16px;border:1px solid rgba(59,142,232,0.20);margin-top:14px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.92);">✨ Joy Notes</div>
-              <div style="font-size:9px;color:rgba(255,255,255,0.62);" id="joy-entry-status">Ready</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(220,235,255,0.95);">✨ What Brought You Joy?</div>
             </div>
-            <textarea id="joy-entry-input" placeholder="What brought you joy today?" style="width:100%;padding:12px;border:1px solid rgba(59,142,232,0.25);border-radius:12px;font-size:12px;font-family:'DM Sans',sans-serif;resize:none;height:80px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.88);box-sizing:border-box;outline:none;" oninput="autoSaveJoyEntry()"></textarea>
+            <textarea id="joy-entry-input" placeholder="What brought you joy today?" style="width:100%;padding:12px;border:1px solid rgba(59,142,232,0.25);border-radius:12px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;background:rgba(255,255,255,0.04);color:rgba(220,235,255,0.92);box-sizing:border-box;outline:none;::placeholder{color:rgba(150,200,255,0.50);}" oninput="updateJoyCharCount()"></textarea>
             <div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px;margin-bottom:8px;">
-              <span style="font-size:8px;color:rgba(255,255,255,0.62);font-family:'DM Mono',monospace;font-weight:600;" id="joy-entry-char-count">0 / 500</span>
-              <span style="font-size:8px;color:rgba(255,255,255,0.62);font-family:'DM Mono',monospace;" id="joy-entry-time">Never saved</span>
+              <span style="font-size:8px;color:rgba(150,200,255,0.60);font-family:'DM Mono',monospace;font-weight:600;" id="joy-entry-char-count">0 / 500</span>
             </div>
-            <button id="save-joy-entry-btn" onclick="saveJoyEntry()" style="width:100%;padding:10px;background:linear-gradient(135deg,rgba(59,142,232,0.25) 0%,rgba(100,180,255,0.20) 100%);border:1.5px solid rgba(59,142,232,0.35);border-radius:10px;color:rgba(255,255,255,0.92);font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;">💾 Save Entry</button>
+            <button id="save-joy-entry-btn" onclick="saveJoyEntry()" style="width:100%;padding:11px;background:linear-gradient(135deg,rgba(59,142,232,0.30) 0%,rgba(100,180,255,0.25) 100%);border:1.5px solid rgba(59,142,232,0.40);border-radius:10px;color:rgba(220,235,255,0.95);font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;">✨ Save Joy Entry</button>
+          </div>
+
+          <!-- JOY ENTRIES LIST -->
+          <div style="margin-top:14px;">
+            <div id="joy-entries-list" style="display:flex;flex-direction:column;gap:8px;"></div>
           </div>
 
           <!-- BREATHING TAB -->
@@ -2078,7 +2093,7 @@ function playTherapyFrequency(freq){
     }
     
     // Set volume to maximum for speaker output
-    _therapyGain.gain.setValueAtTime(0.8,now);
+    _therapyGain.gain.setValueAtTime(1.0,now);
     
     var oscs=[];
     
@@ -3037,39 +3052,25 @@ function loadOfflineMood(){
 }
 
 /* ═══ JOY ENTRY ═══ */
-var _joyEntryData=localStorage.getItem('zolaJoyEntry')||'';
-var _joyEntrySaveTimeout=null;
-
-function loadLastJoyEntry(){
-  var textarea=document.getElementById('joy-entry-input');
-  var timeEl=document.getElementById('joy-entry-time');
-  if(!textarea)return;
-  
-  textarea.value=_joyEntryData;
-  updateJoyEntryCharCount();
-  
-  var lastSave=localStorage.getItem('zolaJoyEntrySaveTime');
-  if(lastSave){
-    var saveDate=new Date(parseInt(lastSave));
-    var now=new Date();
-    var diff=now-saveDate;
-    var minutes=Math.floor(diff/60000);
-    var hours=Math.floor(diff/3600000);
-    var days=Math.floor(diff/86400000);
-    
-    var timeStr='';
-    if(days>0)timeStr=days+' day'+(days>1?'s':'')+' ago';
-    else if(hours>0)timeStr=hours+' hour'+(hours>1?'s':'')+' ago';
-    else if(minutes>0)timeStr=minutes+' min'+(minutes>1?'s':'')+' ago';
-    else timeStr='Just now';
-    
-    if(timeEl)timeEl.textContent=timeStr;
-  }else{
-    if(timeEl)timeEl.textContent='Never saved';
+// JOY ENTRIES DATA
+var _joyEntriesData=[];
+function loadJoyEntries(){
+  var saved=localStorage.getItem('zola_joy_entries');
+  if(saved){
+    try{
+      _joyEntriesData=JSON.parse(saved);
+    }catch(e){
+      _joyEntriesData=[];
+    }
   }
+  renderJoyEntries();
 }
 
-function updateJoyEntryCharCount(){
+function saveJoyEntries(){
+  localStorage.setItem('zola_joy_entries',JSON.stringify(_joyEntriesData));
+}
+
+function updateJoyCharCount(){
   var textarea=document.getElementById('joy-entry-input');
   var countEl=document.getElementById('joy-entry-char-count');
   if(!textarea||!countEl)return;
@@ -3083,56 +3084,68 @@ function updateJoyEntryCharCount(){
   }
 }
 
-function autoSaveJoyEntry(){
-  var textarea=document.getElementById('joy-entry-input');
-  var statusEl=document.getElementById('joy-entry-status');
-  if(!textarea)return;
-  
-  updateJoyEntryCharCount();
-  
-  if(_joyEntrySaveTimeout)clearTimeout(_joyEntrySaveTimeout);
-  
-  if(statusEl)statusEl.textContent='Saving...';
-  
-  _joyEntrySaveTimeout=setTimeout(function(){
-    _joyEntryData=textarea.value;
-    localStorage.setItem('zolaJoyEntry',_joyEntryData);
-    localStorage.setItem('zolaJoyEntrySaveTime',new Date().getTime().toString());
-    
-    if(statusEl)statusEl.textContent='✓ Saved';
-    setTimeout(function(){
-      if(statusEl)statusEl.textContent='Ready';
-    },2000);
-    
-    loadLastJoyEntry();
-  },1000);
-}
-
 function saveJoyEntry(){
   var textarea=document.getElementById('joy-entry-input');
-  var statusEl=document.getElementById('joy-entry-status');
-  if(!textarea)return;
-  
   var text=textarea.value.trim();
+  
   if(!text){
-    if(statusEl)statusEl.textContent='Nothing to save';
-    setTimeout(function(){
-      if(statusEl)statusEl.textContent='Ready';
-    },1500);
+    showToast('Please write a joy entry');
     return;
   }
   
-  _joyEntryData=textarea.value;
-  localStorage.setItem('zolaJoyEntry',_joyEntryData);
-  localStorage.setItem('zolaJoyEntrySaveTime',new Date().getTime().toString());
+  if(text.length>500){
+    showToast('Entry is too long (max 500 characters)');
+    return;
+  }
   
-  if(statusEl)statusEl.textContent='✓ Saved!';
-  setTimeout(function(){
-    if(statusEl)statusEl.textContent='Ready';
-  },2000);
+  var today=new Date();
+  var dateStr=(today.getMonth()+1).toString().padStart(2,'0')+'/'+today.getDate().toString().padStart(2,'0')+'/'+today.getFullYear();
   
-  loadLastJoyEntry();
+  _joyEntriesData.unshift({
+    text:text,
+    date:dateStr,
+    timestamp:today.getTime()
+  });
+  
+  saveJoyEntries();
+  textarea.value='';
+  document.getElementById('joy-entry-char-count').textContent='0';
+  renderJoyEntries();
+  showToast('✨ Joy entry saved!');
 }
+
+function renderJoyEntries(){
+  var container=document.getElementById('joy-entries-list');
+  if(!container)return;
+  
+  if(_joyEntriesData.length===0){
+    container.innerHTML='<div style="text-align:center;padding:20px;color:rgba(150,200,255,0.50);font-size:12px;margin-top:10px;">Your joy entries will appear here</div>';
+    return;
+  }
+  
+  var html='';
+  for(var i=0;i<_joyEntriesData.length;i++){
+    var entry=_joyEntriesData[i];
+    html+='<div class="joy-entry-item"><div class="joy-entry-avatar">✨</div><div class="joy-entry-content"><div class="joy-entry-date">'+entry.date+'</div><div class="joy-entry-text">'+escapeHtml(entry.text)+'</div></div><div class="joy-entry-del" onclick="deleteJoyEntry('+i+')" title="Delete">×</div></div>';
+  }
+  
+  container.innerHTML=html;
+}
+
+function deleteJoyEntry(index){
+  if(confirm('Delete this joy entry?')){
+    _joyEntriesData.splice(index,1);
+    saveJoyEntries();
+    renderJoyEntries();
+    showToast('✓ Joy entry deleted');
+  }
+}
+
+// Load joy entries on startup
+setTimeout(function(){
+  loadJoyEntries();
+},200);
+
 
 function setStressLevel(level){
   _stressLevel=level;
@@ -4134,7 +4147,6 @@ setTimeout(function(){
   updateStreakDisplay();
   updateMoodThermometer(_stressLevel);
   updateWaterDisplay();
-  loadLastJoyEntry();
   loadOfflineMood();
 },200);
 
