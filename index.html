@@ -446,6 +446,13 @@ body{background:#07091A;}
                     <div class="sp-audio-track-sub">Thanksgiving · Deliverance</div>
                   </div>
                 </div>
+                <div class="sp-audio-track" id="track-5" onclick="audioLoad(5)">
+                  <span class="sp-audio-track-ico">▶</span>
+                  <div class="sp-audio-track-info">
+                    <div class="sp-audio-track-name">Ephesians 1</div>
+                    <div class="sp-audio-track-sub">God's Blessing · Grace</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1038,7 +1045,7 @@ body{background:#07091A;}
           
           <!-- CALENDAR DAYS GRID -->
           <div style="margin-bottom:24px;">
-            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:center;" id="planner-days-grid">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:center;" id="planner-days-grid">
               <!-- Days will be generated dynamically -->
             </div>
           </div>
@@ -1540,7 +1547,8 @@ function closeCandle(e){if(!e||e.target===document.getElementById('candle-overla
     {title:'Isaiah 41:10 - Fear Not',duration:180,src:'./Isaiah_41_10.mp3',baseDuration:180,loopCount:0,maxLoops:4},
     {title:'Jeremiah 31:3 · Lamentations 3:22-23',duration:240,src:'./Jeremiah_31_3_Lamentations_3_22_-_23.mp3',baseDuration:240,loopCount:0,maxLoops:4},
     {title:'Psalm 91 - Protection',duration:320,src:'./Psalm_91.mp3',baseDuration:320,loopCount:0,maxLoops:4},
-    {title:'Psalm 124 - Thanksgiving',duration:280,src:'./Psalm_124.mp3',baseDuration:280,loopCount:0,maxLoops:4}
+    {title:'Psalm 124 - Thanksgiving',duration:280,src:'./Psalm_124.mp3',baseDuration:280,loopCount:0,maxLoops:4},
+    {title:'Ephesians 1 - God\'s Blessing',duration:240,src:'./Ephesians_1.mp3',baseDuration:240,loopCount:0,maxLoops:4}
   ];
   var _cur=0;
   var aud=document.getElementById('sp-audio');
@@ -3946,10 +3954,10 @@ function renderPlannerWeek(){
     var textColor=isSelected?'#fff':'#1a2a3a';
     var labelColor=isSelected?'rgba(255,255,255,0.85)':'#4b5f89';
     
-    html+='<div onclick="selectPlannerDay(\''+day.date+'\')" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:'+( isSelected?'16px 12px':'8px 0')+';border-radius:'+( isSelected?'20px':'16px')+';"'+(isSelected?' style="text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);border-radius:20px;padding:16px 12px;color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);"':'')+' id="planner-day-'+day.date+'">'
-      +'<div style="font-family:\'DM Mono\',monospace;font-size:10px;color:'+labelColor+';font-weight:700;margin-bottom:10px;letter-spacing:0.12em;text-transform:uppercase;">'+day.dayName+'</div>'
-      +'<div style="font-family:\'Syne\',sans-serif;font-size:32px;font-weight:800;color:'+textColor+';line-height:1;">'+day.dayNum+'</div>'
-      +'<div style="width:6px;height:6px;border-radius:50%;background:'+(isSelected?'rgba(255,255,255,0.60)':'#3b82f6')+';margin:10px auto 0;"></div>'
+    html+='<div onclick="selectPlannerDay(\''+day.date+'\')" style="text-align:center;cursor:pointer;transition:all 0.3s;padding:'+( isSelected?'12px 8px':'6px 0')+';border-radius:'+( isSelected?'16px':'12px')+';"'+(isSelected?' style="text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#1e5ba8 0%,#2563b8 100%);border-radius:16px;padding:12px 8px;color:#fff;box-shadow:0 4px 16px rgba(30,91,168,0.25);"':'')+' id="planner-day-'+day.date+'">'
+      +'<div style="font-family:\'DM Mono\',monospace;font-size:9px;color:'+labelColor+';font-weight:700;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase;">'+day.dayName+'</div>'
+      +'<div style="font-family:\'Syne\',sans-serif;font-size:24px;font-weight:800;color:'+textColor+';line-height:1;">'+day.dayNum+'</div>'
+      +'<div style="width:4px;height:4px;border-radius:50%;background:'+(isSelected?'rgba(255,255,255,0.60)':'#3b82f6')+';margin:6px auto 0;"></div>'
       +'</div>';
   }
   
@@ -4468,6 +4476,21 @@ setTimeout(function(){
 },200);
 
 // ═══════════════════════════════════════════════════════════════════════════ 
+// NODE.JS SHARE SERVER CONFIGURATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Set your server URL here (where you're running server.js)
+// Local: http://localhost:3000
+// Production: https://your-server.com
+var _shareServerUrl = 'http://localhost:3000';
+
+// Update this if you deploy the server to a different URL
+function setShareServerUrl(url) {
+  _shareServerUrl = url;
+  console.log('Share server URL set to:', _shareServerUrl);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════ 
 // SHARING FUNCTIONALITY
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -4476,21 +4499,29 @@ var _shareSelectedDuration=3600;
 var _shares=[];
 
 function loadShares(){
-  var saved=localStorage.getItem('zola_shares');
-  if(saved){
-    try{
-      _shares=JSON.parse(saved);
-      // Remove expired shares
-      var now=new Date().getTime();
-      _shares=_shares.filter(function(s){return s.expiresAt>now;});
-      saveShares();
-    }catch(e){
-      _shares=[];
-    }
-  }
+  // Try to load from server
+  fetch(_shareServerUrl+'/api/shares')
+    .then(function(res){return res.json();})
+    .then(function(data){
+      if(data.shares&&Array.isArray(data.shares)){
+        _shares=data.shares;
+        console.log('Loaded '+_shares.length+' shares from server');
+      }
+    })
+    .catch(function(err){
+      console.log('Could not load from server (server may be offline):',err);
+      // Try localStorage as fallback
+      var saved=localStorage.getItem('zola_shares');
+      if(saved){
+        try{
+          _shares=JSON.parse(saved);
+        }catch(e){}
+      }
+    });
 }
 
 function saveShares(){
+  // Save to localStorage as backup
   localStorage.setItem('zola_shares',JSON.stringify(_shares));
 }
 
@@ -4559,15 +4590,28 @@ function generateShareLink(){
     createdDate:new Date().toLocaleDateString()
   };
   
-  _shares.push(share);
-  saveShares();
-  
-  var shareUrl=window.location.origin+window.location.pathname+'?view=shared&token='+token;
-  
-  document.getElementById('share-link-input').value=shareUrl;
-  document.getElementById('share-link-section').style.display='block';
-  
-  showToast('✨ Share link generated!');
+  // Send to server
+  fetch(_shareServerUrl+'/api/shares',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(share)
+  })
+  .then(function(res){return res.json();})
+  .then(function(data){
+    if(data.success){
+      _shares.push(share);
+      var shareUrl=window.location.origin+window.location.pathname+'?view=shared&token='+token;
+      document.getElementById('share-link-input').value=shareUrl;
+      document.getElementById('share-link-section').style.display='block';
+      showToast('✨ Share link generated!');
+    }else{
+      showToast('Error: '+data.error);
+    }
+  })
+  .catch(function(err){
+    console.log('Error creating share:',err);
+    showToast('Error: Could not connect to server');
+  });
 }
 
 function copyShareLink(){
@@ -4591,30 +4635,32 @@ function loadSharedEntry(){
   
   if(!token)return;
   
-  var share=_shares.find(function(s){return s.token===token;});
-  
-  if(!share){
-    alert('Share link not found or has expired');
-    return;
-  }
-  
-  var now=new Date().getTime();
-  if(share.expiresAt<=now){
-    alert('This share link has expired');
-    return;
-  }
-  
-  // Display shared entry
+  // Fetch from server
+  fetch(_shareServerUrl+'/api/shares/'+token)
+    .then(function(res){return res.json();})
+    .then(function(data){
+      if(data.success&&data.share){
+        displaySharedEntry(data.share);
+      }else{
+        showSharedEntryError(data.error||'Share not found');
+      }
+    })
+    .catch(function(err){
+      console.log('Error loading share:',err);
+      showSharedEntryError('Could not load share. Server may be offline.');
+    });
+}
+
+function displaySharedEntry(share){
   var container=document.getElementById('shared-entry-container');
   if(!container){
-    // Create container if it doesn't exist
     container=document.createElement('div');
     container.id='shared-entry-container';
     container.style.cssText='position:fixed;inset:0;z-index:10000;background:linear-gradient(165deg,#07091A 0%,#0D1B3E 42%,#13113A 72%,#0A1628 100%);padding:20px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;';
     document.body.appendChild(container);
   }
   
-  var timeLeft=share.expiresAt-now;
+  var timeLeft=share.expiresAt-Date.now();
   var hours=Math.floor(timeLeft/3600000);
   var minutes=Math.floor((timeLeft%3600000)/60000);
   
@@ -4632,9 +4678,34 @@ function loadSharedEntry(){
   container.innerHTML=html;
 }
 
+function showSharedEntryError(message){
+  var container=document.getElementById('shared-entry-container');
+  if(!container){
+    container=document.createElement('div');
+    container.id='shared-entry-container';
+    container.style.cssText='position:fixed;inset:0;z-index:10000;background:linear-gradient(165deg,#07091A 0%,#0D1B3E 42%,#13113A 72%,#0A1628 100%);padding:20px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;';
+    document.body.appendChild(container);
+  }
+  
+  var html='<div style="max-width:400px;background:rgba(232,84,122,0.12);border:1px solid rgba(232,84,122,0.30);border-radius:16px;padding:24px;text-align:center;">';
+  html+='<div style="font-size:32px;margin-bottom:12px;">⚠️</div>';
+  html+='<div style="font-size:14px;font-weight:700;color:rgba(220,235,255,0.95);margin-bottom:8px;">'+message+'</div>';
+  html+='<div style="font-size:12px;color:rgba(150,200,255,0.70);margin-bottom:20px;">The share link is either invalid, expired, or has been removed.</div>';
+  html+='<button onclick="window.location.href=window.location.origin+window.location.pathname" style="padding:12px 24px;background:linear-gradient(135deg,rgba(59,142,232,0.35),rgba(100,180,255,0.25));border:1.5px solid rgba(59,142,232,0.50);border-radius:10px;color:rgba(220,235,255,0.95);font-size:12px;font-weight:700;cursor:pointer;font-family:\'DM Sans\',sans-serif;transition:all 0.2s;">Return to App</button>';
+  html+='</div>';
+  
+  container.innerHTML=html;
+}
+
 // Load shares and check for shared entry
 loadShares();
-setTimeout(function(){loadSharedEntry();},300);
+setTimeout(function(){
+  var params=new URLSearchParams(window.location.search);
+  var token=params.get('token');
+  if(token){
+    loadSharedEntry();
+  }
+},500);
 
 </script>
 </body>
